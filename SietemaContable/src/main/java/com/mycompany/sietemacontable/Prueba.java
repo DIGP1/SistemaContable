@@ -9,5 +9,5 @@ package com.mycompany.sietemacontable;
  * @author diegorro
  */
 public class Prueba {
-    
+    int a;
 }
