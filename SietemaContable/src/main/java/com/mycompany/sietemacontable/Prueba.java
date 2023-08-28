@@ -11,4 +11,5 @@ package com.mycompany.sietemacontable;
 public class Prueba {
     int a;
     char b = 'b';
+    int mango;
 }
