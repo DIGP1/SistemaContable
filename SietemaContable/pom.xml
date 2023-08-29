@@ -11,4 +11,13 @@
         <maven.compiler.target>17</maven.compiler.target>
         <exec.mainClass>com.mycompany.sietemacontable.SietemaContable</exec.mainClass>
     </properties>
+    
+    <!-- Dependencia de SQLite -->
+    <dependencies>
+        <dependency>
+            <groupId>org.xerial</groupId>
+            <artifactId>sqlite-jdbc</artifactId>
+            <version>3.36.0</version>
+        </dependency>
+    </dependencies>
 </project>
