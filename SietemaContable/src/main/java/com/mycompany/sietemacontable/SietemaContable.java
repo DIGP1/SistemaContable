@@ -13,8 +13,9 @@ import form.login;
 public class SietemaContable {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
-        login lg = new login();
-        lg.setVisible(true);
+        login loginFrame = new login();
+        loginFrame.setVisible(true);
+        loginFrame.pack();
+        loginFrame.setLocationRelativeTo(null);
     }
 }
