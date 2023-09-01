@@ -4,6 +4,8 @@
 
 package com.mycompany.sietemacontable;
 import form.login;
+import java.util.List;
+import logic.CatalogoDeCuentasDatos;
 
 /**
  *
@@ -13,9 +15,11 @@ import form.login;
 public class SietemaContable {
 
     public static void main(String[] args) {
-        login loginFrame = new login();
-        loginFrame.setVisible(true);
-        loginFrame.pack();
-        loginFrame.setLocationRelativeTo(null);
+        CatalogoDeCuentasDatos datos = new CatalogoDeCuentasDatos();
+        List<String> cuentas = datos.listarCuentas();
+
+        for (String cuenta : cuentas) {
+            System.out.println(cuenta);
+        }
     }
 }

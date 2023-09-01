@@ -15,9 +15,9 @@ public class login extends javax.swing.JFrame {
         panel_derecho = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        user = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        password = new javax.swing.JPasswordField();
         button_login = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         button_registrarse_form = new javax.swing.JButton();
@@ -48,6 +48,11 @@ public class login extends javax.swing.JFrame {
         button_login.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         button_login.setForeground(new java.awt.Color(255, 255, 255));
         button_login.setText("Login");
+        button_login.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                button_loginMouseClicked(evt);
+            }
+        });
 
         jLabel4.setText("No tienes una cuenta?");
 
@@ -74,13 +79,13 @@ public class login extends javax.swing.JFrame {
                         .addGroup(panel_derechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3)
-                            .addComponent(jPasswordField1, javax.swing.GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE)
+                            .addComponent(password, javax.swing.GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE)
                             .addGroup(panel_derechoLayout.createSequentialGroup()
                                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(button_registrarse_form))
                             .addComponent(button_login)
-                            .addComponent(jTextField1))))
+                            .addComponent(user, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap(36, Short.MAX_VALUE))
         );
         panel_derechoLayout.setVerticalGroup(
@@ -91,11 +96,11 @@ public class login extends javax.swing.JFrame {
                 .addGap(45, 45, 45)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(user, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(button_login, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
@@ -160,6 +165,11 @@ public class login extends javax.swing.JFrame {
         
     }//GEN-LAST:event_button_registrarse_formActionPerformed
 
+    private void button_loginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_button_loginMouseClicked
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_button_loginMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -203,9 +213,9 @@ public class login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JPanel panel_derecho;
     private javax.swing.JPanel panel_izquierdo;
+    private javax.swing.JPasswordField password;
+    private javax.swing.JTextField user;
     // End of variables declaration//GEN-END:variables
 }
