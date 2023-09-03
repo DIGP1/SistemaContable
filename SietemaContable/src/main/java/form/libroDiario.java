@@ -5,14 +5,19 @@
 package form;
 
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableModel;
 import logic.CatalogoDeCuentasDatos;
 /**
  *
@@ -32,23 +37,45 @@ public libroDiario() {
                     String selectedOption = jComboBox1.getSelectedItem().toString();
                     if ("Debe".equals(selectedOption)) {
                         deb.setEnabled(false); // Deshabilitar "Debe"
-                        haber.setEnabled(true);  // Habilitar "Haber"
+                        hber.setEnabled(true);  // Habilitar "Haber"
                     } else if ("Haber".equals(selectedOption)) {
                         deb.setEnabled(true);  // Habilitar "Debe"
-                        haber.setEnabled(false); // Deshabilitar "Haber"
+                        hber.setEnabled(false); // Deshabilitar "Haber"
                     } else {
                         deb.setEnabled(true);  // Habilitar ambos
-                        haber.setEnabled(true);
+                        hber.setEnabled(true);
                     }
                 }
             }
         });
 
+      
+         guardar.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            catalogoDeCuentasDatos = new CatalogoDeCuentasDatos();
         
+            String descripcion = des.getText();
+            String codigoCuenta = codigo.getText();
+            String debe = deb.getText();
+            String haber = hber.getText();
+
+           
+            catalogoDeCuentasDatos.guardarEnBaseDeDatos(descripcion, codigoCuenta, debe, haber);
+            des.setText("");
+            codigo.setText("");
+            deb.setText("");
+            hber.setText("");
+            DefaultTableModel modelo = (DefaultTableModel) tabla1.getModel();
+            Object[] fila = {descripcion, codigoCuenta, debe, haber};
+            modelo.addRow(fila);
+            
+        }
         
+    });
         
    
-    // Agregar DocumentListener al campo 'codigo'
+  
     codigo.getDocument().addDocumentListener(new DocumentListener() {
     @Override
     public void insertUpdate(DocumentEvent e) {
@@ -84,7 +111,6 @@ public libroDiario() {
 
     
     
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -95,7 +121,7 @@ public libroDiario() {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabla1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         des = new javax.swing.JTextField();
@@ -104,15 +130,15 @@ public libroDiario() {
         jLabel4 = new javax.swing.JLabel();
         deb = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        haber = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        hber = new javax.swing.JTextField();
+        guardar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(102, 255, 102));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabla1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -123,7 +149,7 @@ public libroDiario() {
                 "Fecha", "Descripción", "Ref", "Debe", "Haber"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tabla1);
 
         jLabel1.setText("Libro Diario");
 
@@ -146,10 +172,22 @@ public libroDiario() {
 
         jLabel4.setText("Debe");
 
+        deb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                debActionPerformed(evt);
+            }
+        });
+
         jLabel5.setText("Haber");
 
-        jButton1.setBackground(new java.awt.Color(0, 153, 51));
-        jButton1.setText("Registrar");
+        hber.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                hberActionPerformed(evt);
+            }
+        });
+
+        guardar.setBackground(new java.awt.Color(0, 153, 51));
+        guardar.setText("Registrar");
 
         jButton2.setBackground(new java.awt.Color(0, 153, 102));
         jButton2.setText("Crear Cuenta");
@@ -182,11 +220,11 @@ public libroDiario() {
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(codigo, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(des, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(haber, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(hber, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(deb)))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(113, 113, 113))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
@@ -235,9 +273,9 @@ public libroDiario() {
                 .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(haber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(hber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26))
         );
 
@@ -255,6 +293,14 @@ public libroDiario() {
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         
     }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void debActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_debActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_debActionPerformed
+
+    private void hberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hberActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_hberActionPerformed
 
     /**
      * @param args the command line arguments
@@ -295,8 +341,8 @@ public libroDiario() {
     private javax.swing.JTextField codigo;
     private javax.swing.JTextField deb;
     private javax.swing.JTextField des;
-    private javax.swing.JTextField haber;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton guardar;
+    private javax.swing.JTextField hber;
     private javax.swing.JButton jButton2;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
@@ -305,6 +351,6 @@ public libroDiario() {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tabla1;
     // End of variables declaration//GEN-END:variables
 }

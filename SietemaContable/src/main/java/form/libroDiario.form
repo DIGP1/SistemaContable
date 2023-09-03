@@ -44,13 +44,13 @@
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="codigo" min="-2" pref="181" max="-2" attributes="0"/>
                                           <Component id="des" min="-2" pref="181" max="-2" attributes="0"/>
-                                          <Component id="haber" alignment="0" min="-2" pref="173" max="-2" attributes="0"/>
+                                          <Component id="hber" alignment="0" min="-2" pref="173" max="-2" attributes="0"/>
                                           <Component id="deb" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Group type="102" alignment="1" attributes="0">
                                       <EmptySpace max="32767" attributes="0"/>
-                                      <Component id="jButton1" min="-2" pref="144" max="-2" attributes="0"/>
+                                      <Component id="guardar" min="-2" pref="144" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace min="-2" pref="113" max="-2" attributes="0"/>
@@ -119,10 +119,10 @@
               <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="haber" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="hber" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
-              <Component id="jButton1" min="-2" pref="43" max="-2" attributes="0"/>
+              <Component id="guardar" min="-2" pref="43" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -136,7 +136,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTable" name="jTable1">
+        <Component class="javax.swing.JTable" name="tabla1">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="5" rowCount="4">
@@ -217,15 +217,21 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="deb">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="debActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>
         <Property name="text" type="java.lang.String" value="Haber"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="haber">
+    <Component class="javax.swing.JTextField" name="hber">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="hberActionPerformed"/>
+      </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton1">
+    <Component class="javax.swing.JButton" name="guardar">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="33" green="99" red="0" type="rgb"/>
