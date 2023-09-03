@@ -21,7 +21,7 @@ public class CatalogoDeCuentasDatos {
     public List<String> listarCuentas() {
         List<String> cuentas = new ArrayList<>();
         
-        String sql = "SELECT * FROM CATALOGO_DE_CUENTAS";
+        String sql = "SELECT * FROM CATALOGO";
         
         try (Connection conn = dbConnection.connect();
              Statement stmt = conn.createStatement();
@@ -38,4 +38,27 @@ public class CatalogoDeCuentasDatos {
         
         return cuentas;
     }
+    
+    
+    public String buscarNombreCuentaPorCodigo(String codigoIngresado) {
+    String nombreCuenta = "";
+
+    // SQL para buscar la cuenta por código en la base de datos
+    String sql = "SELECT Cuenta FROM CATALOGO_DE_CUENTAS WHERE Codigo = '" + codigoIngresado + "'";
+
+    try (Connection conn = dbConnection.connect();
+         Statement stmt = conn.createStatement();
+         ResultSet rs = stmt.executeQuery(sql)) {
+
+        if (rs.next()) {
+            nombreCuenta = rs.getString("Cuenta");
+        }
+    } catch (SQLException e) {
+        System.out.println(e.getMessage());
+    }
+
+    return nombreCuenta;
 }
+
+}
+
