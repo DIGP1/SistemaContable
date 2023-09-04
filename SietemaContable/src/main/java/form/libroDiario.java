@@ -54,21 +54,21 @@ public libroDiario() {
         @Override
         public void actionPerformed(ActionEvent e) {
             catalogoDeCuentasDatos = new CatalogoDeCuentasDatos();
-            String fecha= fech.getText();
-            String descripcion = des.getText();
+            String fe= fech.getText();
             String codigoCuenta = codigo.getText();
+            String descripcion = des.getText();
             String debe = deb.getText();
             String haber = hber.getText();
 
            
-            catalogoDeCuentasDatos.guardarEnBaseDeDatos(fecha,descripcion, codigoCuenta, debe, haber);
+            catalogoDeCuentasDatos.guardarEnBaseDeDatos(fe,codigoCuenta, descripcion, debe, haber);
             fech.setText("");
             des.setText("");
             codigo.setText("");
             deb.setText("");
             hber.setText("");
             DefaultTableModel modelo = (DefaultTableModel) tabla1.getModel();
-            Object[] fila = {fecha,descripcion, codigoCuenta, debe, haber};
+            Object[] fila = {fe,descripcion, codigoCuenta, debe, haber};
             modelo.addRow(fila);
             
         }
