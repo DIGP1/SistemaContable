@@ -62,15 +62,15 @@ public class CatalogoDeCuentasDatos {
 }
 
     public void guardarEnBaseDeDatos(String fecha,String Codigo,String  Descripcion, String Debe, String Haber) {
-        String sql = "INSERT INTO libro_diario (fecha,Codigo,Descripcion,  Debe, Haber) VALUES (?, ?, ?, ?,?)";
+        String sql = "INSERT INTO LIBRO_DIARIO (Fecha,Codigo,Descripcion,  Debe, Haber) VALUES (?, ?, ?, ?,?)";
         
         try (Connection conn = dbConnection.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(0, fecha);
-            pstmt.setString(1, Codigo);
-            pstmt.setString(2, Descripcion);
-            pstmt.setString(3, Debe);
-            pstmt.setString(4, Haber);
+            pstmt.setString(1, fecha);
+            pstmt.setString(2, Codigo);
+            pstmt.setString(3, Descripcion);
+            pstmt.setString(4, Debe);
+            pstmt.setString(5, Haber);
             
             int filasAfectadas = pstmt.executeUpdate();
             
