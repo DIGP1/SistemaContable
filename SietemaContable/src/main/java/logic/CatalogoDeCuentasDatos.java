@@ -9,6 +9,7 @@ package logic;
  * @author Isaac
  */
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -21,14 +22,14 @@ public class CatalogoDeCuentasDatos {
     public List<String> listarCuentas() {
         List<String> cuentas = new ArrayList<>();
         
-        String sql = "SELECT * FROM CATALOGO";
+        String sql = "SELECT * FROM CATALOGO_DE_CUENTAS";
         
         try (Connection conn = dbConnection.connect();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                String cuenta = rs.getString("Codigo") + "\t" +   // Ajusta 'nombreColumna1', 'nombreColumna2', etc.
+                String cuenta = rs.getString("Codigo") + "\t" +  
                                rs.getString("Cuenta");
                 cuentas.add(cuenta);
             }
@@ -60,5 +61,29 @@ public class CatalogoDeCuentasDatos {
     return nombreCuenta;
 }
 
+    public void guardarEnBaseDeDatos(String fecha,String Codigo,String  Descripcion, String Debe, String Haber) {
+        String sql = "INSERT INTO libro_diario (fecha,Codigo,Descripcion,  Debe, Haber) VALUES (?, ?, ?, ?,?)";
+        
+        try (Connection conn = dbConnection.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(0, fecha);
+            pstmt.setString(1, Codigo);
+            pstmt.setString(2, Descripcion);
+            pstmt.setString(3, Debe);
+            pstmt.setString(4, Haber);
+            
+            int filasAfectadas = pstmt.executeUpdate();
+            
+            if (filasAfectadas > 0) {
+                System.out.println("Datos guardados en la base de datos.");
+            } else {
+                System.out.println("No se pudieron guardar los datos en la base de datos.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al guardar en la base de datos: " + e.getMessage());
+        }
+    }
+
+    
 }
 
