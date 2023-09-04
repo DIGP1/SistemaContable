@@ -71,7 +71,7 @@ private CatalogoDeCuentasDatos catalogoDeCuentasDatos = new CatalogoDeCuentasDat
                     .addGroup(layout.createSequentialGroup()
                         .addGap(503, 503, 503)
                         .addComponent(jLabel1)))
-                .addContainerGap(177, Short.MAX_VALUE))
+                .addContainerGap(168, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -125,10 +125,10 @@ private CatalogoDeCuentasDatos catalogoDeCuentasDatos = new CatalogoDeCuentasDat
     List<String> cuentas = catalogoDeCuentasDatos.listarCuentas();
     DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
     
-    // Limpia cualquier dato existente en la tabla.
+   
     model.setRowCount(0);
     
-    // Agrega las cuentas a la tabla.
+    
     for (String cuenta : cuentas) {
         String[] cuentaSplit = cuenta.split("\t");
         model.addRow(new Object[]{cuentaSplit[0], cuentaSplit[1]});
