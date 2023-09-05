@@ -87,7 +87,7 @@ public class Register extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel6.setText("Rol");
 
-        CbRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Contador", "Administrador" }));
+        CbRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Contador", "Administrador", " " }));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -215,7 +215,6 @@ public class Register extends javax.swing.JFrame {
                 cc.registrarUsuario(txtUsername.getText(),password ,"CONTADOR", txtNombre.getText());
             }
         }
-        
         //cc.registrarUsuario(txtUsername.getText(),txtPassword.getPassword(),);
     }//GEN-LAST:event_button_registerActionPerformed
 

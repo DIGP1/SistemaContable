@@ -23,7 +23,7 @@ import logic.CatalogoDeCuentasDatos;
  *
  * @author diegorro
  */
-public class libroDiario extends javax.swing.JFrame {
+public class libroDiario extends javax.swing.JPanel {
 private CatalogoDeCuentasDatos catalogoDeCuentasDatos;
    
 public libroDiario() {
@@ -138,8 +138,6 @@ public libroDiario() {
         jLabel6 = new javax.swing.JLabel();
         fech = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setAlwaysOnTop(true);
         setBackground(new java.awt.Color(0, 51, 255));
 
         tabla1.setModel(new javax.swing.table.DefaultTableModel(
@@ -211,8 +209,8 @@ public libroDiario() {
             }
         });
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -297,7 +295,7 @@ public libroDiario() {
                 .addContainerGap())
         );
 
-        pack();
+        getAccessibleContext().setAccessibleParent(this);
     }// </editor-fold>//GEN-END:initComponents
 
     private void desActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_desActionPerformed
