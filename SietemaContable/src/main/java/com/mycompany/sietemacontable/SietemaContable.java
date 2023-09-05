@@ -15,11 +15,15 @@ import logic.CatalogoDeCuentasDatos;
 public class SietemaContable {
 
     public static void main(String[] args) {
-        CatalogoDeCuentasDatos datos = new CatalogoDeCuentasDatos();
-        List<String> cuentas = datos.listarCuentas();
-
-        for (String cuenta : cuentas) {
-            System.out.println(cuenta);
-        }
+//        CatalogoDeCuentasDatos datos = new CatalogoDeCuentasDatos();
+//        List<String> cuentas = datos.listarCuentas();
+//
+//        for (String cuenta : cuentas) {
+//            System.out.println(cuenta);
+//        }
+      login loginFrame = new login();
+        loginFrame.setVisible(true);
+        loginFrame.pack();
+        loginFrame.setLocationRelativeTo(null);
     }
 }
