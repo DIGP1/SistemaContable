@@ -13,7 +13,7 @@ import logic.CatalogoDeCuentasDatos;
  *
  * @author angel
  */
-public class CatalogoCuentas extends javax.swing.JFrame {
+public class CatalogoCuentas extends javax.swing.JPanel {
 private CatalogoDeCuentasDatos catalogoDeCuentasDatos = new CatalogoDeCuentasDatos();
     /**
      * Creates new form CatalogoCuentas
@@ -33,9 +33,9 @@ private CatalogoDeCuentasDatos catalogoDeCuentasDatos = new CatalogoDeCuentasDat
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(1080, 725));
+        setPreferredSize(new java.awt.Dimension(50, 50));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -56,34 +56,23 @@ private CatalogoDeCuentasDatos catalogoDeCuentasDatos = new CatalogoDeCuentasDat
                 return canEdit [columnIndex];
             }
         });
+        jTable1.setMaximumSize(new java.awt.Dimension(1028, 820));
+        jTable1.setName(""); // NOI18N
         jScrollPane1.setViewportView(jTable1);
 
-        jLabel1.setText("Catalogo de Cuentas");
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(503, 503, 503)
-                .addComponent(jLabel1)
-                .addContainerGap(415, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 809, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(81, 81, 81))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 765, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(43, 43, 43)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 743, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
-        pack();
+        getAccessibleContext().setAccessibleName("");
+        getAccessibleContext().setAccessibleParent(this);
     }// </editor-fold>//GEN-END:initComponents
 
     /**
@@ -114,10 +103,8 @@ private CatalogoDeCuentasDatos catalogoDeCuentasDatos = new CatalogoDeCuentasDat
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new CatalogoCuentas().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new CatalogoCuentas().setVisible(true);
         });
     }
     
@@ -137,7 +124,6 @@ private CatalogoDeCuentasDatos catalogoDeCuentasDatos = new CatalogoDeCuentasDat
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
