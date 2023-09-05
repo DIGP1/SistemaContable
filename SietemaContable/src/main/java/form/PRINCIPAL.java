@@ -4,6 +4,7 @@
  */
 package form;
 
+import java.awt.BorderLayout;
 import javax.swing.JPanel;
 
 /**
@@ -37,6 +38,7 @@ public class PRINCIPAL extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1366, 768));
+        getContentPane().setLayout(null);
 
         jPanel3.setBackground(new java.awt.Color(51, 153, 255));
 
@@ -80,14 +82,14 @@ public class PRINCIPAL extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(33, Short.MAX_VALUE)
+                .addContainerGap(26, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(14, 14, 14))
             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                    .addContainerGap(35, Short.MAX_VALUE)
+                    .addContainerGap(28, Short.MAX_VALUE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(12, 12, 12)))
         );
@@ -106,26 +108,34 @@ public class PRINCIPAL extends javax.swing.JFrame {
                     .addContainerGap(538, Short.MAX_VALUE)))
         );
 
-        info.setBackground(new java.awt.Color(102, 102, 102));
+        getContentPane().add(jPanel3);
+        jPanel3.setBounds(0, 0, 310, 1129);
+
+        info.setBackground(new java.awt.Color(245, 245, 220));
         info.setPreferredSize(new java.awt.Dimension(1028, 820));
 
         javax.swing.GroupLayout infoLayout = new javax.swing.GroupLayout(info);
         info.setLayout(infoLayout);
         infoLayout.setHorizontalGroup(
             infoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 1130, Short.MAX_VALUE)
         );
         infoLayout.setVerticalGroup(
             infoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
+        getContentPane().add(info);
+        info.setBounds(309, 98, 1130, 1030);
+
         jPanel4.setBackground(new java.awt.Color(0, 51, 51));
         jPanel4.setForeground(new java.awt.Color(102, 102, 102));
 
-        jLabel2.setFont(new java.awt.Font("Unispace", 0, 36)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 36)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("SISTEMA CONTABLE");
+        jLabel2.setToolTipText("");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -139,7 +149,7 @@ public class PRINCIPAL extends javax.swing.JFrame {
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(24, Short.MAX_VALUE)
+                .addContainerGap(32, Short.MAX_VALUE)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18))
         );
@@ -152,48 +162,53 @@ public class PRINCIPAL extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(info, javax.swing.GroupLayout.DEFAULT_SIZE, 1129, Short.MAX_VALUE)))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(info, javax.swing.GroupLayout.DEFAULT_SIZE, 1028, Short.MAX_VALUE))
-        );
+        getContentPane().add(jPanel2);
+        jPanel2.setBounds(310, 0, 1129, 103);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+/*
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        info.removeAll();
         libroDiario diario = new libroDiario();
-        diario.setSize(1028, 820);
+        //diario.setSize(1028, 820);
         info.add(diario);
         info.revalidate();
         info.repaint();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        info.removeAll();
         CatalogoCuentas catalogoCuentas = new CatalogoCuentas();
         catalogoCuentas.setSize(1028, 820);
         info.add(catalogoCuentas);
         info.revalidate();
         info.repaint();
     }//GEN-LAST:event_jButton2ActionPerformed
+*/
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        info.removeAll();
+        libroDiario diario = new libroDiario();
+        diario.setSize(info.getSize()); // Establecer el tamaño igual al tamaño del contenedor
+        info.setLayout(new BorderLayout()); // Usar un BorderLayout
+        info.add(diario, BorderLayout.CENTER); // Agregar el componente en el centro
+        info.revalidate();
+        info.repaint();
+    }                                        
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        info.removeAll();
+        CatalogoCuentas catalogoCuentas = new CatalogoCuentas();
+        catalogoCuentas.setSize(info.getSize()); // Establecer el tamaño igual al tamaño del contenedor
+        info.setLayout(new BorderLayout()); // Usar un BorderLayout
+        info.add(catalogoCuentas, BorderLayout.CENTER); // Agregar el componente en el centro
+        info.revalidate();
+        info.repaint();
+    }
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
