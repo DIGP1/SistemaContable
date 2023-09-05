@@ -85,7 +85,7 @@ public class CatalogoDeCuentasDatos {
             System.out.println("Error al guardar en la base de datos: " + e.getMessage());
         }
     }
-    public void registrarUsuario(String username, String pass, String rol, String Nombre,int opSelect){
+    public void registrarUsuario(String username, String pass, String rol, String Nombre){
         
         boolean usuarioEncontrado = false;
         String sql1 = "SELECT username FROM USUARIOS WHERE username = '"+username+"'";
@@ -123,7 +123,7 @@ public class CatalogoDeCuentasDatos {
                 }
         }
     }
-    public boolean verificacionAdmin(String username, String pass,JLabel lblError){
+    public boolean verificacionAdmin(String username, String pass){
         String usuarioEncontrado = "";
         String sql1 = "SELECT username, password,rol FROM USUARIOS WHERE username = '"+username+"' AND password = '"+pass+"'";
         try (Connection conn = dbConnection.connect();
@@ -140,7 +140,7 @@ public class CatalogoDeCuentasDatos {
         if("ADMINISTRADOR".equals(usuarioEncontrado)){
             return  true;
         }else{
-            lblError.setText("Los datos ingresados no corresponden a un administrador");
+            JOptionPane.showMessageDialog(null, "El administrador ingresado no existe");
             return false;
         }
     }

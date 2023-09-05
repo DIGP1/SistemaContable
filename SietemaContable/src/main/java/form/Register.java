@@ -1,4 +1,5 @@
 package form;
+import javax.swing.JOptionPane;
 import logic.CatalogoDeCuentasDatos;
 public class Register extends javax.swing.JFrame {
 
@@ -86,7 +87,7 @@ public class Register extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel6.setText("Rol");
 
-        CbRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Contador", "Administrador", " " }));
+        CbRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Contador", "Administrador" }));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -136,7 +137,7 @@ public class Register extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6)
                     .addComponent(CbRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(37, 37, 37)
@@ -193,10 +194,28 @@ public class Register extends javax.swing.JFrame {
 
     private void button_registerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_registerActionPerformed
         // TODO add your handling code here:
-        verificarAdmin va = new verificarAdmin();
-        if(CbRol.getSelectedIndex() == 0){
-            va.show();
+        char[] pass1 = txtPassword.getPassword();
+        String password = new String(pass1);
+        if("".equals(txtUsername.getText()) && "".equals(password) && "".equals(txtNombre.getText())){
+            JOptionPane.showMessageDialog(null, "Por favor rellene todos los campos");
+        }else{
+            
+            validarAdmin va = new validarAdmin();
+
+            if(CbRol.getSelectedIndex() == 1){
+                va.mostrarDialogoConPanel(this);
+
+                if(!va.getValidacion()){
+                    JOptionPane.showMessageDialog(null, "Como no se pudo verificar un administrador se le registrara como Contador");
+                    cc.registrarUsuario(txtUsername.getText(),password ,"CONTADOR", txtNombre.getText());
+                }else if(va.getValidacion()){
+                    cc.registrarUsuario(txtUsername.getText(),password ,"ADMINISTRADOR", txtNombre.getText());
+                }
+            }else{
+                cc.registrarUsuario(txtUsername.getText(),password ,"CONTADOR", txtNombre.getText());
+            }
         }
+        
         //cc.registrarUsuario(txtUsername.getText(),txtPassword.getPassword(),);
     }//GEN-LAST:event_button_registerActionPerformed
 
