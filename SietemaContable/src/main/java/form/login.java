@@ -1,5 +1,8 @@
 package form;
 
+import javax.swing.JOptionPane;
+import logic.CatalogoDeCuentasDatos;
+
 public class login extends javax.swing.JFrame {
 
     public login() {
@@ -24,7 +27,6 @@ public class login extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("LOGIN");
-        setPreferredSize(new java.awt.Dimension(800, 500));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(800, 500));
@@ -155,7 +157,7 @@ public class login extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    public CatalogoDeCuentasDatos cc = new CatalogoDeCuentasDatos();
     private void button_registrarse_formActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_registrarse_formActionPerformed
         Register registerFrame = new Register();
         registerFrame.setVisible(true);
@@ -167,7 +169,24 @@ public class login extends javax.swing.JFrame {
 
     private void button_loginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_button_loginMouseClicked
         // TODO add your handling code here:
-        
+        System.out.println("aaaa");
+                char[] pass1 = password.getPassword();
+        String pass = new String(pass1);
+        System.out.println("aaaaaaaaaaa");
+        if("".equals(user.getText()) && "".equals(pass)){
+            JOptionPane.showMessageDialog(null, "Llene todos los campos");
+        }else{
+            if(!cc.login(user.getText(), pass)){
+                JOptionPane.showMessageDialog(null, "El usuario y/o contraseña incorrectos");
+            }
+            else{
+                PRINCIPAL prn = new PRINCIPAL();
+                prn.setVisible(true);
+                prn.pack();
+                prn.setLocationRelativeTo(null);
+                this.dispose();
+            }
+        }
     }//GEN-LAST:event_button_loginMouseClicked
 
     /**

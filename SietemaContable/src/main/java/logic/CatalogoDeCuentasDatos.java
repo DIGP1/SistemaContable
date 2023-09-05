@@ -144,5 +144,21 @@ public class CatalogoDeCuentasDatos {
             return false;
         }
     }
+    public boolean login(String username, String password){
+        boolean usuarioEncontrado = false;
+        String sql1 = "SELECT username, password FROM USUARIOS WHERE username = '"+username+"' AND password = '"+password+"'";
+        try (Connection conn = dbConnection.connect();
+         Statement stmt = conn.createStatement();
+         ResultSet rs = stmt.executeQuery(sql1)) {
+
+        if (rs.next()) {
+            usuarioEncontrado = true;
+        }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        
+        return usuarioEncontrado;
+    }
 }
 
