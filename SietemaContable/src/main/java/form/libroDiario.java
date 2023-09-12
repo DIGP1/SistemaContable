@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import static java.awt.image.ImageObserver.WIDTH;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -28,6 +29,9 @@ private CatalogoDeCuentasDatos catalogoDeCuentasDatos;
    
 public libroDiario() {
         initComponents();
+        deb.setEnabled(false);
+        hber.setEnabled(false);
+        
         catalogoDeCuentasDatos = new CatalogoDeCuentasDatos();
         
         
@@ -36,14 +40,14 @@ public libroDiario() {
                 if (evt.getStateChange() == ItemEvent.SELECTED) {
                     String selectedOption = jComboBox1.getSelectedItem().toString();
                     if ("Debe".equals(selectedOption)) {
-                        deb.setEnabled(false); // Deshabilitar "Debe"
-                        hber.setEnabled(true);  // Habilitar "Haber"
-                    } else if ("Haber".equals(selectedOption)) {
                         deb.setEnabled(true);  // Habilitar "Debe"
                         hber.setEnabled(false); // Deshabilitar "Haber"
-                    } else {
-                        deb.setEnabled(true);  // Habilitar ambos
-                        hber.setEnabled(true);
+                    } else if ("Haber".equals(selectedOption)) {
+                        deb.setEnabled(false); // Deshabilitar "Debe"
+                        hber.setEnabled(true);  // Habilitar "Haber"
+                    } else if ("-".equals(selectedOption)){
+                        deb.setEnabled(false);  // Habilitar ambos
+                        hber.setEnabled(false);
                     }
                 }
             }
@@ -61,7 +65,7 @@ public libroDiario() {
             String haber = hber.getText();
 
            
-            catalogoDeCuentasDatos.guardarEnBaseDeDatos(fe,codigoCuenta, descripcion, debe, haber);
+            //catalogoDeCuentasDatos.guardarEnBaseDeDatos(fe,codigoCuenta, descripcion, debe, haber);
             fech.setText("");
             des.setText("");
             codigo.setText("");
@@ -70,6 +74,20 @@ public libroDiario() {
             DefaultTableModel modelo = (DefaultTableModel) tabla1.getModel();
             Object[] fila = {fe,descripcion, codigoCuenta, debe, haber};
             modelo.addRow(fila);
+            float a = 0;
+            float b = 0;
+            for(int i = 0; i<modelo.getRowCount(); i++){
+                if(modelo.getValueAt(i,3).toString() != ""){
+                    String numeroDebe = modelo.getValueAt(i,3).toString();
+                    a = a + Float.parseFloat(numeroDebe);
+                }
+                if(modelo.getValueAt(i,4).toString() != ""){
+                    String numeroHaber = modelo.getValueAt(i, 4).toString();
+                    b = b + Float.parseFloat(numeroHaber);
+                }
+            }
+            lblDebe.setText("$ "+a);
+            lblHaber.setText("$ "+b);
             
         }
         
@@ -137,15 +155,14 @@ public libroDiario() {
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
         fech = new javax.swing.JTextField();
+        lblDebe = new javax.swing.JLabel();
+        lblHaber = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(245, 245, 220));
 
         tabla1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "Fecha", "Descripción", "Ref", "Debe", "Haber"
@@ -200,12 +217,17 @@ public libroDiario() {
         guardar.setBackground(new java.awt.Color(0, 153, 51));
         guardar.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         guardar.setText("Registrar");
+        guardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                guardarActionPerformed(evt);
+            }
+        });
 
         jButton2.setBackground(new java.awt.Color(0, 153, 102));
         jButton2.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jButton2.setText("Crear Cuenta");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Debe", "Haber" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "Debe", "Haber" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -221,6 +243,10 @@ public libroDiario() {
                 fechActionPerformed(evt);
             }
         });
+
+        lblDebe.setText("$0.00");
+
+        lblHaber.setText("$0.00");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -244,29 +270,33 @@ public libroDiario() {
                             .addComponent(deb)
                             .addComponent(hber)
                             .addComponent(fech, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGap(18, 18, 18)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 483, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(59, 59, 59)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 487, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jButton2))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(351, 351, 351)
+                        .addGap(424, 424, 424)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(11, Short.MAX_VALUE))
+                .addContainerGap(113, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(lblDebe)
+                .addGap(68, 68, 68)
+                .addComponent(lblHaber)
+                .addGap(156, 156, 156))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(44, 44, 44)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(39, 39, 39)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(48, 48, 48)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -292,11 +322,14 @@ public libroDiario() {
                         .addGap(49, 49, 49)
                         .addComponent(guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(112, 112, 112)
                         .addComponent(jButton2)
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(234, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblDebe)
+                    .addComponent(lblHaber))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         getAccessibleContext().setAccessibleParent(this);
@@ -325,6 +358,10 @@ public libroDiario() {
     private void fechActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fechActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_fechActionPerformed
+
+    private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_guardarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -377,6 +414,8 @@ public libroDiario() {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tabla1;
+    private javax.swing.JLabel lblDebe;
+    private javax.swing.JLabel lblHaber;
+    protected javax.swing.JTable tabla1;
     // End of variables declaration//GEN-END:variables
 }
