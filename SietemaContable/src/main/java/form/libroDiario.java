@@ -77,11 +77,11 @@ public libroDiario() {
             float a = 0;
             float b = 0;
             for(int i = 0; i<modelo.getRowCount(); i++){
-                if(modelo.getValueAt(i,3).toString() != ""){
+                if(!"".equals(modelo.getValueAt(i,3).toString())){
                     String numeroDebe = modelo.getValueAt(i,3).toString();
                     a = a + Float.parseFloat(numeroDebe);
                 }
-                if(modelo.getValueAt(i,4).toString() != ""){
+                if(!"".equals(modelo.getValueAt(i,4).toString())){
                     String numeroHaber = modelo.getValueAt(i, 4).toString();
                     b = b + Float.parseFloat(numeroHaber);
                 }
