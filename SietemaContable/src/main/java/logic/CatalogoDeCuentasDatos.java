@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -43,27 +44,39 @@ public class CatalogoDeCuentasDatos {
     }
     
     
-public List<String> buscarNombreCuentaPorCodigo(String codigoIngresado) {
-    List<String> nombresCuentas = new ArrayList<>();
-
+public valoresBusqueda buscarNombreCuentaPorCodigo(String codigoIngresado, boolean esCodigo) {
+    valoresBusqueda valorBusqueda;
+    HashMap<String, String> cuentas = new HashMap<>();
+    List<String> nombreCuentas = new ArrayList<>();
+    String sql;
     // SQL para buscar la cuenta por código en la base de datos
-    String sql = "SELECT Codigo, Cuenta FROM CATALOGO_DE_CUENTAS WHERE Codigo LIKE '" + codigoIngresado + "%'";
+    if (esCodigo) {
+        sql = "SELECT Codigo, Cuenta FROM CATALOGO_DE_CUENTAS WHERE Codigo LIKE '" + codigoIngresado + "%'";
+    }else{
+        sql = "SELECT Codigo, Cuenta FROM CATALOGO_DE_CUENTAS WHERE Cuenta LIKE '" + codigoIngresado + "%'";
+    }
+    
 
     try (Connection conn = dbConnection.connect();
          Statement stmt = conn.createStatement();
          ResultSet rs = stmt.executeQuery(sql)) {
 
-        while (rs.next()) {
-            String nombreCuenta = rs.getString("Cuenta");
-            nombresCuentas.add(nombreCuenta);
-        }
+        if(rs.next()){
+            while (rs.next()) {
+                cuentas.put(rs.getString("Cuenta"), rs.getString("Codigo"));
+                nombreCuentas.add(rs.getString("Cuenta"));
+            }
+        }else{
+            cuentas.put("Error", "No se encontro ninguna cuenta");
+            nombreCuentas.add("No se encontro ninguna cuenta");
+            valorBusqueda = new valoresBusqueda(cuentas,nombreCuentas);
+            return valorBusqueda;
+        }    
     } catch (SQLException e) {
         System.out.println(e.getMessage());
     }
-    for(String elemento : nombresCuentas){
-        System.out.println(elemento);
-    }
-    return nombresCuentas;
+    valorBusqueda = new valoresBusqueda(cuentas,nombreCuentas);
+    return valorBusqueda;
 }
 
     public void guardarEnBaseDeDatos(String fecha,String Codigo,String  Descripcion, String Debe, String Haber) {

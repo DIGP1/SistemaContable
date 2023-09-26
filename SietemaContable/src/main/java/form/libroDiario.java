@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.HashMap;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
@@ -16,15 +17,18 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import logic.CatalogoDeCuentasDatos;
+import logic.valoresBusqueda;
 /**
  *
  * @author diegorro
  */
 public class libroDiario extends javax.swing.JPanel {
 private CatalogoDeCuentasDatos catalogoDeCuentasDatos;
+public valoresBusqueda valor;
    
 public libroDiario() {
         initComponents();
+        
         deb.setEnabled(false);
         hber.setEnabled(false);
         jList1.setVisible(false);
@@ -51,6 +55,15 @@ public libroDiario() {
                 }
             }
         });
+         jList1.addListSelectionListener(e -> {
+            if (!jList1.isSelectionEmpty()) {
+                String valorSeleccionado = jList1.getSelectedValue();
+                HashMap<String, String> cuentas = valor.getCuentas();
+                codigo.setText(cuentas.get(valorSeleccionado));
+                jList1.setVisible(false);
+                jScrollPane3.setVisible(false);
+            }
+        });
     txtbuscarCuenta.getDocument().addDocumentListener(new DocumentListener() {
     @Override
     public void insertUpdate(DocumentEvent e) {
@@ -68,27 +81,37 @@ public libroDiario() {
     }
 
     private void buscarNombreCuenta() {
-        if("".equals(txtbuscarCuenta.getText())){
-            jList1.setVisible(false);
-            jScrollPane3.setVisible(false);
+        String selectedOption = cbBusqueda.getSelectedItem().toString();
+        if("Codigo".equals(selectedOption)){
+            buscarEnBase(txtbuscarCuenta.getText(), true);
+        }else{
+            buscarEnBase(txtbuscarCuenta.getText(), false);
         }
-        String codigoIngresado = txtbuscarCuenta.getText().trim();
+    }
+    private void buscarEnBase(String Dato, boolean esCodigo){
         
-        List<String> nombreCuenta = catalogoDeCuentasDatos.buscarNombreCuentaPorCodigo(codigoIngresado);
-        DefaultListModel<String> modeloLista = new DefaultListModel<>();
-        for(String elemento : nombreCuenta){
-            modeloLista.addElement(elemento);
-        }
-
-        if (nombreCuenta != null) {
-
-            jList1.setModel(modeloLista);
-            jList1.setVisible(true);
-            jScrollPane3.setVisible(true);
-        } else {
-            des.setText(""); 
+        if("".equals(Dato)){
             jList1.setVisible(false);
             jScrollPane3.setVisible(false);
+        }else{
+            String codigoIngresado = Dato.trim();
+        
+           valor = catalogoDeCuentasDatos.buscarNombreCuentaPorCodigo(codigoIngresado, esCodigo);
+            DefaultListModel<String> modeloLista = new DefaultListModel<>();
+            for(String elemento : valor.getNombreCuentas()){
+                modeloLista.addElement(elemento);
+            }
+
+            if (valor.getNombreCuentas() != null) {
+
+                jList1.setModel(modeloLista);
+                jList1.setVisible(true);
+                jScrollPane3.setVisible(true);
+            } else {
+                des.setText(""); 
+                jList1.setVisible(false);
+                jScrollPane3.setVisible(false);
+            }
         }
     }
 });
@@ -122,6 +145,7 @@ public libroDiario() {
         btnGuardarEnLibroMayor = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         txtbuscarCuenta = new javax.swing.JTextField();
+        cbBusqueda = new javax.swing.JComboBox<>();
 
         setBackground(new java.awt.Color(245, 245, 220));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -136,18 +160,19 @@ public libroDiario() {
         ));
         jScrollPane1.setViewportView(tabla1);
 
-        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 160, -1, -1));
+        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 160, 480, -1));
 
         jList1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jList1.setVisibleRowCount(5);
         jScrollPane3.setViewportView(jList1);
 
-        add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 100, 184, -1));
+        add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 100, 184, 90));
 
         jLabel1.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 204, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Libro Diario");
-        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 90, 168, -1));
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 10, 168, -1));
 
         jLabel2.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -155,7 +180,7 @@ public libroDiario() {
         add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 230, -1, -1));
 
         des.setEditable(false);
-        add(des, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 230, 181, -1));
+        add(des, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 230, 184, -1));
 
         jLabel3.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -166,12 +191,12 @@ public libroDiario() {
         jLabel4.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel4.setText("Debe");
         add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 270, -1, -1));
-        add(deb, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 270, 181, -1));
+        add(deb, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 270, 184, -1));
 
         jLabel5.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel5.setText("Haber");
         add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 320, -1, -1));
-        add(hber, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 320, 181, -1));
+        add(hber, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 320, 184, -1));
 
         guardar.setBackground(new java.awt.Color(0, 153, 51));
         guardar.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
@@ -181,7 +206,7 @@ public libroDiario() {
                 guardarActionPerformed(evt);
             }
         });
-        add(guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 400, 144, 43));
+        add(guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 390, 144, 43));
 
         jButton2.setBackground(new java.awt.Color(0, 153, 102));
         jButton2.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
@@ -200,7 +225,7 @@ public libroDiario() {
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Fecha");
         add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 190, -1, -1));
-        add(fech, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 190, 181, -1));
+        add(fech, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 190, 184, -1));
 
         lblDebe.setText("$0.00");
         add(lblDebe, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 600, -1, -1));
@@ -221,8 +246,11 @@ public libroDiario() {
         jLabel7.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("Buscar Cuenta");
-        add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 80, -1, -1));
+        add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 80, -1, -1));
         add(txtbuscarCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 80, 184, -1));
+
+        cbBusqueda.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Codigo", "Cuenta" }));
+        add(cbBusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 80, -1, -1));
 
         getAccessibleContext().setAccessibleParent(this);
     }// </editor-fold>//GEN-END:initComponents
@@ -311,6 +339,7 @@ public libroDiario() {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGuardarEnLibroMayor;
+    private javax.swing.JComboBox<String> cbBusqueda;
     private javax.swing.JTextField codigo;
     private javax.swing.JTextField deb;
     private javax.swing.JTextField des;
