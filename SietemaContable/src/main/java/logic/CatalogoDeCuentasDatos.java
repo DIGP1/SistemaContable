@@ -44,17 +44,12 @@ public class CatalogoDeCuentasDatos {
     }
     
     
-public valoresBusqueda buscarNombreCuentaPorCodigo(String codigoIngresado, boolean esCodigo) {
+public valoresBusqueda buscarNombreCuentaPorCodigo(String codigoIngresado) {
     valoresBusqueda valorBusqueda;
     HashMap<String, String> cuentas = new HashMap<>();
     List<String> nombreCuentas = new ArrayList<>();
-    String sql;
-    // SQL para buscar la cuenta por código en la base de datos
-    if (esCodigo) {
-        sql = "SELECT Codigo, Cuenta FROM CATALOGO_DE_CUENTAS WHERE Codigo LIKE '" + codigoIngresado + "%'";
-    }else{
-        sql = "SELECT Codigo, Cuenta FROM CATALOGO_DE_CUENTAS WHERE Cuenta LIKE '" + codigoIngresado + "%'";
-    }
+    String sql = "SELECT Codigo, Cuenta FROM CATALOGO_DE_CUENTAS WHERE Cuenta LIKE '" + codigoIngresado + "%'";
+   
     
 
     try (Connection conn = dbConnection.connect();

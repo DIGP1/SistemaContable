@@ -5,12 +5,12 @@
 package form;
 
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.HashMap;
-import java.util.List;
+import com.toedter.calendar.JDateChooser;
+import java.text.SimpleDateFormat;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
@@ -28,7 +28,19 @@ public valoresBusqueda valor;
    
 public libroDiario() {
         initComponents();
-        
+        String[] columnNames = {"Fecha", "Cuenta", "Ref", "Debe", "Haber"};
+
+        // Crear un modelo de datos no editable
+        DefaultTableModel model = new DefaultTableModel(null, columnNames) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // Desactiva la edición de todas las celdas
+                return false;
+            }
+        };
+
+        tabla1.setModel(model);
+        fecha.setDateFormatString("dd/MM/yyyy");
         deb.setEnabled(false);
         hber.setEnabled(false);
         jList1.setVisible(false);
@@ -60,6 +72,8 @@ public libroDiario() {
                 String valorSeleccionado = jList1.getSelectedValue();
                 HashMap<String, String> cuentas = valor.getCuentas();
                 codigo.setText(cuentas.get(valorSeleccionado));
+                des.setText(valorSeleccionado);
+                txtbuscarCuenta.setText(valorSeleccionado);
                 jList1.setVisible(false);
                 jScrollPane3.setVisible(false);
             }
@@ -81,14 +95,9 @@ public libroDiario() {
     }
 
     private void buscarNombreCuenta() {
-        String selectedOption = cbBusqueda.getSelectedItem().toString();
-        if("Codigo".equals(selectedOption)){
-            buscarEnBase(txtbuscarCuenta.getText(), true);
-        }else{
-            buscarEnBase(txtbuscarCuenta.getText(), false);
-        }
+        buscarEnBase(txtbuscarCuenta.getText());
     }
-    private void buscarEnBase(String Dato, boolean esCodigo){
+    private void buscarEnBase(String Dato){
         
         if("".equals(Dato)){
             jList1.setVisible(false);
@@ -96,7 +105,7 @@ public libroDiario() {
         }else{
             String codigoIngresado = Dato.trim();
         
-           valor = catalogoDeCuentasDatos.buscarNombreCuentaPorCodigo(codigoIngresado, esCodigo);
+           valor = catalogoDeCuentasDatos.buscarNombreCuentaPorCodigo(codigoIngresado);
             DefaultListModel<String> modeloLista = new DefaultListModel<>();
             for(String elemento : valor.getNombreCuentas()){
                 modeloLista.addElement(elemento);
@@ -139,13 +148,12 @@ public libroDiario() {
         jButton2 = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
-        fech = new javax.swing.JTextField();
         lblDebe = new javax.swing.JLabel();
         lblHaber = new javax.swing.JLabel();
         btnGuardarEnLibroMayor = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         txtbuscarCuenta = new javax.swing.JTextField();
-        cbBusqueda = new javax.swing.JComboBox<>();
+        fecha = new com.toedter.calendar.JDateChooser();
 
         setBackground(new java.awt.Color(245, 245, 220));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -155,7 +163,7 @@ public libroDiario() {
 
             },
             new String [] {
-                "Fecha", "Descripción", "Ref", "Debe", "Haber"
+                "Fecha", "Cuenta", "Ref", "Debe", "Haber"
             }
         ));
         jScrollPane1.setViewportView(tabla1);
@@ -176,27 +184,29 @@ public libroDiario() {
 
         jLabel2.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Descripcion");
-        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 230, -1, -1));
+        jLabel2.setText("Cuenta");
+        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 190, -1, -1));
 
         des.setEditable(false);
-        add(des, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 230, 184, -1));
+        add(des, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 190, 184, -1));
 
         jLabel3.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Ref");
         add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 150, -1, -1));
+
+        codigo.setEditable(false);
         add(codigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 150, 181, -1));
 
         jLabel4.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel4.setText("Debe");
-        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 270, -1, -1));
-        add(deb, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 270, 184, -1));
+        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 280, -1, -1));
+        add(deb, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 280, 184, -1));
 
         jLabel5.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel5.setText("Haber");
-        add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 320, -1, -1));
-        add(hber, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 320, 184, -1));
+        add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 330, -1, -1));
+        add(hber, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 330, 184, -1));
 
         guardar.setBackground(new java.awt.Color(0, 153, 51));
         guardar.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
@@ -206,7 +216,7 @@ public libroDiario() {
                 guardarActionPerformed(evt);
             }
         });
-        add(guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 390, 144, 43));
+        add(guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 400, 144, 43));
 
         jButton2.setBackground(new java.awt.Color(0, 153, 102));
         jButton2.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
@@ -219,19 +229,18 @@ public libroDiario() {
                 jComboBox1ActionPerformed(evt);
             }
         });
-        add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 290, -1, -1));
+        add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 300, -1, -1));
 
         jLabel6.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Fecha");
-        add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 190, -1, -1));
-        add(fech, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 190, 184, -1));
+        add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 230, -1, 30));
 
         lblDebe.setText("$0.00");
-        add(lblDebe, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 600, -1, -1));
+        add(lblDebe, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 600, -1, -1));
 
         lblHaber.setText("$0.00");
-        add(lblHaber, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 600, -1, -1));
+        add(lblHaber, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 600, -1, -1));
 
         btnGuardarEnLibroMayor.setBackground(new java.awt.Color(0, 153, 102));
         btnGuardarEnLibroMayor.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
@@ -249,8 +258,8 @@ public libroDiario() {
         add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 80, -1, -1));
         add(txtbuscarCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 80, 184, -1));
 
-        cbBusqueda.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Codigo", "Cuenta" }));
-        add(cbBusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 80, -1, -1));
+        fecha.setMaxSelectableDate(new java.util.Date(253370790065000L));
+        add(fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 230, 184, 30));
 
         getAccessibleContext().setAccessibleParent(this);
     }// </editor-fold>//GEN-END:initComponents
@@ -262,7 +271,8 @@ public libroDiario() {
     private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
         // TODO add your handling code here:
         catalogoDeCuentasDatos = new CatalogoDeCuentasDatos();
-            String fe= fech.getText();
+            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+            String fe= formato.format(fecha.getDate());
             String codigoCuenta = codigo.getText();
             String descripcion = des.getText();
             String debe = deb.getText();
@@ -270,7 +280,7 @@ public libroDiario() {
             
             if(!"".equals(fe) && !"".equals(codigoCuenta) && !"".equals(descripcion)){
                 //catalogoDeCuentasDatos.guardarEnBaseDeDatos(fe,codigoCuenta, descripcion, debe, haber);
-                fech.setText("");
+                
                 des.setText("");
                 codigo.setText("");
                 deb.setText("");
@@ -299,6 +309,11 @@ public libroDiario() {
 
     private void btnGuardarEnLibroMayorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarEnLibroMayorActionPerformed
         // TODO add your handling code here:
+        if(lblDebe.getText().equals(lblHaber.getText()) && !"$0.00".equals(lblHaber.getText()) && !"$0.00".equals(lblDebe.getText())){
+            
+        }else{
+            JOptionPane.showMessageDialog(null,"No esta balanceada la transacción por ende no se puede guardar","Error", JOptionPane.ERROR_MESSAGE);
+        }
      
     }//GEN-LAST:event_btnGuardarEnLibroMayorActionPerformed
 
@@ -339,11 +354,10 @@ public libroDiario() {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGuardarEnLibroMayor;
-    private javax.swing.JComboBox<String> cbBusqueda;
     private javax.swing.JTextField codigo;
     private javax.swing.JTextField deb;
     private javax.swing.JTextField des;
-    private javax.swing.JTextField fech;
+    private com.toedter.calendar.JDateChooser fecha;
     private javax.swing.JButton guardar;
     private javax.swing.JTextField hber;
     private javax.swing.JButton jButton2;
