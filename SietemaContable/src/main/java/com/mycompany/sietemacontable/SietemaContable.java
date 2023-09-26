@@ -3,7 +3,7 @@
  */
 
 package com.mycompany.sietemacontable;
-import form.login;
+import form.*;
 import java.util.List;
 import logic.CatalogoDeCuentasDatos;
 
@@ -21,9 +21,8 @@ public class SietemaContable {
 //        for (String cuenta : cuentas) {
 //            System.out.println(cuenta);
 //        }
-      login loginFrame = new login();
-        loginFrame.setVisible(true);
-        loginFrame.pack();
-        loginFrame.setLocationRelativeTo(null);
+        PRINCIPAL prin = new PRINCIPAL();
+        prin.show(true);
+        
     }
 }

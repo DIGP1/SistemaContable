@@ -43,24 +43,27 @@ public class CatalogoDeCuentasDatos {
     }
     
     
-    public String buscarNombreCuentaPorCodigo(String codigoIngresado) {
-    String nombreCuenta = "";
+public List<String> buscarNombreCuentaPorCodigo(String codigoIngresado) {
+    List<String> nombresCuentas = new ArrayList<>();
 
     // SQL para buscar la cuenta por código en la base de datos
-    String sql = "SELECT Cuenta FROM CATALOGO_DE_CUENTAS WHERE Codigo = '" + codigoIngresado + "'";
+    String sql = "SELECT Codigo, Cuenta FROM CATALOGO_DE_CUENTAS WHERE Codigo LIKE '" + codigoIngresado + "%'";
 
     try (Connection conn = dbConnection.connect();
          Statement stmt = conn.createStatement();
          ResultSet rs = stmt.executeQuery(sql)) {
 
-        if (rs.next()) {
-            nombreCuenta = rs.getString("Cuenta");
+        while (rs.next()) {
+            String nombreCuenta = rs.getString("Cuenta");
+            nombresCuentas.add(nombreCuenta);
         }
     } catch (SQLException e) {
         System.out.println(e.getMessage());
     }
-
-    return nombreCuenta;
+    for(String elemento : nombresCuentas){
+        System.out.println(elemento);
+    }
+    return nombresCuentas;
 }
 
     public void guardarEnBaseDeDatos(String fecha,String Codigo,String  Descripcion, String Debe, String Haber) {
