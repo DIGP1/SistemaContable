@@ -57,6 +57,8 @@ public valoresBusqueda buscarNombreCuentaPorCodigo(String codigoIngresado) {
          ResultSet rs = stmt.executeQuery(sql)) {
 
         if(rs.next()){
+            cuentas.put(rs.getString("Cuenta"), rs.getString("Codigo"));
+            nombreCuentas.add(rs.getString("Cuenta"));
             while (rs.next()) {
                 cuentas.put(rs.getString("Cuenta"), rs.getString("Codigo"));
                 nombreCuentas.add(rs.getString("Cuenta"));

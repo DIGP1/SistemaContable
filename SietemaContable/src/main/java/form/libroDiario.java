@@ -11,6 +11,7 @@ import java.awt.event.ItemListener;
 import java.util.HashMap;
 import com.toedter.calendar.JDateChooser;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
@@ -38,6 +39,8 @@ public libroDiario() {
                 return false;
             }
         };
+        java.util.Date fechaActual = new Date();
+        fecha.setDate(fechaActual);
 
         tabla1.setModel(model);
         fecha.setDateFormatString("dd/MM/yyyy");
