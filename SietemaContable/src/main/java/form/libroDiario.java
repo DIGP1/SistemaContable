@@ -11,7 +11,9 @@ import java.awt.event.ItemListener;
 import java.util.HashMap;
 import com.toedter.calendar.JDateChooser;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
@@ -48,6 +50,7 @@ public libroDiario() {
         hber.setEnabled(false);
         jList1.setVisible(false);
         jScrollPane3.setVisible(false);
+        btnGuardarEnLibroMayor.enable(false);
         
         catalogoDeCuentasDatos = new CatalogoDeCuentasDatos();
         
@@ -240,6 +243,11 @@ public libroDiario() {
         add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 230, -1, 30));
 
         lblDebe.setText("$0.00");
+        lblDebe.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                lblDebePropertyChange(evt);
+            }
+        });
         add(lblDebe, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 600, -1, -1));
 
         lblHaber.setText("$0.00");
@@ -281,7 +289,7 @@ public libroDiario() {
             String debe = deb.getText();
             String haber = hber.getText();
             
-            if(!"".equals(fe) && !"".equals(codigoCuenta) && !"".equals(descripcion)){
+            if(!"".equals(fe) && !"".equals(codigoCuenta) && !"".equals(descripcion) && !"".equals(debe) || !"".equals(haber)){
                 //catalogoDeCuentasDatos.guardarEnBaseDeDatos(fe,codigoCuenta, descripcion, debe, haber);
                 
                 des.setText("");
@@ -313,12 +321,47 @@ public libroDiario() {
     private void btnGuardarEnLibroMayorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarEnLibroMayorActionPerformed
         // TODO add your handling code here:
         if(lblDebe.getText().equals(lblHaber.getText()) && !"$0.00".equals(lblHaber.getText()) && !"$0.00".equals(lblDebe.getText())){
+            List<Integer> ids = new ArrayList();
+            int filas = tabla1.getRowCount();
+            int columnas = tabla1.getColumnCount();
+            //List<Integer> nCuentas = new ArrayList<>();
+            for (int i = 0; i < filas; i++) {
+                String fechaString = "";
+                String codigoTablaString = "";
+                String Descripcion = "";
+                String debe = "";
+                String haber = "";
+                for (int j = 0; j < columnas; j++) {
+                    Object valorTabla = tabla1.getValueAt(i, j);
+                    // Asigna el valor a la variable correspondiente según la columna
+                    switch (j) {
+                        case 0 -> fechaString = valorTabla.toString();
+                        case 1 -> Descripcion = valorTabla.toString();
+                        case 2 -> codigoTablaString = valorTabla.toString();
+                        case 3 -> debe = valorTabla.toString();
+                        case 4 -> haber = valorTabla.toString();
+                    }
+                }
+                catalogoDeCuentasDatos.guardarEnBaseDeDatos(fechaString,codigoTablaString, Descripcion, debe, haber);
+                ids.add(Integer.parseInt(catalogoDeCuentasDatos.retornarIDMayor()));
+                //nCuentas.add(Integer.parseInt(codigoTablaString));
+            }
             
+            
+        }else if("$0.00".equals(lblHaber.getText()) && "$0.00".equals(lblDebe.getText())){
+            JOptionPane.showMessageDialog(null,"No puede registrar una transaccion sin movimiento de dinero","Error", JOptionPane.ERROR_MESSAGE);
         }else{
             JOptionPane.showMessageDialog(null,"No esta balanceada la transacción por ende no se puede guardar","Error", JOptionPane.ERROR_MESSAGE);
         }
      
     }//GEN-LAST:event_btnGuardarEnLibroMayorActionPerformed
+
+    private void lblDebePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_lblDebePropertyChange
+        // TODO add your handling code here:
+        if(lblDebe.getText().equals(lblHaber.getText())){
+            btnGuardarEnLibroMayor.enable(true);
+        }
+    }//GEN-LAST:event_lblDebePropertyChange
 
     /**
      * @param args the command line arguments

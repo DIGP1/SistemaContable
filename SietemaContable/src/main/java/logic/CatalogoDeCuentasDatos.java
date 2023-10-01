@@ -63,10 +63,15 @@ public valoresBusqueda buscarNombreCuentaPorCodigo(String codigoIngresado) {
                 cuentas.put(rs.getString("Cuenta"), rs.getString("Codigo"));
                 nombreCuentas.add(rs.getString("Cuenta"));
             }
+            conn.close();
+            if(conn.isClosed()){
+                System.out.println("Se cerro conexion");
+            }
         }else{
             cuentas.put("Error", "No se encontro ninguna cuenta");
             nombreCuentas.add("No se encontro ninguna cuenta");
             valorBusqueda = new valoresBusqueda(cuentas,nombreCuentas);
+            conn.close();
             return valorBusqueda;
         }    
     } catch (SQLException e) {
@@ -90,13 +95,37 @@ public valoresBusqueda buscarNombreCuentaPorCodigo(String codigoIngresado) {
             int filasAfectadas = pstmt.executeUpdate();
             
             if (filasAfectadas > 0) {
+                conn.close();
                 System.out.println("Datos guardados en la base de datos.");
+                System.out.println(filasAfectadas);
             } else {
+                conn.close();
                 System.out.println("No se pudieron guardar los datos en la base de datos.");
             }
         } catch (SQLException e) {
             System.out.println("Error al guardar en la base de datos: " + e.getMessage());
         }
+    }
+    
+    public String retornarIDMayor(){
+        String cuenta = "";
+        String sql = "SELECT MAX(id) FROM LIBRO_DIARIO;";
+        
+        try (Connection conn = dbConnection.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                cuenta = rs.getString("MAX(id)");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        
+        return cuenta;
+        
+        
+        
     }
     public void registrarUsuario(String username, String pass, String rol, String Nombre){
         
@@ -136,6 +165,26 @@ public valoresBusqueda buscarNombreCuentaPorCodigo(String codigoIngresado) {
                 }
         }
     }
+    
+    public void guardarTransacciones(List<Integer> codigo, String descripcion){
+         String sql = "INSERT INTO TRANSACCIONES_LIBRO_DIARIO (nCuenta, DescripcionTransaccion) VALUES (?, ?)";
+            try (Connection conn = dbConnection.connect()) {
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                for (int nCuenta : codigo) {
+                    pstmt.setInt(1, nCuenta);
+                    pstmt.setString(2, descripcion);
+                    pstmt.executeUpdate(); // Ejecutar la inserción
+                }
+                System.out.println("Valores insertados correctamente.");
+            }
+            catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } 
+
+        
+        
+    
     public boolean verificacionAdmin(String username, String pass){
         String usuarioEncontrado = "";
         String sql1 = "SELECT username, password,rol FROM USUARIOS WHERE username = '"+username+"' AND password = '"+pass+"'";
