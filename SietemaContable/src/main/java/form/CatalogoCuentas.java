@@ -33,6 +33,8 @@ private CatalogoDeCuentasDatos catalogoDeCuentasDatos = new CatalogoDeCuentasDat
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(245, 245, 220));
         setMaximumSize(new java.awt.Dimension(1028, 820));
@@ -61,26 +63,57 @@ private CatalogoDeCuentasDatos catalogoDeCuentasDatos = new CatalogoDeCuentasDat
         jTable1.setName(""); // NOI18N
         jScrollPane1.setViewportView(jTable1);
 
+        jButton1.setText("Activos");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Pasivos");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(191, 191, 191)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 619, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(198, Short.MAX_VALUE))
+                .addGap(194, 194, 194)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 619, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(215, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(46, 46, 46)
+                .addGap(60, 60, 60)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
+                .addGap(36, 36, 36)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addContainerGap(310, Short.MAX_VALUE))
         );
 
         getAccessibleContext().setAccessibleName("");
         getAccessibleContext().setAccessibleParent(this);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        cargarActivos();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        cargarPasivos();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -129,8 +162,37 @@ private CatalogoDeCuentasDatos catalogoDeCuentasDatos = new CatalogoDeCuentasDat
     }
 }
 
+  private void cargarActivos() {
+    List<String> cuentas = catalogoDeCuentasDatos.listarActivos();
+    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+    
+   
+    model.setRowCount(1);
+    
+    
+    for (String cuenta : cuentas) {
+        String[] cuentaSplit = cuenta.split("\t");
+        model.addRow(new Object[]{cuentaSplit[0], cuentaSplit[1]});
+    }
+}
+
+   private void cargarPasivos() {
+    List<String> cuentas = catalogoDeCuentasDatos.listarPasivos();
+    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+    
+   
+    model.setRowCount(1);
+    
+    
+    for (String cuenta : cuentas) {
+        String[] cuentaSplit = cuenta.split("\t");
+        model.addRow(new Object[]{cuentaSplit[0], cuentaSplit[1]});
+    }
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
