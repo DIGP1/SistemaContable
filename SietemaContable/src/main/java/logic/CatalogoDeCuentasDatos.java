@@ -164,11 +164,33 @@ public valoresBusqueda buscarNombreCuentaPorCodigo(String codigoIngresado) {
             System.out.println(e.getMessage());
         }
         
-        return cuenta;
-        
-        
-        
+        return cuenta; 
     }
+    public void guardarEnBaseTransaccion(String fecha,String ids, String descripcion) {
+        String sql = "INSERT INTO TRANSACCIONES_LIBRO_DIARIO (fecha,idMovimientosLD,descripcionTransaccion) VALUES (?, ?, ?)";
+        
+        try (Connection conn = dbConnection.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, fecha);
+            pstmt.setString(2, ids);
+            pstmt.setString(3, descripcion);
+;
+            
+            int filasAfectadas = pstmt.executeUpdate();
+            
+            if (filasAfectadas > 0) {
+                conn.close();
+                System.out.println("Datos guardados en la base de datos.");
+                System.out.println(filasAfectadas);
+            } else {
+                conn.close();
+                System.out.println("No se pudieron guardar los datos en la base de datos.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al guardar en la base de datos: " + e.getMessage());
+        }
+    }
+    
     public void registrarUsuario(String username, String pass, String rol, String Nombre){
         
         boolean usuarioEncontrado = false;

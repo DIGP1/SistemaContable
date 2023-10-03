@@ -40,7 +40,6 @@ public libroDiario() {
         jList1.setVisible(false);
         jScrollPane3.setVisible(false);
         btnGuardarEnLibroMayor.enable(false);
-        
         catalogoDeCuentasDatos = new CatalogoDeCuentasDatos();
         
         
@@ -353,18 +352,34 @@ public libroDiario() {
                 }
                 catalogoDeCuentasDatos.guardarEnBaseDeDatos(fechaString,codigoTablaString, Descripcion, debe, haber);
                 ids.add(catalogoDeCuentasDatos.retornarIDMayor());
-                for (String id: ids) {
-                    System.out.println(id);
-                }
                 //nCuentas.add(Integer.parseInt(codigoTablaString));
             }
-            JOptionPane.showMessageDialog(null, "Partida guardada con exito!!");
+            String idTransacciones = "";
+            for (String id: ids) {
+                idTransacciones += id+",";
+            }
+            idTransacciones.substring(0, idTransacciones.length()-1);
             
-            
-         crearModelo();
-         limpiarTextBox();
-         lblDebe.setText("$0.00");
-         lblHaber.setText("$0.00");
+            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+            String fe= formato.format(fecha.getDate());
+            boolean flag = true;
+            while (flag) {                
+                String descripcion= JOptionPane.showInputDialog(null, " Ingrese la descripcion de la transacción");
+                if("".equals(descripcion)){
+                    JOptionPane.showMessageDialog(null, "Debe de ingresar una descripcion valida");
+                }else if(descripcion == null){
+                    flag =  false;
+                    
+                }else{
+                    System.out.println("siuuuuuuuuuuuuuuuuuuuuuuuuuu");
+                    JOptionPane.showMessageDialog(null, "Partida guardada con exito!!");
+                    crearModelo();
+                    limpiarTextBox();
+                    lblDebe.setText("$0.00");
+                    lblHaber.setText("$0.00");
+                    flag = false;
+                }
+            }
         }else if("$0.00".equals(lblHaber.getText()) && "$0.00".equals(lblDebe.getText())){
             JOptionPane.showMessageDialog(null,"No puede registrar una transaccion sin movimiento de dinero","Error", JOptionPane.ERROR_MESSAGE);
         }else{

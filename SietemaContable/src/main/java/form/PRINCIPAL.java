@@ -228,7 +228,7 @@ public class PRINCIPAL extends javax.swing.JFrame {
     
     info.removeAll();
     jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);    
-    jScrollPane1.getVerticalScrollBar().setUnitIncrement(25);    
+    jScrollPane1.getVerticalScrollBar().setUnitIncrement(20);    
 // Configurar el layout del JPanel info
     info.setLayout(new GridLayout(0, 2)); // Usamos FlowLayout con alineación izquierda
 
