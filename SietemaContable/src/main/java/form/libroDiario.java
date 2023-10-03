@@ -358,7 +358,7 @@ public libroDiario() {
             for (String id: ids) {
                 idTransacciones += id+",";
             }
-            idTransacciones.substring(0, idTransacciones.length()-1);
+            String substring = idTransacciones.substring(0, idTransacciones.length()-1);
             
             SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
             String fe= formato.format(fecha.getDate());
@@ -371,7 +371,7 @@ public libroDiario() {
                     flag =  false;
                     
                 }else{
-                    System.out.println("siuuuuuuuuuuuuuuuuuuuuuuuuuu");
+                    catalogoDeCuentasDatos.guardarEnBaseTransaccion(fe, substring, descripcion);
                     JOptionPane.showMessageDialog(null, "Partida guardada con exito!!");
                     crearModelo();
                     limpiarTextBox();
