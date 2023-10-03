@@ -5,7 +5,10 @@
 package form;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 /**
  *
@@ -31,13 +34,15 @@ public class PRINCIPAL extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        info = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        info = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1366, 768));
+        setPreferredSize(new java.awt.Dimension(1366, 740));
+        setResizable(false);
         getContentPane().setLayout(null);
 
         jPanel3.setBackground(new java.awt.Color(51, 153, 255));
@@ -100,33 +105,16 @@ public class PRINCIPAL extends javax.swing.JFrame {
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(751, Short.MAX_VALUE))
+                .addContainerGap(322, Short.MAX_VALUE))
             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel3Layout.createSequentialGroup()
                     .addGap(174, 174, 174)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(538, Short.MAX_VALUE)))
+                    .addContainerGap(478, Short.MAX_VALUE)))
         );
 
         getContentPane().add(jPanel3);
-        jPanel3.setBounds(0, 0, 310, 1129);
-
-        info.setBackground(new java.awt.Color(245, 245, 220));
-        info.setPreferredSize(new java.awt.Dimension(1028, 820));
-
-        javax.swing.GroupLayout infoLayout = new javax.swing.GroupLayout(info);
-        info.setLayout(infoLayout);
-        infoLayout.setHorizontalGroup(
-            infoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1130, Short.MAX_VALUE)
-        );
-        infoLayout.setVerticalGroup(
-            infoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
-        getContentPane().add(info);
-        info.setBounds(309, 98, 1130, 1030);
+        jPanel3.setBounds(0, 0, 310, 700);
 
         jPanel4.setBackground(new java.awt.Color(0, 51, 51));
         jPanel4.setForeground(new java.awt.Color(102, 102, 102));
@@ -168,6 +156,29 @@ public class PRINCIPAL extends javax.swing.JFrame {
         getContentPane().add(jPanel2);
         jPanel2.setBounds(310, 0, 1129, 103);
 
+        jScrollPane1.setBackground(new java.awt.Color(0, 0, 0));
+        jScrollPane1.setBorder(null);
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+
+        info.setBackground(new java.awt.Color(245, 245, 220));
+
+        javax.swing.GroupLayout infoLayout = new javax.swing.GroupLayout(info);
+        info.setLayout(infoLayout);
+        infoLayout.setHorizontalGroup(
+            infoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1056, Short.MAX_VALUE)
+        );
+        infoLayout.setVerticalGroup(
+            infoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 658, Short.MAX_VALUE)
+        );
+
+        jScrollPane1.setViewportView(info);
+
+        getContentPane().add(jScrollPane1);
+        jScrollPane1.setBounds(310, 100, 1040, 600);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 /*
@@ -192,6 +203,7 @@ public class PRINCIPAL extends javax.swing.JFrame {
 */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         info.removeAll();
+        jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);  
         libroDiario diario = new libroDiario();
         diario.setSize(info.getSize()); // Establecer el tamaño igual al tamaño del contenedor
         info.setLayout(new BorderLayout()); // Usar un BorderLayout
@@ -202,6 +214,7 @@ public class PRINCIPAL extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         info.removeAll();
+        jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);  
         CatalogoCuentas catalogoCuentas = new CatalogoCuentas();
         catalogoCuentas.setSize(info.getSize()); // Establecer el tamaño igual al tamaño del contenedor
         info.setLayout(new BorderLayout()); // Usar un BorderLayout
@@ -212,6 +225,21 @@ public class PRINCIPAL extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+    
+    info.removeAll();
+    jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);    
+    jScrollPane1.getVerticalScrollBar().setUnitIncrement(25);    
+// Configurar el layout del JPanel info
+    info.setLayout(new GridLayout(0, 2)); // Usamos FlowLayout con alineación izquierda
+
+    // Agregar componentes a info (asegúrate de que sean lo suficientemente anchos)
+    for (int i = 0; i < 50; i++) {
+        LibroMayor libroM = new LibroMayor();
+        libroM.setPreferredSize(new Dimension(464, 295)); // Establecer un tamaño fijo
+        info.add(libroM);
+    }
+        info.revalidate();
+        info.repaint();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
@@ -262,5 +290,6 @@ public class PRINCIPAL extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

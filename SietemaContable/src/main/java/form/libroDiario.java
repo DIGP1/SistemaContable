@@ -174,7 +174,7 @@ public libroDiario() {
         ));
         jScrollPane1.setViewportView(tabla1);
 
-        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 160, 480, -1));
+        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 120, 480, -1));
 
         jList1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jList1.setVisibleRowCount(5);
@@ -227,7 +227,7 @@ public libroDiario() {
         jButton2.setBackground(new java.awt.Color(0, 153, 102));
         jButton2.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jButton2.setText("Crear Cuenta");
-        add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 120, -1, -1));
+        add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 80, -1, -1));
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "Debe", "Haber" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
@@ -248,10 +248,10 @@ public libroDiario() {
                 lblDebePropertyChange(evt);
             }
         });
-        add(lblDebe, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 600, -1, -1));
+        add(lblDebe, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 560, -1, -1));
 
         lblHaber.setText("$0.00");
-        add(lblHaber, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 600, -1, -1));
+        add(lblHaber, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 560, -1, -1));
 
         btnGuardarEnLibroMayor.setBackground(new java.awt.Color(0, 153, 102));
         btnGuardarEnLibroMayor.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
@@ -261,7 +261,7 @@ public libroDiario() {
                 btnGuardarEnLibroMayorActionPerformed(evt);
             }
         });
-        add(btnGuardarEnLibroMayor, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 120, -1, -1));
+        add(btnGuardarEnLibroMayor, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 80, -1, -1));
 
         jLabel7.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
