@@ -31,20 +31,9 @@ public valoresBusqueda valor;
    
 public libroDiario() {
         initComponents();
-        String[] columnNames = {"Fecha", "Cuenta", "Ref", "Debe", "Haber"};
-
-        // Crear un modelo de datos no editable
-        DefaultTableModel model = new DefaultTableModel(null, columnNames) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                // Desactiva la edición de todas las celdas
-                return false;
-            }
-        };
+        crearModelo();
         java.util.Date fechaActual = new Date();
         fecha.setDate(fechaActual);
-
-        tabla1.setModel(model);
         fecha.setDateFormatString("dd/MM/yyyy");
         deb.setEnabled(false);
         hber.setEnabled(false);
@@ -131,8 +120,27 @@ public libroDiario() {
     }
 });
     
-    
 }
+    public void crearModelo(){
+        String[] columnNames = {"Fecha", "Cuenta", "Ref", "Debe", "Haber"};
+
+        // Crear un modelo de datos no editable
+        DefaultTableModel model = new DefaultTableModel(null, columnNames) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // Desactiva la edición de todas las celdas
+                return false;
+            }
+        };
+            tabla1.setModel(model);
+    }
+    public void limpiarTextBox(){
+        txtbuscarCuenta.setText("");
+        codigo.setText("");
+        des.setText("");
+        deb.setText("");
+        hber.setText("");
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -296,6 +304,7 @@ public libroDiario() {
                 codigo.setText("");
                 deb.setText("");
                 hber.setText("");
+                txtbuscarCuenta.setText("");
                 DefaultTableModel modelo = (DefaultTableModel) tabla1.getModel();
                 Object[] fila = {fe,descripcion, codigoCuenta, debe, haber};
                 modelo.addRow(fila);
@@ -321,7 +330,7 @@ public libroDiario() {
     private void btnGuardarEnLibroMayorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarEnLibroMayorActionPerformed
         // TODO add your handling code here:
         if(lblDebe.getText().equals(lblHaber.getText()) && !"$0.00".equals(lblHaber.getText()) && !"$0.00".equals(lblDebe.getText())){
-            List<Integer> ids = new ArrayList();
+            List<String> ids = new ArrayList();
             int filas = tabla1.getRowCount();
             int columnas = tabla1.getColumnCount();
             //List<Integer> nCuentas = new ArrayList<>();
@@ -343,11 +352,19 @@ public libroDiario() {
                     }
                 }
                 catalogoDeCuentasDatos.guardarEnBaseDeDatos(fechaString,codigoTablaString, Descripcion, debe, haber);
-                ids.add(Integer.parseInt(catalogoDeCuentasDatos.retornarIDMayor()));
+                ids.add(catalogoDeCuentasDatos.retornarIDMayor());
+                for (String id: ids) {
+                    System.out.println(id);
+                }
                 //nCuentas.add(Integer.parseInt(codigoTablaString));
             }
+            JOptionPane.showMessageDialog(null, "Partida guardada con exito!!");
             
             
+         crearModelo();
+         limpiarTextBox();
+         lblDebe.setText("$0.00");
+         lblHaber.setText("$0.00");
         }else if("$0.00".equals(lblHaber.getText()) && "$0.00".equals(lblDebe.getText())){
             JOptionPane.showMessageDialog(null,"No puede registrar una transaccion sin movimiento de dinero","Error", JOptionPane.ERROR_MESSAGE);
         }else{
