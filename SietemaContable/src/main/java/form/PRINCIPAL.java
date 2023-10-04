@@ -230,12 +230,12 @@ public class PRINCIPAL extends javax.swing.JFrame {
     jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);    
     jScrollPane1.getVerticalScrollBar().setUnitIncrement(20);    
 // Configurar el layout del JPanel info
-    info.setLayout(new GridLayout(0, 2)); // Usamos FlowLayout con alineación izquierda
+    info.setLayout(new GridLayout(0, 1)); // Usamos FlowLayout con alineación izquierda
 
     // Agregar componentes a info (asegúrate de que sean lo suficientemente anchos)
     for (int i = 0; i < 50; i++) {
         LibroMayor libroM = new LibroMayor();
-        libroM.setPreferredSize(new Dimension(464, 295)); // Establecer un tamaño fijo
+        libroM.setPreferredSize(new Dimension(773, 311)); // Establecer un tamaño fijo
         info.add(libroM);
     }
         info.revalidate();
