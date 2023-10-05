@@ -15,7 +15,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  *
@@ -246,25 +250,73 @@ public class PRINCIPAL extends javax.swing.JFrame {
 //        info.repaint();
 
         CatalogoDeCuentasDatos catalogo = new CatalogoDeCuentasDatos();
-        catalogo.libroDiario();
+        List<List<Object>> cuentas = catalogo.libroDiario();
+        
+        Set<Integer> uniqueCodes = new HashSet<>();
+        
+        for (List<Object> row : cuentas) {
+            // Suponemos que el código se encuentra en la columna "codigo" (índice 2 en base 0)
+            Integer code = (Integer) row.get(2); // Obtén el código
 
-        List<String> nombreCuentas = new ArrayList<>();
-        for (int i = 0; i < 50; i++) {
-
+            if (code != null) {
+                uniqueCodes.add(code); // Agrega el código al conjunto
+            }
         }
+        
+        System.out.println(uniqueCodes);
+        
+        List<List<Object>> datosPorCodigos = new ArrayList<>();
 
+        // Crear un mapa para agrupar cuentas por código
+        Map<Integer, List<List<Object>>> cuentasAgrupadas = new HashMap<>();
+        for (Integer code : uniqueCodes) {
+            List<List<Object>> cuentasPorCodigo = new ArrayList<>();
+            for (List<Object> row : cuentas) {
+                Integer rowCode = (Integer) row.get(2); // Suponiendo que el código se encuentra en la columna 2
+                if (rowCode != null && rowCode.equals(code)) {
+                    cuentasPorCodigo.add(row);
+                }
+            }
+            cuentasAgrupadas.put(code, cuentasPorCodigo);
+        }
+        System.out.println(cuentasAgrupadas);
         // Agregar componentes a info (asegúrate de que sean lo suficientemente anchos)
-        for (int i = 0; i < 50; i++) {
+        for (Map.Entry<Integer, List<List<Object>>> entry : cuentasAgrupadas.entrySet()) {
+            Integer codigo = entry.getKey(); // Obtener el código
+            int bandera = 0;
+            List<List<Object>> datosPorCodigo = entry.getValue(); // Obtener los datos por código
             LibroMayor libroM = new LibroMayor();
-            // Obtener la descripción por ID y asignarla a nombreCuenta
-            String descripcion = catalogo.obtenerDescripcionPorId(i + 1); // Sumamos 1 para ajustar el ID
-            String fecha = catalogo.obtenerFechaPorId(1 + 1);
-            libroM.nombreCuenta.setText(descripcion);
             DefaultTableModel model = (DefaultTableModel) libroM.jTableLibroMayor.getModel();
-            model.setValueAt(fecha, 0, 0);
-            model.setValueAt(descripcion, 0, 1);
 
-//            libroM.jTableLibroMayor
+            for (List<Object> datos : datosPorCodigo) {
+                
+
+                // Obtener la descripción
+                String descripcion = (String) datos.get(3); // Suponiendo que la descripción está en la posición 1
+
+                // Obtener la fecha
+                String fecha = datos.get(1).toString(); // Suponiendo que la fecha está en la posición 0
+
+                String debe = (String) datos.get(4);
+                String haber = (String) datos.get(5);
+                // Asignar la descripción a nombreCuenta
+                libroM.nombreCuenta.setText(descripcion);
+                if (bandera == 0) {
+                    model.setValueAt(fecha, 0, 0);
+                    model.setValueAt(descripcion, 0, 1);
+                    model.setValueAt(debe, 0, 2);
+                    model.setValueAt(haber, 0, 3);
+                    bandera = bandera + 1; 
+                }else{
+                    model.setValueAt(fecha, bandera, 0);
+                    model.setValueAt(descripcion, bandera, 1);
+                    model.setValueAt(debe, bandera, 2);
+                    model.setValueAt(haber, bandera, 3);
+                    bandera = bandera + 1;                    
+                }
+
+            }
+            
             libroM.setPreferredSize(new Dimension(773, 311)); // Establecer un tamaño fijo
             info.add(libroM);
         }
@@ -272,7 +324,7 @@ public class PRINCIPAL extends javax.swing.JFrame {
         info.revalidate();
         info.repaint();
     }
-    //GEN-LAST:event_jButton3ActionPerformed
+//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
        
