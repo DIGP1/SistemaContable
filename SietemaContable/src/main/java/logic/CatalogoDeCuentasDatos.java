@@ -8,6 +8,8 @@ package logic;
  *
  * @author Isaac
  */
+import form.LibroMayor;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -42,6 +44,7 @@ public class CatalogoDeCuentasDatos {
         
         return cuentas;
     }
+
     
      public List<String> listarActivos() {
         List<String> cuentas = new ArrayList<>();
@@ -125,7 +128,7 @@ public valoresBusqueda buscarNombreCuentaPorCodigo(String codigoIngresado) {
 
     public void guardarEnBaseDeDatos(String fecha,String Codigo,String  Descripcion, String Debe, String Haber) {
         String sql = "INSERT INTO LIBRO_DIARIO (Fecha,Codigo,Descripcion,  Debe, Haber) VALUES (?, ?, ?, ?,?)";
-        
+
         try (Connection conn = dbConnection.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, fecha);
@@ -133,9 +136,9 @@ public valoresBusqueda buscarNombreCuentaPorCodigo(String codigoIngresado) {
             pstmt.setString(3, Descripcion);
             pstmt.setString(4, Debe);
             pstmt.setString(5, Haber);
-            
+
             int filasAfectadas = pstmt.executeUpdate();
-            
+
             if (filasAfectadas > 0) {
                 conn.close();
                 System.out.println("Datos guardados en la base de datos.");
@@ -148,7 +151,121 @@ public valoresBusqueda buscarNombreCuentaPorCodigo(String codigoIngresado) {
             System.out.println("Error al guardar en la base de datos: " + e.getMessage());
         }
     }
-    
+
+    public void libroDiario() {
+        String sql = "SELECT * FROM LIBRO_DIARIO";
+
+        try (Connection conn = dbConnection.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            System.out.println(sql);
+
+            while (rs.next()) {
+                // Aquí puedes acceder a cada columna de la fila actual
+                int id = rs.getInt("ID"); // Reemplaza "ID" con el nombre real de la columna
+                String fecha = rs.getString("Fecha"); // Reemplaza "Fecha" con el nombre real de la columna
+                // Y así sucesivamente para cada columna que desees mostrar
+                int idMovimientosLD = rs.getInt("codigo"); // Nueva columna
+                String descripcionTransaccion = rs.getString("descripcion"); // Nueva columna
+                String DebeTransaccion = rs.getString("debe");
+                String HaberTransaccion = rs.getString("haber");
+
+                // Imprimir los datos en la consola
+                System.out.println("ID: " + id);
+                System.out.println("Fecha: " + fecha);
+                System.out.println("codigo: " + idMovimientosLD); // Mostrar idMovimientosLD
+                System.out.println("descripcion: " + descripcionTransaccion); // Mostrar Descripcion
+                System.out.println("debe: " + DebeTransaccion);
+                System.out.println("haber: " + HaberTransaccion);
+                // Imprime las demás columnas de la misma manera
+
+                System.out.println(); // Separador entre registros
+            }
+
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public String obtenerDescripcionPorId(int id) {
+        String descripcion = null;
+        String sql = "SELECT descripcion FROM LIBRO_DIARIO WHERE ID = ?";
+
+        try (Connection conn = dbConnection.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                descripcion = rs.getString("descripcion");
+            }
+
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return descripcion;
+    }
+
+
+
+    public String obtenerFechaPorId(int id) {
+        String fecha = null;
+        String sql = "SELECT fecha FROM LIBRO_DIARIO WHERE ID = ?";
+
+        try (Connection conn = dbConnection.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                fecha = rs.getString("fecha");
+            }
+
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return fecha;
+    }
+
+    public void transacciones() {
+        String sql = "SELECT * FROM TRANSACCIONES_LIBRO_DIARIO";
+
+        try (Connection conn = dbConnection.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            System.out.println(sql);
+
+            while (rs.next()) {
+                // Aquí puedes acceder a cada columna de la fila actual
+                int id = rs.getInt("ID"); // Reemplaza "ID" con el nombre real de la columna
+                String fecha = rs.getString("Fecha"); // Reemplaza "Fecha" con el nombre real de la columna
+                // Y así sucesivamente para cada columna que desees mostrar
+                String idMovimientosLD = rs.getString("idMovimientosLD"); // Nueva columna
+                String descripcionTransaccion = rs.getString("descripcionTransaccion"); // Nueva columna
+
+                // Imprimir los datos en la consola
+                System.out.println("ID: " + id);
+                System.out.println("Fecha: " + fecha);
+                System.out.println("idMovimientosLD: " + idMovimientosLD); // Mostrar idMovimientosLD
+                System.out.println("descripcionTransaccion: " + descripcionTransaccion); // Mostrar Descripcion
+
+                // Imprime las demás columnas de la misma manera
+
+                System.out.println(); // Separador entre registros
+            }
+
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+
     public String retornarIDMayor(){
         String cuenta = "";
         String sql = "SELECT MAX(id) FROM LIBRO_DIARIO;";

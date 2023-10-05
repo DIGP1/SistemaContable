@@ -4,11 +4,18 @@
  */
 package form;
 
+import logic.CatalogoDeCuentasDatos;
+import logic.DatabaseConnection;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.sql.Connection;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.table.DefaultTableModel;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -223,24 +230,49 @@ public class PRINCIPAL extends javax.swing.JFrame {
         info.repaint();
     }
 
+    private DatabaseConnection dbConnection = new DatabaseConnection();
+
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-    
-    info.removeAll();
-    jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);    
-    jScrollPane1.getVerticalScrollBar().setUnitIncrement(20);    
-// Configurar el layout del JPanel info
-    info.setLayout(new GridLayout(0, 1)); // Usamos FlowLayout con alineación izquierda
 
-    // Agregar componentes a info (asegúrate de que sean lo suficientemente anchos)
-    for (int i = 0; i < 50; i++) {
-        LibroMayor libroM = new LibroMayor();
-        libroM.setPreferredSize(new Dimension(773, 311)); // Establecer un tamaño fijo
-        info.add(libroM);
-    }
+        info.removeAll();
+        jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        jScrollPane1.getVerticalScrollBar().setUnitIncrement(20);
+        // Configurar el layout del JPanel info
+        info.setLayout(new GridLayout(0, 1)); // Usamos FlowLayout con alineación izquierda
+
+        // Revalidar y repintar el panel info para mostrar los cambios
+//        info.revalidate();
+//        info.repaint();
+
+        CatalogoDeCuentasDatos catalogo = new CatalogoDeCuentasDatos();
+        catalogo.libroDiario();
+
+        List<String> nombreCuentas = new ArrayList<>();
+        for (int i = 0; i < 50; i++) {
+
+        }
+
+        // Agregar componentes a info (asegúrate de que sean lo suficientemente anchos)
+        for (int i = 0; i < 50; i++) {
+            LibroMayor libroM = new LibroMayor();
+            // Obtener la descripción por ID y asignarla a nombreCuenta
+            String descripcion = catalogo.obtenerDescripcionPorId(i + 1); // Sumamos 1 para ajustar el ID
+            String fecha = catalogo.obtenerFechaPorId(1 + 1);
+            libroM.nombreCuenta.setText(descripcion);
+            DefaultTableModel model = (DefaultTableModel) libroM.jTableLibroMayor.getModel();
+            model.setValueAt(fecha, 0, 0);
+            model.setValueAt(descripcion, 0, 1);
+
+//            libroM.jTableLibroMayor
+            libroM.setPreferredSize(new Dimension(773, 311)); // Establecer un tamaño fijo
+            info.add(libroM);
+        }
+
         info.revalidate();
         info.repaint();
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }
+    //GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
        
