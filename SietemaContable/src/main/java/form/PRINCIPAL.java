@@ -238,16 +238,7 @@ public class PRINCIPAL extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-            String[] columnNames = {"Fecha", "Descripcion", "Debe", "Haber"};
 
-            // Crear un modelo de datos no editable
-            DefaultTableModel model = new DefaultTableModel(null, columnNames) {
-            @Override
-                public boolean isCellEditable(int row, int column) {
-                    // Desactiva la edición de todas las celdas
-                    return false;
-                }
-            };
         info.removeAll();
         jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         jScrollPane1.getVerticalScrollBar().setUnitIncrement(20);
@@ -292,6 +283,16 @@ public class PRINCIPAL extends javax.swing.JFrame {
 
         // Agregar componentes a info (asegúrate de que sean lo suficientemente anchos)
         for (Map.Entry<Integer, List<List<Object>>> entry : cuentasAgrupadas.entrySet()) {
+            String[] columnNames = {"Fecha", "Descripcion", "Debe", "Haber"};
+
+            // Crear un modelo de datos no editable
+            DefaultTableModel model = new DefaultTableModel(null, columnNames) {
+            @Override
+                public boolean isCellEditable(int row, int column) {
+                    // Desactiva la edición de todas las celdas
+                    return false;
+                }
+            };
             Integer codigo = entry.getKey(); // Obtener el código
             int bandera = 0;
             List<List<Object>> datosPorCodigo = entry.getValue(); // Obtener los datos por código
@@ -318,12 +319,13 @@ public class PRINCIPAL extends javax.swing.JFrame {
                 System.out.println(fecha+descripcion+debe+haber);
                 Object[] fila = {fecha,descripcion, debe, haber};
                 model.addRow(fila);
-
+                libroM.getModel(model);
             }
+            
             System.out.println(model.getColumnCount());
             System.out.println(model);
             System.out.println(model.getValueAt(0,2).toString());
- /*           float debe = 0;
+            float debe = 0;
             float haber = 0;
                 for(int i = 0; i<model.getRowCount(); i++){
                     if(!"".equals(model.getValueAt(i,2).toString())){
@@ -339,10 +341,15 @@ public class PRINCIPAL extends javax.swing.JFrame {
             if (debe>haber) {
                 float total = debe-haber;
                 libroM.totalDebe.setText("$"+total);
+                libroM.totalDebe.setVisible(true);
+                libroM.totalHaber.setVisible(false);
+                
             }else{
                 float total = haber-debe;
-                libroM.totalHaber.setText("$"+total);                
-            }*/
+                libroM.totalHaber.setText("$"+total);  
+                libroM.totalHaber.setVisible(true);
+                libroM.totalDebe.setVisible(false);
+            }
             libroM.setPreferredSize(new Dimension(773, 311)); // Establecer un tamaño fijo
             info.add(libroM);
         }
