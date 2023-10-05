@@ -45,7 +45,7 @@ public class CatalogoDeCuentasDatos {
         return cuentas;
     }
 
-    
+
      public List<String> listarActivos() {
         List<String> cuentas = new ArrayList<>();
         
@@ -152,40 +152,30 @@ public valoresBusqueda buscarNombreCuentaPorCodigo(String codigoIngresado) {
         }
     }
 
-    public void libroDiario() {
+    public List<List<Object>> libroDiario() { 
         String sql = "SELECT * FROM LIBRO_DIARIO";
+        List<List<Object>> resultList = new ArrayList<>();
 
         try (Connection conn = dbConnection.connect();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
-            System.out.println(sql);
 
             while (rs.next()) {
-                // Aquí puedes acceder a cada columna de la fila actual
-                int id = rs.getInt("ID"); // Reemplaza "ID" con el nombre real de la columna
-                String fecha = rs.getString("Fecha"); // Reemplaza "Fecha" con el nombre real de la columna
-                // Y así sucesivamente para cada columna que desees mostrar
-                int idMovimientosLD = rs.getInt("codigo"); // Nueva columna
-                String descripcionTransaccion = rs.getString("descripcion"); // Nueva columna
-                String DebeTransaccion = rs.getString("debe");
-                String HaberTransaccion = rs.getString("haber");
+                List<Object> row = new ArrayList<>();
+                row.add(rs.getInt("ID"));
+                row.add(rs.getString("Fecha"));
+                row.add(rs.getInt("codigo"));
+                row.add(rs.getString("descripcion"));
+                row.add(rs.getString("debe"));
+                row.add(rs.getString("haber"));
 
-                // Imprimir los datos en la consola
-                System.out.println("ID: " + id);
-                System.out.println("Fecha: " + fecha);
-                System.out.println("codigo: " + idMovimientosLD); // Mostrar idMovimientosLD
-                System.out.println("descripcion: " + descripcionTransaccion); // Mostrar Descripcion
-                System.out.println("debe: " + DebeTransaccion);
-                System.out.println("haber: " + HaberTransaccion);
-                // Imprime las demás columnas de la misma manera
-
-                System.out.println(); // Separador entre registros
+                resultList.add(row);
             }
-
             conn.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+        return resultList; 
     }
 
     public String obtenerDescripcionPorId(int id) {

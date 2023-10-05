@@ -238,7 +238,16 @@ public class PRINCIPAL extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+            String[] columnNames = {"Fecha", "Descripcion", "Debe", "Haber"};
 
+            // Crear un modelo de datos no editable
+            DefaultTableModel model = new DefaultTableModel(null, columnNames) {
+            @Override
+                public boolean isCellEditable(int row, int column) {
+                    // Desactiva la edición de todas las celdas
+                    return false;
+                }
+            };
         info.removeAll();
         jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         jScrollPane1.getVerticalScrollBar().setUnitIncrement(20);
@@ -280,13 +289,14 @@ public class PRINCIPAL extends javax.swing.JFrame {
             cuentasAgrupadas.put(code, cuentasPorCodigo);
         }
         System.out.println(cuentasAgrupadas);
+
         // Agregar componentes a info (asegúrate de que sean lo suficientemente anchos)
         for (Map.Entry<Integer, List<List<Object>>> entry : cuentasAgrupadas.entrySet()) {
             Integer codigo = entry.getKey(); // Obtener el código
             int bandera = 0;
             List<List<Object>> datosPorCodigo = entry.getValue(); // Obtener los datos por código
             LibroMayor libroM = new LibroMayor();
-            DefaultTableModel model = (DefaultTableModel) libroM.jTableLibroMayor.getModel();
+            
 
             for (List<Object> datos : datosPorCodigo) {
                 
@@ -296,27 +306,43 @@ public class PRINCIPAL extends javax.swing.JFrame {
 
                 // Obtener la fecha
                 String fecha = datos.get(1).toString(); // Suponiendo que la fecha está en la posición 0
-
+                
+                // Obtener debe
                 String debe = (String) datos.get(4);
+                
+                // Obtener haber
                 String haber = (String) datos.get(5);
+                
                 // Asignar la descripción a nombreCuenta
                 libroM.nombreCuenta.setText(descripcion);
-                if (bandera == 0) {
-                    model.setValueAt(fecha, 0, 0);
-                    model.setValueAt(descripcion, 0, 1);
-                    model.setValueAt(debe, 0, 2);
-                    model.setValueAt(haber, 0, 3);
-                    bandera = bandera + 1; 
-                }else{
-                    model.setValueAt(fecha, bandera, 0);
-                    model.setValueAt(descripcion, bandera, 1);
-                    model.setValueAt(debe, bandera, 2);
-                    model.setValueAt(haber, bandera, 3);
-                    bandera = bandera + 1;                    
-                }
+                System.out.println(fecha+descripcion+debe+haber);
+                Object[] fila = {fecha,descripcion, debe, haber};
+                model.addRow(fila);
 
             }
-            
+            System.out.println(model.getColumnCount());
+            System.out.println(model);
+            System.out.println(model.getValueAt(0,2).toString());
+ /*           float debe = 0;
+            float haber = 0;
+                for(int i = 0; i<model.getRowCount(); i++){
+                    if(!"".equals(model.getValueAt(i,2).toString())){
+                        System.out.println(model.getValueAt(i,2).toString());
+                        String numeroDebe = model.getValueAt(i,2).toString();
+                        debe = debe + Float.parseFloat(numeroDebe);
+                    }
+                    if(!"".equals(model.getValueAt(i,3).toString())){
+                        String numeroHaber = model.getValueAt(i, 3).toString();
+                        haber = haber + Float.parseFloat(numeroHaber);
+                    }
+                }
+            if (debe>haber) {
+                float total = debe-haber;
+                libroM.totalDebe.setText("$"+total);
+            }else{
+                float total = haber-debe;
+                libroM.totalHaber.setText("$"+total);                
+            }*/
             libroM.setPreferredSize(new Dimension(773, 311)); // Establecer un tamaño fijo
             info.add(libroM);
         }

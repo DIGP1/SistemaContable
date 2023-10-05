@@ -322,7 +322,7 @@ public libroDiario() {
                 lblDebe.setText("$ "+a);
                 lblHaber.setText("$ "+b);
             }else{
-                JOptionPane.showMessageDialog(null, "Debe de rellenar todos los campos :) no zsea gei","ERROR",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Debe de rellenar todos los campos.","ERROR",JOptionPane.ERROR_MESSAGE);
             }
     }//GEN-LAST:event_guardarActionPerformed
 
