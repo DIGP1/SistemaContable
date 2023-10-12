@@ -44,6 +44,27 @@ public class CatalogoDeCuentasDatos {
         
         return cuentas;
     }
+        public HashMap<String, String> CargarLibroDiario(){
+        HashMap<String, String> inforLibro = new HashMap<>();
+        
+        String sql = "SELECT * FROM TRANSACCIONES_LIBRO_DIARIO";
+        
+        try (Connection conn = dbConnection.connect();
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)){
+            inforLibro.put("fecha", rs.getString("fecha"));
+            inforLibro.put("idMovimientos", rs.getString("idMovimientosLD"));
+            inforLibro.put("descripcion", rs.getString("descripcionTransaccion"));
+            while (rs.next()) {
+                inforLibro.put("fecha", rs.getString("fecha"));
+                inforLibro.put("idMovimientos", rs.getString("idMovimientosLD"));
+                inforLibro.put("descripcion", rs.getString("descripcionTransaccion"));
+            }
+        }catch (SQLException e){
+            System.out.println(e.getMessage());
+        }  
+        return inforLibro;
+    }
 
 
      public List<String> filtros(String ft) {
