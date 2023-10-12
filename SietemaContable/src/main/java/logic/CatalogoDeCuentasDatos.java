@@ -46,10 +46,10 @@ public class CatalogoDeCuentasDatos {
     }
 
 
-     public List<String> listarActivos() {
+     public List<String> filtros(String ft) {
         List<String> cuentas = new ArrayList<>();
         
-        String sql = "SELECT * FROM CATALOGO_DE_CUENTAS WHERE Codigo LIKE '1%'";
+        String sql = "SELECT * FROM CATALOGO_DE_CUENTAS WHERE Codigo LIKE '"+ft+"%'";
         
         try (Connection conn = dbConnection.connect();
              Statement stmt = conn.createStatement();
@@ -67,26 +67,7 @@ public class CatalogoDeCuentasDatos {
         return cuentas;
     }
     
-    public List<String> listarPasivos() {
-        List<String> cuentas = new ArrayList<>();
-        
-        String sql = "SELECT * FROM CATALOGO_DE_CUENTAS WHERE Codigo LIKE '2%'";
-        
-        try (Connection conn = dbConnection.connect();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-
-            while (rs.next()) {
-                String cuenta = rs.getString("Codigo") + "\t" +  
-                               rs.getString("Cuenta");
-                cuentas.add(cuenta);
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        
-        return cuentas;
-    }
+    
     
      
 public valoresBusqueda buscarNombreCuentaPorCodigo(String codigoIngresado) {

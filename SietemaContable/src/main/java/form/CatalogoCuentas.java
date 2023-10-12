@@ -108,11 +108,11 @@ private CatalogoDeCuentasDatos catalogoDeCuentasDatos = new CatalogoDeCuentasDat
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        cargarActivos();
+        filtrado("1%");
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        cargarPasivos();
+       filtrado("2%");
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
@@ -162,8 +162,8 @@ private CatalogoDeCuentasDatos catalogoDeCuentasDatos = new CatalogoDeCuentasDat
     }
 }
 
-  private void cargarActivos() {
-    List<String> cuentas = catalogoDeCuentasDatos.listarActivos();
+  private void filtrado(String filtro) {
+    List<String> cuentas = catalogoDeCuentasDatos.filtros(filtro);
     DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
     
    
@@ -176,19 +176,7 @@ private CatalogoDeCuentasDatos catalogoDeCuentasDatos = new CatalogoDeCuentasDat
     }
 }
 
-   private void cargarPasivos() {
-    List<String> cuentas = catalogoDeCuentasDatos.listarPasivos();
-    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-    
    
-    model.setRowCount(1);
-    
-    
-    for (String cuenta : cuentas) {
-        String[] cuentaSplit = cuenta.split("\t");
-        model.addRow(new Object[]{cuentaSplit[0], cuentaSplit[1]});
-    }
-}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
