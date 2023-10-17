@@ -1,7 +1,11 @@
 package form;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import logic.CatalogoDeCuentasDatos;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -19,11 +23,43 @@ public class SegLibroDiario extends javax.swing.JPanel {
      */
     public SegLibroDiario() {
         initComponents();
+        CatalogoDeCuentasDatos cc = new CatalogoDeCuentasDatos();
+        HashMap<String, List> inforLibro = new HashMap<>();
+        inforLibro = cc.CargarLibroDiario();
+        ingresarDatosTabla(inforLibro);
         
+    }
+    
+    
+    public void ingresarDatosTabla(HashMap<String, List> info){
+        CatalogoDeCuentasDatos cc = new CatalogoDeCuentasDatos();
+        String ids;
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         
+        for (int i = 0; i < info.get("fecha").size(); i++) {
+            ids =  (String) info.get("idMovimientos").get(i);
+             String[] id = ids.split(",");
+             model.addRow(new Object[]{info.get("fecha").get(i),"                                   Transaccion "+(i+1),"","",""});
+             for(String idString : id){
+                 String movimiento = cc.obtenerMovimiento(Integer.parseInt(idString));
+                 String[] movientosSplit = movimiento.split("\t");
+                 if(!"0".equals(movientosSplit[2])){
+                     model.addRow(new Object[]{"",movientosSplit[1],movientosSplit[0],movientosSplit[2],""});
+                 }else{
+                     model.addRow(new Object[]{"","             "+movientosSplit[1],movientosSplit[0],"",movientosSplit[3]});
+                 }
+                 
+             }
+             model.addRow(new Object[]{"",info.get("descripcion").get(i),"","",""});
+        }
+                
+                
+               
         
         
     }
+    
+
 
 
     /**
@@ -59,10 +95,7 @@ public class SegLibroDiario extends javax.swing.JPanel {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "Fecha", "Descripcion", "Codigo", "Debe", "Haber"
@@ -103,16 +136,16 @@ public class SegLibroDiario extends javax.swing.JPanel {
                         .addGap(143, 143, 143)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 687, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(373, 373, 373)
+                        .addGap(409, 409, 409)
                         .addComponent(jLabel1)))
-                .addContainerGap(143, Short.MAX_VALUE))
+                .addContainerGap(140, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(28, Short.MAX_VALUE)
+                .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 492, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );

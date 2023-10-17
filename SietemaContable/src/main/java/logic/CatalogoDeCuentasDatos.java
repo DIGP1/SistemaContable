@@ -44,27 +44,64 @@ public class CatalogoDeCuentasDatos {
         
         return cuentas;
     }
-        public HashMap<String, String> CargarLibroDiario(){
-        HashMap<String, String> inforLibro = new HashMap<>();
+        public HashMap<String, List> CargarLibroDiario(){
+        HashMap<String, List> inforLibro = new HashMap<>();
+        List<String> fechas = new ArrayList<>();
+        List<String> movimientos = new ArrayList<>();
+        List<String> descripcion = new ArrayList<>();
         
         String sql = "SELECT * FROM TRANSACCIONES_LIBRO_DIARIO";
         
         try (Connection conn = dbConnection.connect();
                 Statement stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery(sql)){
-            inforLibro.put("fecha", rs.getString("fecha"));
-            inforLibro.put("idMovimientos", rs.getString("idMovimientosLD"));
-            inforLibro.put("descripcion", rs.getString("descripcionTransaccion"));
             while (rs.next()) {
-                inforLibro.put("fecha", rs.getString("fecha"));
-                inforLibro.put("idMovimientos", rs.getString("idMovimientosLD"));
-                inforLibro.put("descripcion", rs.getString("descripcionTransaccion"));
+                fechas.add(rs.getString("fecha"));
+                movimientos.add(rs.getString("idMovimientosLD"));
+                descripcion.add(rs.getString("descripcionTransaccion"));
             }
         }catch (SQLException e){
             System.out.println(e.getMessage());
         }  
+        inforLibro.put("fecha", fechas);
+        inforLibro.put("idMovimientos", movimientos);
+        inforLibro.put("descripcion", descripcion);
         return inforLibro;
     }
+        
+        public String obtenerMovimiento(int id){
+            String movimiento = "";
+            String sql = "SELECT * FROM LIBRO_DIARIO WHERE id = ?";
+        
+        try (Connection conn = dbConnection.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                movimiento = rs.getString("Codigo")+ "\t" + rs.getString("Descripcion");
+                if(!"".equals(rs.getString("Debe"))){
+                    movimiento += "\t" + rs.getString("Debe");
+                }else{
+                    movimiento += "\t" + "0";
+                }
+                if(!"".equals(rs.getString("Haber"))){
+                    movimiento += "\t" + rs.getString("Haber");
+                }else{
+                    movimiento += "\t" + "0";
+                }
+               
+               
+            }
+
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return movimiento;
+        }
+        
+        
 
 
      public List<String> filtros(String ft) {
