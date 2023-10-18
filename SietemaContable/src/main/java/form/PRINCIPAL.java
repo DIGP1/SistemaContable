@@ -316,7 +316,9 @@ public class PRINCIPAL extends javax.swing.JFrame {
             int bandera = 0;
             List<List<Object>> datosPorCodigo = entry.getValue(); // Obtener los datos por código
             LibroMayor libroM = new LibroMayor();
-            
+
+            float debeTotal = 0;
+            float haberTotal = 0;
 
             for (List<Object> datos : datosPorCodigo) {
                 
@@ -328,15 +330,41 @@ public class PRINCIPAL extends javax.swing.JFrame {
                 String fecha = datos.get(1).toString(); // Suponiendo que la fecha está en la posición 0
                 
                 // Obtener debe
-                String debe = (String) datos.get(4);
+//                String debe = (String) datos.get(4);
                 
                 // Obtener haber
-                String haber = (String) datos.get(5);
-                
+//                String haber = (String) datos.get(5);
+
+                // Obtener el código de la cuenta
+                String codigoCuenta = datos.get(2).toString();
+
+                // Evaluar el primer dígito del código para determinar si es activo o pasivo
+                char primerDigito = codigoCuenta.charAt(0);
+
+                String debeStr = (String) datos.get(4);
+                String haberStr = (String) datos.get(5);
+
+                if (primerDigito == '1') {
+                    // Es una cuenta de activo
+                    if (!debeStr.isEmpty()) {
+                        debeTotal += Float.parseFloat(debeStr); // Convierte la cadena en un número y suma
+                    }
+                    if (!haberStr.isEmpty()) {
+                        haberTotal += Float.parseFloat(haberStr); // Convierte la cadena en un número y suma
+                    }
+                } else if (primerDigito == '2') {
+                    // Es una cuenta de pasivo
+                    if (!haberStr.isEmpty()) {
+                        haberTotal += Float.parseFloat(haberStr); // Convierte la cadena en un número y suma
+                    }
+                    if (!debeStr.isEmpty()) {
+                        debeTotal += Float.parseFloat(debeStr); // Convierte la cadena en un número y suma
+                    }
+                }
                 // Asignar la descripción a nombreCuenta
                 libroM.nombreCuenta.setText(descripcion);
-                System.out.println(fecha+descripcion+debe+haber);
-                Object[] fila = {fecha,descripcion, debe, haber};
+//                System.out.println(fecha+descripcion+debe+haber);
+                Object[] fila = {fecha,descripcion, debeStr, haberStr};
                 model.addRow(fila);
                 libroM.getModel(model);
             }
@@ -344,31 +372,43 @@ public class PRINCIPAL extends javax.swing.JFrame {
             System.out.println(model.getColumnCount());
             System.out.println(model);
             System.out.println(model.getValueAt(0,2).toString());
-            float debe = 0;
-            float haber = 0;
-                for(int i = 0; i<model.getRowCount(); i++){
-                    if(!"".equals(model.getValueAt(i,2).toString())){
-                        System.out.println(model.getValueAt(i,2).toString());
-                        String numeroDebe = model.getValueAt(i,2).toString();
-                        debe = debe + Float.parseFloat(numeroDebe);
-                    }
-                    if(!"".equals(model.getValueAt(i,3).toString())){
-                        String numeroHaber = model.getValueAt(i, 3).toString();
-                        haber = haber + Float.parseFloat(numeroHaber);
-                    }
-                }
-            if (debe>haber) {
-                float total = debe-haber;
-                libroM.totalDebe.setText("$"+total);
+            float saldoFinal = debeTotal - haberTotal;
+
+            if (saldoFinal > 0) {
+                libroM.totalDebe.setText("$" + saldoFinal);
                 libroM.totalDebe.setVisible(true);
                 libroM.totalHaber.setVisible(false);
-                
-            }else{
-                float total = haber-debe;
-                libroM.totalHaber.setText("$"+total);  
+            } else {
+                libroM.totalHaber.setText("$" + saldoFinal);
                 libroM.totalHaber.setVisible(true);
                 libroM.totalDebe.setVisible(false);
             }
+
+//            float debe = 0;
+//            float haber = 0;
+//                for(int i = 0; i<model.getRowCount(); i++){
+//                    if(!"".equals(model.getValueAt(i,2).toString())){
+//                        System.out.println(model.getValueAt(i,2).toString());
+//                        String numeroDebe = model.getValueAt(i,2).toString();
+//                        debe = debe + Float.parseFloat(numeroDebe);
+//                    }
+//                    if(!"".equals(model.getValueAt(i,3).toString())){
+//                        String numeroHaber = model.getValueAt(i, 3).toString();
+//                        haber = haber + Float.parseFloat(numeroHaber);
+//                    }
+//                }
+//            if (debe>haber) {
+//                float total = debe-haber;
+//                libroM.totalDebe.setText("$"+total);
+//                libroM.totalDebe.setVisible(true);
+//                libroM.totalHaber.setVisible(false);
+//
+//            }else{
+//                float total = haber-debe;
+//                libroM.totalHaber.setText("$"+total);
+//                libroM.totalHaber.setVisible(true);
+//                libroM.totalDebe.setVisible(false);
+//            }
             libroM.setPreferredSize(new Dimension(773, 311)); // Establecer un tamaño fijo
             info.add(libroM);
         }
