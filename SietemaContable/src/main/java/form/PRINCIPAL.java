@@ -258,67 +258,122 @@ public class PRINCIPAL extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
 
-        info.removeAll(); // Elimina todos los componentes del contenedor 'info'.
-        jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); // Configura la política de la barra de desplazamiento vertical del JScrollPane.
-        jScrollPane1.getVerticalScrollBar().setUnitIncrement(20); // Establece el incremento unitario de la barra de desplazamiento vertical.
+        info.removeAll();
+        jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        jScrollPane1.getVerticalScrollBar().setUnitIncrement(20);
+        // Configurar el layout del JPanel info
+        info.setLayout(new GridLayout(0, 1)); // Usamos FlowLayout con alineación izquierda
 
-        info.setLayout(new GridLayout(0, 1)); // Establece el diseño del contenedor 'info' como GridLayout con una columna y filas variables.
+        // Revalidar y repintar el panel info para mostrar los cambios
+//        info.revalidate();
+//        info.repaint();
 
-        CatalogoDeCuentasDatos catalogo = new CatalogoDeCuentasDatos(); // Crea una instancia de la clase 'CatalogoDeCuentasDatos'.
-        List<List<Object>> cuentas = catalogo.libroDiario(); // Obtiene una lista de cuentas a partir de la función 'libroDiario' de 'catalogo'.
-
-        Map<Integer, List<List<Object>>> cuentasAgrupadas = new HashMap<>(); // Crea un mapa para agrupar las cuentas por código.
-
-        // Itera a través de la lista de cuentas y las agrupa por su código en 'cuentasAgrupadas'.
+        CatalogoDeCuentasDatos catalogo = new CatalogoDeCuentasDatos();
+        List<List<Object>> cuentas = catalogo.libroDiario();
+        
+        Set<Integer> uniqueCodes = new HashSet<>();
+        
         for (List<Object> row : cuentas) {
-            Integer code = (Integer) row.get(2); // Obtiene el código de la cuenta.
+            // Suponemos que el código se encuentra en la columna "codigo" (índice 2 en base 0)
+            Integer code = (Integer) row.get(2); // Obtén el código
+
             if (code != null) {
-                cuentasAgrupadas
-                    .computeIfAbsent(code, k -> new ArrayList<>()) // Agrega la cuenta al mapa bajo su código o crea una nueva lista si no existe.
-                    .add(row);
+                uniqueCodes.add(code); // Agrega el código al conjunto
             }
         }
+        
+        System.out.println(uniqueCodes);
+        
+        List<List<Object>> datosPorCodigos = new ArrayList<>();
 
-        // Itera a través de las cuentas agrupadas.
+        // Crear un mapa para agrupar cuentas por código
+        Map<Integer, List<List<Object>>> cuentasAgrupadas = new HashMap<>();
+        for (Integer code : uniqueCodes) {
+            List<List<Object>> cuentasPorCodigo = new ArrayList<>();
+            for (List<Object> row : cuentas) {
+                Integer rowCode = (Integer) row.get(2); // Suponiendo que el código se encuentra en la columna 2
+                if (rowCode != null && rowCode.equals(code)) {
+                    cuentasPorCodigo.add(row);
+                }
+            }
+            cuentasAgrupadas.put(code, cuentasPorCodigo);
+        }
+        System.out.println(cuentasAgrupadas);
+
+        // Agregar componentes a info (asegúrate de que sean lo suficientemente anchos)
         for (Map.Entry<Integer, List<List<Object>>> entry : cuentasAgrupadas.entrySet()) {
-            Integer codigo = entry.getKey(); // Obtiene el código de la cuenta.
-            List<List<Object>> datosPorCodigo = entry.getValue(); // Obtiene los datos de las cuentas con el mismo código.
-            LibroMayor libroM = new LibroMayor(); // Crea una instancia de 'LibroMayor'.
-
-            // Define las columnas del modelo de tabla.
             String[] columnNames = {"Fecha", "Descripcion", "Debe", "Haber"};
+
+            // Crear un modelo de datos no editable
             DefaultTableModel model = new DefaultTableModel(null, columnNames) {
-                @Override
+            @Override
                 public boolean isCellEditable(int row, int column) {
-                    return false; // Evita que las celdas de la tabla sean editables.
+                    // Desactiva la edición de todas las celdas
+                    return false;
                 }
             };
+            Integer codigo = entry.getKey(); // Obtener el código
+            int bandera = 0;
+            List<List<Object>> datosPorCodigo = entry.getValue(); // Obtener los datos por código
+            LibroMayor libroM = new LibroMayor();
 
             float debeTotal = 0;
             float haberTotal = 0;
 
-            // Itera a través de los datos de las cuentas con el mismo código.
             for (List<Object> datos : datosPorCodigo) {
-                String fecha = datos.get(1).toString();
-                String descripcion = (String) datos.get(3);
+                
+
+                // Obtener la descripción
+                String descripcion = (String) datos.get(3); // Suponiendo que la descripción está en la posición 1
+
+                // Obtener la fecha
+                String fecha = datos.get(1).toString(); // Suponiendo que la fecha está en la posición 0
+                
+                // Obtener debe
+//                String debe = (String) datos.get(4);
+                
+                // Obtener haber
+//                String haber = (String) datos.get(5);
+
+                // Obtener el código de la cuenta
+                String codigoCuenta = datos.get(2).toString();
+
+                // Evaluar el primer dígito del código para determinar si es activo o pasivo
+                char primerDigito = codigoCuenta.charAt(0);
+
                 String debeStr = (String) datos.get(4);
                 String haberStr = (String) datos.get(5);
-                Object[] fila = {fecha, descripcion, debeStr, haberStr};
+
+                if (primerDigito == '1') {
+                    // Es una cuenta de activo
+                    if (!debeStr.isEmpty()) {
+                        debeTotal += Float.parseFloat(debeStr); // Convierte la cadena en un número y suma
+                    }
+                    if (!haberStr.isEmpty()) {
+                        haberTotal += Float.parseFloat(haberStr); // Convierte la cadena en un número y suma
+                    }
+                } else if (primerDigito == '2') {
+                    // Es una cuenta de pasivo
+                    if (!haberStr.isEmpty()) {
+                        haberTotal += Float.parseFloat(haberStr); // Convierte la cadena en un número y suma
+                    }
+                    if (!debeStr.isEmpty()) {
+                        debeTotal += Float.parseFloat(debeStr); // Convierte la cadena en un número y suma
+                    }
+                }
+                // Asignar la descripción a nombreCuenta
+                libroM.nombreCuenta.setText(descripcion);
+//                System.out.println(fecha+descripcion+debe+haber);
+                Object[] fila = {fecha,descripcion, debeStr, haberStr};
                 model.addRow(fila);
-
-                // Calcula los totales de 'debe' y 'haber' para el código actual.
-                if (!debeStr.isEmpty()) {
-                    debeTotal += Float.parseFloat(debeStr);
-                }
-                if (!haberStr.isEmpty()) {
-                    haberTotal += Float.parseFloat(haberStr);
-                }
+                libroM.getModel(model);
             }
+            
+            System.out.println(model.getColumnCount());
+            System.out.println(model);
+            System.out.println(model.getValueAt(0,2).toString());
+            float saldoFinal = debeTotal - haberTotal;
 
-            libroM.getModel(model); // Establece el modelo de tabla en el componente 'libroM'.
-            float saldoFinal = debeTotal - haberTotal; // Calcula el saldo final para el código actual.
-
-            // Actualiza las etiquetas de totales en función del saldo final.
             if (saldoFinal > 0) {
                 libroM.totalDebe.setText("$" + saldoFinal);
                 libroM.totalDebe.setVisible(true);
@@ -329,13 +384,37 @@ public class PRINCIPAL extends javax.swing.JFrame {
                 libroM.totalDebe.setVisible(false);
             }
 
-            libroM.setPreferredSize(new Dimension(773, 311)); // Establece un tamaño fijo para el componente 'libroM'.
-            info.add(libroM); // Agrega el componente 'libroM' al contenedor 'info'.
+//            float debe = 0;
+//            float haber = 0;
+//                for(int i = 0; i<model.getRowCount(); i++){
+//                    if(!"".equals(model.getValueAt(i,2).toString())){
+//                        System.out.println(model.getValueAt(i,2).toString());
+//                        String numeroDebe = model.getValueAt(i,2).toString();
+//                        debe = debe + Float.parseFloat(numeroDebe);
+//                    }
+//                    if(!"".equals(model.getValueAt(i,3).toString())){
+//                        String numeroHaber = model.getValueAt(i, 3).toString();
+//                        haber = haber + Float.parseFloat(numeroHaber);
+//                    }
+//                }
+//            if (debe>haber) {
+//                float total = debe-haber;
+//                libroM.totalDebe.setText("$"+total);
+//                libroM.totalDebe.setVisible(true);
+//                libroM.totalHaber.setVisible(false);
+//
+//            }else{
+//                float total = haber-debe;
+//                libroM.totalHaber.setText("$"+total);
+//                libroM.totalHaber.setVisible(true);
+//                libroM.totalDebe.setVisible(false);
+//            }
+            libroM.setPreferredSize(new Dimension(773, 311)); // Establecer un tamaño fijo
+            info.add(libroM);
         }
 
-        info.revalidate(); // Vuelve a validar el contenedor 'info'.
-        info.repaint(); // Vuelve a pintar el contenedor 'info' para mostrar los cambios.
-
+        info.revalidate();
+        info.repaint();
     }
 //GEN-LAST:event_jButton3ActionPerformed
 
