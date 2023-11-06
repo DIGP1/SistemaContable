@@ -10,6 +10,8 @@ import logic.DatabaseConnection;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -20,6 +22,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 
 /**
  *
@@ -415,6 +420,53 @@ public class PRINCIPAL extends javax.swing.JFrame {
 
         info.revalidate();
         info.repaint();
+        
+        
+        
+        
+        
+        
+        JButton myButton = new JButton("Generar Balance");
+
+// Define an ActionListener for the button
+      myButton.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        // Add the actions you want to perform when the button is clicked
+        // For example, displaying a message:
+         info.removeAll();
+        jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);  
+        Balance bc = new   Balance();
+        bc.setSize(info.getSize()); // Establecer el tamaño igual al tamaño del contenedor
+        info.setLayout(new BorderLayout()); // Usar un BorderLayout
+        info.add(bc, BorderLayout.CENTER); // Agregar el componente en el centro
+        info.revalidate();
+        info.repaint();
+    }
+});
+                myButton.setPreferredSize(new Dimension(100, 30)); // Adjust the size as needed
+
+                // Create a BoxLayout for the info panel to align components vertically
+                BoxLayout boxLayout = new BoxLayout(info, BoxLayout.Y_AXIS);
+                info.setLayout(boxLayout);
+
+                // Add vertical glue to push existing components to the top
+                info.add(Box.createVerticalGlue());
+
+                // Add the button to the info panel
+                info.add(myButton);
+                info.add(Box.createVerticalGlue()); // Pushes the button to the top
+                        info.revalidate();
+                        info.repaint();
+
+        
+        //LISTAR LOS DATOS QUE OCUPO
+        
+        //CREAR UN BOTON PARA MANDARLO A PANEL
+        
+        
+        
+        
     }
 //GEN-LAST:event_jButton3ActionPerformed
 
