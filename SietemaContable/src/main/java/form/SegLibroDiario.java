@@ -4,7 +4,13 @@ package form;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Pattern;
+import javax.swing.RowFilter;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import logic.CatalogoDeCuentasDatos;
 
 /*
@@ -27,6 +33,38 @@ public class SegLibroDiario extends javax.swing.JPanel {
         HashMap<String, List> inforLibro = new HashMap<>();
         inforLibro = cc.CargarLibroDiario();
         ingresarDatosTabla(inforLibro);
+        
+        
+        TableRowSorter<TableModel> filaFiltrada = new TableRowSorter<>(jTable1.getModel());
+        jTable1.setRowSorter(filaFiltrada);
+
+        txtBuscar.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                applyFilter();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                applyFilter();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                applyFilter();
+            }
+
+            private void applyFilter() {
+                String text = txtBuscar.getText();
+                int columnIndex = cbfiltrado.getSelectedIndex();
+                if (text.trim().length() == 0) {
+                    filaFiltrada.setRowFilter(null);
+                } else {
+                    // Filtrar por la columna seleccionada sin distinguir mayúsculas y minúsculas
+                    filaFiltrada.setRowFilter(RowFilter.regexFilter("(?i)" + Pattern.quote(text), columnIndex));
+                }
+            }
+        });
         
     }
     
@@ -76,6 +114,10 @@ public class SegLibroDiario extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
+        cbfiltrado = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        txtBuscar = new javax.swing.JTextField();
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -126,6 +168,17 @@ public class SegLibroDiario extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel1.setText("LIBRO DIARIO");
 
+        cbfiltrado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fecha", "Descripcion", "Codigo" }));
+        cbfiltrado.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                cbfiltradoComponentShown(evt);
+            }
+        });
+
+        jLabel2.setText("Filtrar por:");
+
+        jLabel3.setText("Buscar");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -133,30 +186,53 @@ public class SegLibroDiario extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(143, 143, 143)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 687, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(409, 409, 409)
-                        .addComponent(jLabel1)))
-                .addContainerGap(140, Short.MAX_VALUE))
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(143, 143, 143)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 687, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cbfiltrado, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(81, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbfiltrado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 492, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void cbfiltradoComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_cbfiltradoComponentShown
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbfiltradoComponentShown
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> cbfiltrado;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
+    private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
 }
