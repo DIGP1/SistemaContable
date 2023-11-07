@@ -168,25 +168,25 @@ public class login extends javax.swing.JFrame {
     }//GEN-LAST:event_button_registrarse_formActionPerformed
 
     private void button_loginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_button_loginMouseClicked
-        // TODO add your handling code here:
-        System.out.println("aaaa");
-                char[] pass1 = password.getPassword();
-        String pass = new String(pass1);
-        System.out.println("aaaaaaaaaaa");
-        if("".equals(user.getText()) && "".equals(pass)){
-            JOptionPane.showMessageDialog(null, "Llene todos los campos");
-        }else{
-            if(!cc.login(user.getText(), pass)){
-                JOptionPane.showMessageDialog(null, "El usuario y/o contraseña incorrectos");
-            }
-            else{
-                PRINCIPAL prn = new PRINCIPAL();
-                prn.setVisible(true);
-                prn.pack();
-                prn.setLocationRelativeTo(null);
-                this.dispose();
-            }
+    System.out.println("aaaa");
+    char[] pass1 = password.getPassword();
+    String pass = new String(pass1);
+    System.out.println("aaaaaaaaaaa");
+    if ("".equals(user.getText()) || "".equals(pass)) {
+        JOptionPane.showMessageDialog(null, "Llene todos los campos");
+    } else {
+        if (!cc.login(user.getText(), pass)) {
+            JOptionPane.showMessageDialog(null, "El usuario y/o contraseña incorrectos");
+        } else {
+            String nombreUsuario = user.getText(); // Obtiene el nombre de usuario
+            PRINCIPAL prn = new PRINCIPAL();
+            prn.setVisible(true);
+            prn.pack();
+            prn.setLocationRelativeTo(null);
+            prn.setUsuarioLabel(nombreUsuario); // Actualiza el JLabel con el nombre de usuario
+            this.dispose();
         }
+    }
     }//GEN-LAST:event_button_loginMouseClicked
 
     /**

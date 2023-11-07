@@ -21,7 +21,7 @@ public class SietemaContable {
 //        for (String cuenta : cuentas) {
 //            System.out.println(cuenta);
 //        }
-        PRINCIPAL prin = new PRINCIPAL();
+        login prin = new login();
         prin.show(true);
         
     }
