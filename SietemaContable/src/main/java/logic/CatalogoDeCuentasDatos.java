@@ -432,5 +432,29 @@ public valoresBusqueda buscarNombreCuentaPorCodigo(String codigoIngresado) {
         
         return usuarioEncontrado;
     }
+    
+     public void guardarTransaccionCatalogoCuentas(String Codigo, String Cuenta, double Saldo) {
+    String sql = "INSERT INTO CATALOGO_DE_CUENTAS (Codigo, Cuenta, Saldo) VALUES (?, ?, ?)";
+
+    try (Connection conn = dbConnection.connect();
+         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        pstmt.setString(1, Codigo);
+        pstmt.setString(2, Cuenta);
+        pstmt.setDouble(3, Saldo);
+
+        int filasAfectadas = pstmt.executeUpdate();
+
+        if (filasAfectadas > 0) {
+            System.out.println("Datos de transacción guardados en la tabla CATALOGO_CUENTAS.");
+        } else {
+            System.out.println("No se pudieron guardar los datos en la tabla CATALOGO_CUENTAS.");
+        }
+    } catch (SQLException e) {
+        System.out.println("Error al guardar la transacción en la tabla CATALOGO_CUENTAS: " + e.getMessage());
+    }
+}
+
+    
+    
 }
 

@@ -132,6 +132,7 @@ public class SegLibroDiario extends javax.swing.JPanel {
         ));
         jScrollPane2.setViewportView(jTable2);
 
+        setBackground(new java.awt.Color(245, 245, 220));
         setMaximumSize(new java.awt.Dimension(911, 310));
         setPreferredSize(new java.awt.Dimension(911, 310));
 
@@ -207,7 +208,7 @@ public class SegLibroDiario extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbfiltrado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
