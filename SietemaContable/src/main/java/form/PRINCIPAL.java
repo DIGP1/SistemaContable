@@ -64,6 +64,8 @@ public class PRINCIPAL extends javax.swing.JFrame {
         info = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(1367, 739));
+        setResizable(false);
         getContentPane().setLayout(null);
 
         jPanel3.setBackground(new java.awt.Color(51, 153, 255));
