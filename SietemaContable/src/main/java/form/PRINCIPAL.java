@@ -10,9 +10,10 @@ import logic.DatabaseConnection;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,7 +28,10 @@ import java.util.Set;
  */
 public class PRINCIPAL extends javax.swing.JFrame {
  private JPanel panelPrincipal;
-   
+
+ public Balance bc = new   Balance();
+
+
     public PRINCIPAL() {
         initComponents();
     }
@@ -258,6 +262,9 @@ public class PRINCIPAL extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
 
+        List<String> lista_nombre_cuenta = new ArrayList<>();
+        List<Float> lista_valor_cuenta = new ArrayList<>();
+
         info.removeAll();
         jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         jScrollPane1.getVerticalScrollBar().setUnitIncrement(20);
@@ -363,9 +370,13 @@ public class PRINCIPAL extends javax.swing.JFrame {
                 }
                 // Asignar la descripción a nombreCuenta
                 libroM.nombreCuenta.setText(descripcion);
+
+                lista_nombre_cuenta.add(descripcion);
+//
 //                System.out.println(fecha+descripcion+debe+haber);
                 Object[] fila = {fecha,descripcion, debeStr, haberStr};
                 model.addRow(fila);
+                //tabla_balance.addRow(fila);
                 libroM.getModel(model);
             }
             
@@ -373,6 +384,8 @@ public class PRINCIPAL extends javax.swing.JFrame {
             System.out.println(model);
             System.out.println(model.getValueAt(0,2).toString());
             float saldoFinal = debeTotal - haberTotal;
+
+            lista_valor_cuenta.add(saldoFinal);
 
             if (saldoFinal > 0) {
                 libroM.totalDebe.setText("$" + saldoFinal);
@@ -411,10 +424,131 @@ public class PRINCIPAL extends javax.swing.JFrame {
 //            }
             libroM.setPreferredSize(new Dimension(773, 311)); // Establecer un tamaño fijo
             info.add(libroM);
+
         }
+
+
 
         info.revalidate();
         info.repaint();
+        
+        
+        
+        
+        
+        
+        JButton myButton = new JButton("Generar Balance");
+
+// Define an ActionListener for the button
+      myButton.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        // Add the actions you want to perform when the button is clicked
+        // For example, displaying a message:
+         info.removeAll();
+        jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);  
+        //Balance bc = new   Balance();
+        bc.setSize(info.getSize()); // Establecer el tamaño igual al tamaño del contenedor
+        info.setLayout(new BorderLayout()); // Usar un BorderLayout
+        info.add(bc, BorderLayout.CENTER); // Agregar el componente en el centro
+        info.revalidate();
+        info.repaint();
+
+        for (Map.Entry<Integer, List<List<Object>>> entry : cuentasAgrupadas.entrySet()) {
+            String[] columnNames = {"Descripcion", "Debe", "Haber"};
+
+            // Crear un modelo de datos no editable
+            DefaultTableModel model = new DefaultTableModel(null, columnNames) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    // Desactiva la edición de todas las celdas
+                    return false;
+                }
+            };
+
+            Integer codigo = entry.getKey(); // Obtener el código
+            int bandera = 0;
+            List<List<Object>> datosPorCodigo = entry.getValue(); // Obtener los datos por código
+
+            //Balance balanceJ = new Balance();
+
+            float debeTotal = 0;
+            float haberTotal = 0;
+
+            for (List<Object> datos : datosPorCodigo) {
+
+                // Obtener la descripción
+                String descripcion = (String) datos.get(3); // Suponiendo que la descripción está en la posición 1
+
+                // Obtener el código de la cuenta
+                String codigoCuenta = datos.get(2).toString();
+
+                // Evaluar el primer dígito del código para determinar si es activo o pasivo
+                char primerDigito = codigoCuenta.charAt(0);
+
+                String debeStr = (String) datos.get(4);
+                String haberStr = (String) datos.get(5);
+
+                if (primerDigito == '1') {
+                    // Es una cuenta de activo
+                    if (!debeStr.isEmpty()) {
+                        debeTotal += Float.parseFloat(debeStr); // Convierte la cadena en un número y suma
+                    }
+                    if (!haberStr.isEmpty()) {
+                        haberTotal += Float.parseFloat(haberStr); // Convierte la cadena en un número y suma
+                    }
+                } else if (primerDigito == '2') {
+                    // Es una cuenta de pasivo
+                    if (!haberStr.isEmpty()) {
+                        haberTotal += Float.parseFloat(haberStr); // Convierte la cadena en un número y suma
+                    }
+                    if (!debeStr.isEmpty()) {
+                        debeTotal += Float.parseFloat(debeStr); // Convierte la cadena en un número y suma
+                    }
+                }
+                float saldoFinal = debeTotal - haberTotal;
+
+                Object[] fila;
+                if (saldoFinal > 0) {
+                    fila = new Object[]{descripcion, "", saldoFinal};
+                } else {
+                    fila = new Object[]{descripcion, saldoFinal, ""};
+                }
+                model.addRow(fila);
+
+                //bc.getModel(tabla_model);
+                //bc.getModel(model);
+            }
+
+            bc.setPreferredSize(new Dimension(773, 311)); // Establecer un tamaño fijo
+            info.add(bc);
+        }
+    }
+});
+
+                myButton.setPreferredSize(new Dimension(100, 30)); // Adjust the size as needed
+
+                // Create a BoxLayout for the info panel to align components vertically
+                BoxLayout boxLayout = new BoxLayout(info, BoxLayout.Y_AXIS);
+                info.setLayout(boxLayout);
+
+                // Add vertical glue to push existing components to the top
+                info.add(Box.createVerticalGlue());
+
+                // Add the button to the info panel
+                info.add(myButton);
+                info.add(Box.createVerticalGlue()); // Pushes the button to the top
+                        info.revalidate();
+                        info.repaint();
+
+        
+        //LISTAR LOS DATOS QUE OCUPO
+        
+        //CREAR UN BOTON PARA MANDARLO A PANEL
+
+
+        bc.getListNombreCuenta(lista_nombre_cuenta);
+        bc.getListValorCuenta(lista_valor_cuenta);
     }
 //GEN-LAST:event_jButton3ActionPerformed
 
