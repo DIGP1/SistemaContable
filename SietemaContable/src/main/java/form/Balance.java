@@ -14,30 +14,11 @@ import java.util.List;
  * @author angel
  */
 public class Balance extends javax.swing.JPanel {
-
-    public List<String> nombreCuenta = new ArrayList<>();
-
-    public List<Float> valorCuenta = new ArrayList<>();
-
-    public void getListNombreCuenta(List<String> list1) {
-        nombreCuenta = list1;
-    }
-    public void getListValorCuenta(List<Float> list2) {
-        valorCuenta = list2;
-    }
     /**
      * Creates new form Balance
      */
     public Balance() {
         initComponents();
-        DefaultTableModel modelo = new DefaultTableModel(null, new String[]{"Cuenta", "Debe", "Haber"});
-        for (int i = 0; i < nombreCuenta.size(); i++) {
-            modelo.addRow(new Object[]{nombreCuenta.get(i), valorCuenta.get(i), 0});
-
-            System.out.println("Barca:" + nombreCuenta.get(i));
-            System.out.println("Real:" + valorCuenta.get(i));
-        }
-        jTable1.setModel(modelo);
     }
     public void getModel(DefaultTableModel model){
         jTable1.setModel(model);

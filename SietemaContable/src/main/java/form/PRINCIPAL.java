@@ -263,7 +263,8 @@ public class PRINCIPAL extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         List<String> lista_nombre_cuenta = new ArrayList<>();
-        List<Float> lista_valor_cuenta = new ArrayList<>();
+        List<Float> lista_valor_cuenta_debe = new ArrayList<>();
+        List<Float> lista_valor_cuenta_haber = new ArrayList<>();
 
         info.removeAll();
         jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -326,6 +327,7 @@ public class PRINCIPAL extends javax.swing.JFrame {
 
             float debeTotal = 0;
             float haberTotal = 0;
+            String cuenta = "";
 
             for (List<Object> datos : datosPorCodigo) {
                 
@@ -371,30 +373,34 @@ public class PRINCIPAL extends javax.swing.JFrame {
                 // Asignar la descripción a nombreCuenta
                 libroM.nombreCuenta.setText(descripcion);
 
-                lista_nombre_cuenta.add(descripcion);
 //
 //                System.out.println(fecha+descripcion+debe+haber);
                 Object[] fila = {fecha,descripcion, debeStr, haberStr};
                 model.addRow(fila);
                 //tabla_balance.addRow(fila);
                 libroM.getModel(model);
+                cuenta = descripcion;
             }
             
             System.out.println(model.getColumnCount());
             System.out.println(model);
             System.out.println(model.getValueAt(0,2).toString());
             float saldoFinal = debeTotal - haberTotal;
-
-            lista_valor_cuenta.add(saldoFinal);
-
+            
+            lista_nombre_cuenta.add(cuenta);
+             
             if (saldoFinal > 0) {
                 libroM.totalDebe.setText("$" + saldoFinal);
                 libroM.totalDebe.setVisible(true);
                 libroM.totalHaber.setVisible(false);
+                lista_valor_cuenta_debe.add(saldoFinal);
+                lista_valor_cuenta_haber.add(0.00f);
             } else {
                 libroM.totalHaber.setText("$" + saldoFinal);
                 libroM.totalHaber.setVisible(true);
                 libroM.totalDebe.setVisible(false);
+                lista_valor_cuenta_debe.add(0.00f);
+                lista_valor_cuenta_haber.add(saldoFinal);
             }
 
 //            float debe = 0;
@@ -545,10 +551,13 @@ public class PRINCIPAL extends javax.swing.JFrame {
         //LISTAR LOS DATOS QUE OCUPO
         
         //CREAR UN BOTON PARA MANDARLO A PANEL
+        
 
-
-        bc.getListNombreCuenta(lista_nombre_cuenta);
-        bc.getListValorCuenta(lista_valor_cuenta);
+        DefaultTableModel modelo = new DefaultTableModel(null, new String[]{"Cuenta", "Debe", "Haber"});
+                for (int i = 0; i < lista_nombre_cuenta.size(); i++) {
+                modelo.addRow(new Object[]{lista_nombre_cuenta.get(i), lista_valor_cuenta_debe.get(i), lista_valor_cuenta_haber.get(i)});
+                }
+        bc.getModel(modelo);
     }
 //GEN-LAST:event_jButton3ActionPerformed
 
