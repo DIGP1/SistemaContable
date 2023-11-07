@@ -64,6 +64,8 @@ public class PRINCIPAL extends javax.swing.JFrame {
         info = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(1367, 739));
+        setResizable(false);
         getContentPane().setLayout(null);
 
         jPanel3.setBackground(new java.awt.Color(51, 153, 255));
@@ -574,12 +576,21 @@ public class PRINCIPAL extends javax.swing.JFrame {
         //LISTAR LOS DATOS QUE OCUPO
         
         //CREAR UN BOTON PARA MANDARLO A PANEL
-        
+
+        double totalDebe = 0.0;
+        double totalHaber = 0.0;
 
         DefaultTableModel modelo = new DefaultTableModel(null, new String[]{"Cuenta", "Debe", "Haber"});
                 for (int i = 0; i < lista_nombre_cuenta.size(); i++) {
                 modelo.addRow(new Object[]{lista_nombre_cuenta.get(i), lista_valor_cuenta_debe.get(i), lista_valor_cuenta_haber.get(i)});
+
+                    totalDebe += (double) lista_valor_cuenta_debe.get(i);
+                    totalHaber += (double) lista_valor_cuenta_haber.get(i);
                 }
+
+        bc.totaldebe.setText(String.valueOf(totalDebe));
+        bc.totalhaber.setText(String.valueOf(totalHaber));
+
         bc.getModel(modelo);
     }
 //GEN-LAST:event_jButton3ActionPerformed
