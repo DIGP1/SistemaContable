@@ -6,6 +6,7 @@ import logic.CatalogoDeCuentasDatos;
 public class login extends javax.swing.JFrame {
 
     public login() {
+        this.setResizable(false);
         initComponents();
     }
 
@@ -31,6 +32,7 @@ public class login extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("LOGIN");
         setLocation(new java.awt.Point(0, 0));
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(800, 500));

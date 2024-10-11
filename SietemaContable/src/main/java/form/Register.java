@@ -4,6 +4,7 @@ import logic.CatalogoDeCuentasDatos;
 public class Register extends javax.swing.JFrame {
 
     public Register() {
+        this.setResizable(false);
         initComponents();
     }
 
@@ -32,6 +33,7 @@ public class Register extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Register");
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(800, 500));
