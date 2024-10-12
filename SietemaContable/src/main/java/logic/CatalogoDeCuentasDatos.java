@@ -46,7 +46,7 @@ public class CatalogoDeCuentasDatos {
     public Map<Integer, List<RegistrosContables>> CargarLibroDiario() {
         Map<Integer, List<RegistrosContables>> registrosLibroDiario = new HashMap<>();
         List<RegistrosContables> data = new ArrayList<>();
-        
+
         int counter = 0;
 
         String sql = """
@@ -63,27 +63,27 @@ public class CatalogoDeCuentasDatos {
                 """;
 
         try (Connection conn = dbConnection.connect(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
-                while (rs.next()) {
-                    String fecha = rs.getString("fecha");
-                    String codigo = rs.getString("codigo");
-                    String cuenta = rs.getString("cuenta");
-                    String debe = rs.getString("debe");
-                    String haber = rs.getString("haber");
-                    String descripcionTransaccion = rs.getString("descripcion");
-                    
-                    if (debe.isEmpty()) {
-                        debe = "0";
-                    }
-                    
-                    if (haber.isEmpty()) {
-                        haber = "0";
-                    }
-                    
-                    RegistrosContables registro = new RegistrosContables(fecha, codigo, cuenta, debe, haber, descripcionTransaccion);
-                    data.add(registro);
-                    counter++;
-                    registrosLibroDiario.put(counter, data);
+            while (rs.next()) {
+                String fecha = rs.getString("fecha");
+                String codigo = rs.getString("codigo");
+                String cuenta = rs.getString("cuenta");
+                String debe = rs.getString("debe");
+                String haber = rs.getString("haber");
+                String descripcionTransaccion = rs.getString("descripcion");
+
+                if (debe.isEmpty()) {
+                    debe = "0";
                 }
+
+                if (haber.isEmpty()) {
+                    haber = "0";
+                }
+
+                RegistrosContables registro = new RegistrosContables(fecha, codigo, cuenta, debe, haber, descripcionTransaccion);
+                data.add(registro);
+                counter++;
+                registrosLibroDiario.put(counter, data);
+            }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -96,7 +96,7 @@ public class CatalogoDeCuentasDatos {
             System.out.println("Key: " + entry.getKey() + ". Debe: " + entry.getValue().get(0).getDebe());
             System.out.println("Key: " + entry.getKey() + ". Haber: " + entry.getValue().get(0).getHaber());
             System.out.println("Key: " + entry.getKey() + ". Descripcion: " + entry.getValue().get(0).getDescripcion());
-            
+
         }
         return registrosLibroDiario;
     }
@@ -210,14 +210,26 @@ public class CatalogoDeCuentasDatos {
     }
 
     public List<List<Object>> libroDiario() {
-        String sql = "SELECT * FROM LIBRO_DIARIO";
+        String sql = """
+                select \
+                    tbl_libro_diario.id as id, \
+                    tbl_catalogo_de_cuentas.codigo as codigo, \
+                    tbl_transacciones_libro_diario.fecha                   as fecha, \
+                    tbl_libro_diario.Debe                                  as debe, \
+                    tbl_libro_diario.Haber                                 as haber, \
+                    tbl_catalogo_de_cuentas.cuenta as cuenta, \
+                    tbl_transacciones_libro_diario.descripcion_transaccion as descripcion \
+                from tbl_transacciones_libro_diario
+                inner join tbl_libro_diario on tbl_transacciones_libro_diario.id_movimiento = tbl_libro_diario.id_movimiento
+                inner join tbl_catalogo_de_cuentas on tbl_libro_diario.id_cuenta = tbl_catalogo_de_cuentas.id;
+                """;
         List<List<Object>> resultList = new ArrayList<>();
 
         try (Connection conn = dbConnection.connect(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
                 List<Object> row = new ArrayList<>();
-                row.add(rs.getInt("ID"));
+                row.add(rs.getInt("id"));
                 row.add(rs.getString("Fecha"));
                 row.add(rs.getInt("codigo"));
                 row.add(rs.getString("descripcion"));

@@ -82,6 +82,7 @@ public class PRINCIPAL extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
+        jButton1.setFocusPainted(false);
 
         jButton2.setBackground(new java.awt.Color(51, 0, 51));
         jButton2.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
@@ -97,6 +98,7 @@ public class PRINCIPAL extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
+        jButton2.setFocusPainted(false);
 
         jButton3.setBackground(new java.awt.Color(51, 0, 51));
         jButton3.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
@@ -107,6 +109,7 @@ public class PRINCIPAL extends javax.swing.JFrame {
                 jButton3ActionPerformed(evt);
             }
         });
+        jButton3.setFocusPainted(false);
 
         jButton4.setBackground(new java.awt.Color(51, 0, 51));
         jButton4.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
@@ -122,6 +125,7 @@ public class PRINCIPAL extends javax.swing.JFrame {
                 jButton4ActionPerformed(evt);
             }
         });
+        jButton4.setFocusPainted(false);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setText("BIENVENIDO");
@@ -343,11 +347,9 @@ public class PRINCIPAL extends javax.swing.JFrame {
         
         for (List<Object> row : cuentas) {
             // Suponemos que el código se encuentra en la columna "codigo" (índice 2 en base 0)
-            Integer code = (Integer) row.get(2); // Obtén el código
+            Integer code = Integer.valueOf(row.get(2).toString()); // Obtén el código
 
-            if (code != null) {
-                uniqueCodes.add(code); // Agrega el código al conjunto
-            }
+            uniqueCodes.add(code); // Agrega el código al conjunto
         }
         
         System.out.println(uniqueCodes);
