@@ -324,7 +324,7 @@ public class PRINCIPAL extends javax.swing.JFrame {
 
 
                 // Obtener la descripción
-                String descripcion = (String) datos.get(4); // Suponiendo que la descripción está en la posición 1
+                String descripcion = (String) datos.get(3); // Suponiendo que la descripción está en la posición 1
 
                 // Obtener la fecha
                 String fecha = datos.get(1).toString(); // Suponiendo que la fecha está en la posición 0
