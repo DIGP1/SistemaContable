@@ -9,6 +9,7 @@ package logic;
  */
 
 import form.LibroMayor;
+import logic.passwordmanagement.PasswordVerify;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -431,7 +432,7 @@ public class CatalogoDeCuentasDatos {
         }*/
     }
 
-    public void registrarUsuario(String username, String pass, String rol, String Nombre) {
+    public void registrarUsuario(String username, String pass, int rol, String Nombre) {
 
         boolean usuarioEncontrado = false;
         String sql1 = "SELECT username FROM tbl_usuarios WHERE username = '" + username + "'";
@@ -447,12 +448,12 @@ public class CatalogoDeCuentasDatos {
         if (usuarioEncontrado) {
             JOptionPane.showMessageDialog(null, "El nombre de usuario ya existe", "ERROR", 1);
         } else {
-            String sql = "INSERT INTO tbl_usuarios (username, password, rol,nombrecompleto) VALUES (?,?,?,?)";
+            String sql = "INSERT INTO tbl_usuarios (username, password, nombrecompleto, rol_id) VALUES (?,?,?,?)";
             try (Connection conn = dbConnection.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setString(1, username);
                 pstmt.setString(2, pass);
-                pstmt.setString(3, rol);
-                pstmt.setString(4, Nombre);
+                pstmt.setString(3, Nombre);
+                pstmt.setInt(4, rol);
                 int filasAfectadas = pstmt.executeUpdate();
 
                 if (filasAfectadas > 0) {
@@ -482,39 +483,93 @@ public class CatalogoDeCuentasDatos {
     }
 
 
-    public boolean verificacionAdmin(String username, String pass) {
-        String usuarioEncontrado = "";
-        String sql1 = "SELECT username, password,rol FROM tbl_usuarios WHERE username = '" + username + "' AND password = '" + pass + "'";
-        try (Connection conn = dbConnection.connect(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql1)) {
+    public boolean verificacionAdmin(String username, String password) {
+        String rol = "";
+        String sql = "SELECT rol_id FROM tbl_usuarios WHERE username = ? AND password = ?";
+
+        try (Connection conn = dbConnection.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, username);
+            pstmt.setString(2, password);
+            ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                usuarioEncontrado = rs.getString("rol");
+                rol = rs.getString("rol_id");
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
 
-        if ("ADMINISTRADOR".equals(usuarioEncontrado)) {
-            return true;
+        if (rol.equals("1")) {
+            return true; // El usuario es administrador
         } else {
             JOptionPane.showMessageDialog(null, "El administrador ingresado no existe");
-            return false;
+            return false; // El usuario no es administrador o no existe
         }
     }
 
     public boolean login(String username, String password) {
-        boolean usuarioEncontrado = false;
-        String sql1 = "SELECT username, password FROM tbl_usuarios WHERE username = '" + username + "' AND password = '" + password + "'";
-        try (Connection conn = dbConnection.connect(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql1)) {
+        if (!getUserPassword(username)) {
+            JOptionPane.showMessageDialog(null,
+                    "El usuario no existe",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+            return false;
+        }
+
+        String sql = "SELECT password FROM tbl_usuarios WHERE username = ?";
+
+        try (Connection conn = dbConnection.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                usuarioEncontrado = true;
+                String encryptedPassword = rs.getString("password");
+                boolean passwordMatches = PasswordVerify.verify(password, encryptedPassword);
+                if (!passwordMatches) {
+                    JOptionPane.showMessageDialog(null,
+                            "Contraseña incorrecta",
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE
+                    );
+                    return false;
+                }
+                return true; // Login successful
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+        return false; // Fallback
+    }
 
-        return usuarioEncontrado;
+    private boolean getUserPassword(String username) {
+        String sql = "SELECT username FROM tbl_usuarios WHERE username = ?";
+        try (Connection conn = dbConnection.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
+            return rs.next(); // Returns true if user exists
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
+
+    public String getUserFullName(String username) {
+        String sql = "SELECT nombrecompleto FROM tbl_usuarios WHERE username = ?";
+        try (Connection conn = dbConnection.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getString("nombrecompleto");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
     public void guardarTransaccionCatalogoCuentas(String Codigo, String Cuenta, double Saldo) {

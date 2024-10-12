@@ -16,18 +16,20 @@ import form.login;
 import logic.CatalogoDeCuentasDatos;
 
 /**
- *
  * @author Diego
  */
 public class validarAdmin {
     public CatalogoDeCuentasDatos cc = new CatalogoDeCuentasDatos();
     private boolean validado = false;
-    public void setValidacion(boolean a){
+
+    public void setValidacion(boolean a) {
         this.validado = a;
     }
-    public boolean getValidacion(){
+
+    public boolean getValidacion() {
         return this.validado;
     }
+
     public void mostrarDialogoConPanel(JFrame parentFrame) {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(2, 2));
@@ -39,16 +41,16 @@ public class validarAdmin {
         panel.add(txtpass);
 
         JButton[] customButtons = {
-            new JButton("Ingresar"),
-            new JButton("Cancelar")
+                new JButton("Ingresar"),
+                new JButton("Cancelar")
         };
-        
+
         customButtons[0].addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 char[] pass1 = txtpass.getPassword();
                 String password = new String(pass1);
                 setValidacion(cc.verificacionAdmin(txtUsername.getText(), password));
-                if(getValidacion()){
+                if (getValidacion()) {
                     parentFrame.dispose();
                     login loginFrame = new login();
                     loginFrame.setVisible(true);
@@ -67,13 +69,13 @@ public class validarAdmin {
                 loginFrame.setVisible(true);
                 loginFrame.pack();
                 loginFrame.setLocationRelativeTo(null);
-                
+
             }
         });
 
         int opcion = JOptionPane.showOptionDialog(parentFrame, panel, "Ingrese Datos",
                 JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, customButtons, customButtons[0]);
     }
-    
+
 }
 
