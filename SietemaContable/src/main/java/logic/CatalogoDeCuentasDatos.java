@@ -87,17 +87,6 @@ public class CatalogoDeCuentasDatos {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        // iterate over the map and print the key and value
-        for (Map.Entry<Integer, List<RegistrosContables>> entry : registrosLibroDiario.entrySet()) {
-            // Iterate through the list:
-            System.out.println("Key: " + entry.getKey() + ". Fecha: " + entry.getValue().get(0).getFecha());
-            System.out.println("Key: " + entry.getKey() + ". Codigo: " + entry.getValue().get(0).getCodigo());
-            System.out.println("Key: " + entry.getKey() + ". Cuenta: " + entry.getValue().get(0).getCuenta());
-            System.out.println("Key: " + entry.getKey() + ". Debe: " + entry.getValue().get(0).getDebe());
-            System.out.println("Key: " + entry.getKey() + ". Haber: " + entry.getValue().get(0).getHaber());
-            System.out.println("Key: " + entry.getKey() + ". Descripcion: " + entry.getValue().get(0).getDescripcion());
-
-        }
         return registrosLibroDiario;
     }
 
@@ -313,6 +302,7 @@ public class CatalogoDeCuentasDatos {
                 row.add(rs.getInt("id"));
                 row.add(rs.getString("Fecha"));
                 row.add(rs.getInt("codigo"));
+                row.add(rs.getString("cuenta"));
                 row.add(rs.getString("descripcion"));
                 row.add(rs.getString("debe"));
                 row.add(rs.getString("haber"));
@@ -528,7 +518,7 @@ public class CatalogoDeCuentasDatos {
     }
 
     public void guardarTransaccionCatalogoCuentas(String Codigo, String Cuenta, double Saldo) {
-        String sql = "INSERT INTO tbl_catalogo_de_cuentas (Codigo, Cuenta, Saldo) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO tbl_catalogo_de_cuentas (codigo, cuenta, Saldo) VALUES (?, ?, ?)";
 
         try (Connection conn = dbConnection.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, Codigo);

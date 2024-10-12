@@ -132,50 +132,8 @@ public class PRINCIPAL extends javax.swing.JFrame {
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-                jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addContainerGap(26, Short.MAX_VALUE)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGap(14, 14, 14))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(60, 60, 60))))
-                        .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(133, 133, 133)
-                                .addComponent(user)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                        .addContainerGap(28, Short.MAX_VALUE)
-                                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(12, 12, 12)))
-        );
-        jPanel3Layout.setVerticalGroup(
-                jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(22, 22, 22)
-                                .addComponent(jLabel1)
-                                .addGap(18, 18, 18)
-                                .addComponent(user)
-                                .addGap(177, 177, 177)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(29, 29, 29)
-                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(28, 28, 28)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(250, Short.MAX_VALUE))
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addGap(174, 174, 174)
-                                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addContainerGap(478, Short.MAX_VALUE)))
-        );
+        jPanel3Layout.setHorizontalGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel3Layout.createSequentialGroup().addContainerGap(26, Short.MAX_VALUE).addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup().addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)).addGap(14, 14, 14)).addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup().addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE).addGap(60, 60, 60)))).addGroup(jPanel3Layout.createSequentialGroup().addGap(133, 133, 133).addComponent(user).addGap(0, 0, Short.MAX_VALUE)).addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup().addContainerGap(28, Short.MAX_VALUE).addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE).addGap(12, 12, 12))));
+        jPanel3Layout.setVerticalGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel3Layout.createSequentialGroup().addGap(22, 22, 22).addComponent(jLabel1).addGap(18, 18, 18).addComponent(user).addGap(177, 177, 177).addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE).addGap(29, 29, 29).addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE).addGap(28, 28, 28).addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE).addContainerGap(250, Short.MAX_VALUE)).addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel3Layout.createSequentialGroup().addGap(174, 174, 174).addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE).addContainerGap(478, Short.MAX_VALUE))));
 
         getContentPane().add(jPanel3);
         jPanel3.setBounds(0, 0, 310, 700);
@@ -211,43 +169,13 @@ public class PRINCIPAL extends javax.swing.JFrame {
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-                jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGap(16, 16, 16)
-                                .addComponent(jButton5)
-                                .addGap(221, 221, 221)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 154, Short.MAX_VALUE)
-                                .addComponent(jButton6)
-                                .addGap(99, 99, 99))
-        );
-        jPanel4Layout.setVerticalGroup(
-                jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                                .addContainerGap(32, Short.MAX_VALUE)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18))
-                        .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGap(21, 21, 21)
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jButton6)
-                                        .addComponent(jButton5))
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        jPanel4Layout.setHorizontalGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel4Layout.createSequentialGroup().addGap(16, 16, 16).addComponent(jButton5).addGap(221, 221, 221).addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 154, Short.MAX_VALUE).addComponent(jButton6).addGap(99, 99, 99)));
+        jPanel4Layout.setVerticalGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup().addContainerGap(32, Short.MAX_VALUE).addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE).addGap(18, 18, 18)).addGroup(jPanel4Layout.createSequentialGroup().addGap(21, 21, 21).addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jButton6).addComponent(jButton5)).addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addContainerGap())
-        );
-        jPanel2Layout.setVerticalGroup(
-                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        jPanel2Layout.setHorizontalGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup().addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addContainerGap()));
+        jPanel2Layout.setVerticalGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
 
         getContentPane().add(jPanel2);
         jPanel2.setBounds(310, 0, 1129, 103);
@@ -261,14 +189,8 @@ public class PRINCIPAL extends javax.swing.JFrame {
 
         javax.swing.GroupLayout infoLayout = new javax.swing.GroupLayout(info);
         info.setLayout(infoLayout);
-        infoLayout.setHorizontalGroup(
-                infoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 1056, Short.MAX_VALUE)
-        );
-        infoLayout.setVerticalGroup(
-                infoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 658, Short.MAX_VALUE)
-        );
+        infoLayout.setHorizontalGroup(infoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 1056, Short.MAX_VALUE));
+        infoLayout.setVerticalGroup(infoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 658, Short.MAX_VALUE));
 
         jScrollPane1.setViewportView(info);
 
@@ -341,6 +263,9 @@ public class PRINCIPAL extends javax.swing.JFrame {
 
         CatalogoDeCuentasDatos catalogo = new CatalogoDeCuentasDatos();
         List<List<Object>> cuentas = catalogo.libroDiario();
+        for (List<Object> row : cuentas) {
+            System.out.println("Cuentas list item: " + row);
+        }
 
         Set<Integer> uniqueCodes = new HashSet<>();
 
@@ -364,6 +289,10 @@ public class PRINCIPAL extends javax.swing.JFrame {
                 if (rowCode != null && rowCode.equals(code)) {
                     cuentasPorCodigo.add(row);
                 }
+            }
+            // Iterate through cuentasPorCodigo:
+            for (List<Object> cuenta : cuentasPorCodigo) {
+                System.out.println(cuenta);
             }
             cuentasAgrupadas.put(code, cuentasPorCodigo);
         }
@@ -391,10 +320,11 @@ public class PRINCIPAL extends javax.swing.JFrame {
             String cuenta = "";
 
             for (List<Object> datos : datosPorCodigo) {
+                System.out.println(datos);
 
 
                 // Obtener la descripción
-                String descripcion = (String) datos.get(3); // Suponiendo que la descripción está en la posición 1
+                String descripcion = (String) datos.get(4); // Suponiendo que la descripción está en la posición 1
 
                 // Obtener la fecha
                 String fecha = datos.get(1).toString(); // Suponiendo que la fecha está en la posición 0
@@ -411,8 +341,8 @@ public class PRINCIPAL extends javax.swing.JFrame {
                 // Evaluar el primer dígito del código para determinar si es activo o pasivo
                 char primerDigito = codigoCuenta.charAt(0);
 
-                String debeStr = (String) datos.get(4);
-                String haberStr = (String) datos.get(5);
+                String debeStr = (String) datos.get(5);
+                String haberStr = (String) datos.get(6);
 
                 if (primerDigito == '1') {
                     // Es una cuenta de activo
@@ -549,8 +479,8 @@ public class PRINCIPAL extends javax.swing.JFrame {
                         // Evaluar el primer dígito del código para determinar si es activo o pasivo
                         char primerDigito = codigoCuenta.charAt(0);
 
-                        String debeStr = (String) datos.get(4);
-                        String haberStr = (String) datos.get(5);
+                        String debeStr = (String) datos.get(5);
+                        String haberStr = (String) datos.get(6);
 
                         if (primerDigito == '1') {
                             // Es una cuenta de activo

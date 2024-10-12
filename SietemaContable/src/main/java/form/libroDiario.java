@@ -5,11 +5,12 @@
 package form;
 
 
-
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.HashMap;
+
 import com.toedter.calendar.JDateChooser;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,17 +20,18 @@ import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
+
 import logic.CatalogoDeCuentasDatos;
 import logic.valoresBusqueda;
+
 /**
- *
  * @author diegorro
  */
 public class libroDiario extends javax.swing.JPanel {
-private CatalogoDeCuentasDatos catalogoDeCuentasDatos;
-public valoresBusqueda valor;
-   
-public libroDiario() {
+    private CatalogoDeCuentasDatos catalogoDeCuentasDatos;
+    public valoresBusqueda valor;
+
+    public libroDiario() {
         initComponents();
         crearModelo();
         java.util.Date fechaActual = new Date();
@@ -41,8 +43,8 @@ public libroDiario() {
         jScrollPane3.setVisible(false);
         btnGuardarEnLibroMayor.enable(false);
         catalogoDeCuentasDatos = new CatalogoDeCuentasDatos();
-        
-        
+
+
         jComboBox1.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent evt) {
@@ -54,14 +56,14 @@ public libroDiario() {
                     } else if ("Haber".equals(selectedOption)) {
                         deb.setEnabled(false); // Deshabilitar "Debe"
                         hber.setEnabled(true);  // Habilitar "Haber"
-                    } else if ("-".equals(selectedOption)){
+                    } else if ("-".equals(selectedOption)) {
                         deb.setEnabled(false);  // Habilitar ambos
                         hber.setEnabled(false);
                     }
                 }
             }
         });
-         jList1.addListSelectionListener(e -> {
+        jList1.addListSelectionListener(e -> {
             if (!jList1.isSelectionEmpty()) {
                 String valorSeleccionado = jList1.getSelectedValue();
                 HashMap<String, String> cuentas = valor.getCuentas();
@@ -72,55 +74,57 @@ public libroDiario() {
                 jScrollPane3.setVisible(false);
             }
         });
-    txtbuscarCuenta.getDocument().addDocumentListener(new DocumentListener() {
-    @Override
-    public void insertUpdate(DocumentEvent e) {
-        buscarNombreCuenta();
-    }
-
-    @Override
-    public void removeUpdate(DocumentEvent e) {
-        buscarNombreCuenta();
-    }
-
-    @Override
-    public void changedUpdate(DocumentEvent e) {
-        buscarNombreCuenta();
-    }
-
-    private void buscarNombreCuenta() {
-        buscarEnBase(txtbuscarCuenta.getText());
-    }
-    private void buscarEnBase(String Dato){
-        
-        if("".equals(Dato)){
-            jList1.setVisible(false);
-            jScrollPane3.setVisible(false);
-        }else{
-            String codigoIngresado = Dato.trim();
-        
-           valor = catalogoDeCuentasDatos.buscarNombreCuentaPorCodigo(codigoIngresado);
-            DefaultListModel<String> modeloLista = new DefaultListModel<>();
-            for(String elemento : valor.getNombreCuentas()){
-                modeloLista.addElement(elemento);
+        txtbuscarCuenta.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                buscarNombreCuenta();
             }
 
-            if (valor.getNombreCuentas() != null) {
-
-                jList1.setModel(modeloLista);
-                jList1.setVisible(true);
-                jScrollPane3.setVisible(true);
-            } else {
-                des.setText(""); 
-                jList1.setVisible(false);
-                jScrollPane3.setVisible(false);
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                buscarNombreCuenta();
             }
-        }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                buscarNombreCuenta();
+            }
+
+            private void buscarNombreCuenta() {
+                buscarEnBase(txtbuscarCuenta.getText());
+            }
+
+            private void buscarEnBase(String Dato) {
+
+                if ("".equals(Dato)) {
+                    jList1.setVisible(false);
+                    jScrollPane3.setVisible(false);
+                } else {
+                    String codigoIngresado = Dato.trim();
+
+                    valor = catalogoDeCuentasDatos.buscarNombreCuentaPorCodigo(codigoIngresado);
+                    DefaultListModel<String> modeloLista = new DefaultListModel<>();
+                    for (String elemento : valor.getNombreCuentas()) {
+                        modeloLista.addElement(elemento);
+                    }
+
+                    if (valor.getNombreCuentas() != null) {
+
+                        jList1.setModel(modeloLista);
+                        jList1.setVisible(true);
+                        jScrollPane3.setVisible(true);
+                    } else {
+                        des.setText("");
+                        jList1.setVisible(false);
+                        jScrollPane3.setVisible(false);
+                    }
+                }
+            }
+        });
+
     }
-});
-    
-}
-    public void crearModelo(){
+
+    public void crearModelo() {
         String[] columnNames = {"Fecha", "Cuenta", "Ref", "Debe", "Haber"};
 
         // Crear un modelo de datos no editable
@@ -131,15 +135,17 @@ public libroDiario() {
                 return false;
             }
         };
-            tabla1.setModel(model);
+        tabla1.setModel(model);
     }
-    public void limpiarTextBox(){
+
+    public void limpiarTextBox() {
         txtbuscarCuenta.setText("");
         codigo.setText("");
         des.setText("");
         deb.setText("");
         hber.setText("");
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -171,14 +177,9 @@ public libroDiario() {
         setBackground(new java.awt.Color(245, 245, 220));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        tabla1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+        tabla1.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{
 
-            },
-            new String [] {
-                "Fecha", "Cuenta", "Ref", "Debe", "Haber"
-            }
-        ));
+        }, new String[]{"Fecha", "Cuenta", "Ref", "Debe", "Haber"}));
         jScrollPane1.setViewportView(tabla1);
 
         add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 120, 480, -1));
@@ -236,7 +237,7 @@ public libroDiario() {
         jButton2.setText("Crear Cuenta");
         add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 80, -1, -1));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "Debe", "Haber" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"-", "Debe", "Haber"}));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -283,52 +284,52 @@ public libroDiario() {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        
+
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
         // TODO add your handling code here:
         catalogoDeCuentasDatos = new CatalogoDeCuentasDatos();
-            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-            String fe= formato.format(fecha.getDate());
-            String codigoCuenta = codigo.getText();
-            String descripcion = des.getText();
-            String debe = deb.getText();
-            String haber = hber.getText();
-            
-            if(!"".equals(fe) && !"".equals(codigoCuenta) && !"".equals(descripcion) && !"".equals(debe) || !"".equals(haber)){
-                //catalogoDeCuentasDatos.guardarEnBaseDeDatos(fe,codigoCuenta, descripcion, debe, haber);
-                
-                des.setText("");
-                codigo.setText("");
-                deb.setText("");
-                hber.setText("");
-                txtbuscarCuenta.setText("");
-                DefaultTableModel modelo = (DefaultTableModel) tabla1.getModel();
-                Object[] fila = {fe,descripcion, codigoCuenta, debe, haber};
-                modelo.addRow(fila);
-                float a = 0;
-                float b = 0;
-                for(int i = 0; i<modelo.getRowCount(); i++){
-                    if(!"".equals(modelo.getValueAt(i,3).toString())){
-                        String numeroDebe = modelo.getValueAt(i,3).toString();
-                        a = a + Float.parseFloat(numeroDebe);
-                    }
-                    if(!"".equals(modelo.getValueAt(i,4).toString())){
-                        String numeroHaber = modelo.getValueAt(i, 4).toString();
-                        b = b + Float.parseFloat(numeroHaber);
-                    }
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        String fe = formato.format(fecha.getDate());
+        String codigoCuenta = codigo.getText();
+        String descripcion = des.getText();
+        String debe = deb.getText();
+        String haber = hber.getText();
+
+        if (!"".equals(fe) && !"".equals(codigoCuenta) && !"".equals(descripcion) && !"".equals(debe) || !"".equals(haber)) {
+            //catalogoDeCuentasDatos.guardarEnBaseDeDatos(fe,codigoCuenta, descripcion, debe, haber);
+
+            des.setText("");
+            codigo.setText("");
+            deb.setText("");
+            hber.setText("");
+            txtbuscarCuenta.setText("");
+            DefaultTableModel modelo = (DefaultTableModel) tabla1.getModel();
+            Object[] fila = {fe, descripcion, codigoCuenta, debe, haber};
+            modelo.addRow(fila);
+            float a = 0;
+            float b = 0;
+            for (int i = 0; i < modelo.getRowCount(); i++) {
+                if (!"".equals(modelo.getValueAt(i, 3).toString())) {
+                    String numeroDebe = modelo.getValueAt(i, 3).toString();
+                    a = a + Float.parseFloat(numeroDebe);
                 }
-                lblDebe.setText("$ "+a);
-                lblHaber.setText("$ "+b);
-            }else{
-                JOptionPane.showMessageDialog(null, "Debe de rellenar todos los campos.","ERROR",JOptionPane.ERROR_MESSAGE);
+                if (!"".equals(modelo.getValueAt(i, 4).toString())) {
+                    String numeroHaber = modelo.getValueAt(i, 4).toString();
+                    b = b + Float.parseFloat(numeroHaber);
+                }
             }
+            lblDebe.setText("$ " + a);
+            lblHaber.setText("$ " + b);
+        } else {
+            JOptionPane.showMessageDialog(null, "Debe de rellenar todos los campos.", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_guardarActionPerformed
 
     private void btnGuardarEnLibroMayorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarEnLibroMayorActionPerformed
         // TODO add your handling code here:
-        if(lblDebe.getText().equals(lblHaber.getText()) && !"$0.00".equals(lblHaber.getText()) && !"$0.00".equals(lblDebe.getText())){
+        if (lblDebe.getText().equals(lblHaber.getText()) && !"$0.00".equals(lblHaber.getText()) && !"$0.00".equals(lblDebe.getText())) {
             List<String> ids = new ArrayList();
             int filas = tabla1.getRowCount();
             int columnas = tabla1.getColumnCount();
@@ -350,27 +351,27 @@ public libroDiario() {
                         case 4 -> haber = valorTabla.toString();
                     }
                 }
-                catalogoDeCuentasDatos.guardarEnBaseDeDatos(fechaString,codigoTablaString, Descripcion, debe, haber);
+                catalogoDeCuentasDatos.guardarEnBaseDeDatos(fechaString, codigoTablaString, Descripcion, debe, haber);
                 ids.add(catalogoDeCuentasDatos.retornarIDMayor());
                 //nCuentas.add(Integer.parseInt(codigoTablaString));
             }
             String idTransacciones = "";
-            for (String id: ids) {
-                idTransacciones += id+",";
+            for (String id : ids) {
+                idTransacciones += id + ",";
             }
-            String substring = idTransacciones.substring(0, idTransacciones.length()-1);
-            
+            String substring = idTransacciones.substring(0, idTransacciones.length() - 1);
+
             SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-            String fe= formato.format(fecha.getDate());
+            String fe = formato.format(fecha.getDate());
             boolean flag = true;
-            while (flag) {                
-                String descripcion= JOptionPane.showInputDialog(null, " Ingrese la descripcion de la transacción");
-                if("".equals(descripcion)){
+            while (flag) {
+                String descripcion = JOptionPane.showInputDialog(null, " Ingrese la descripcion de la transacción");
+                if ("".equals(descripcion)) {
                     JOptionPane.showMessageDialog(null, "Debe de ingresar una descripcion valida");
-                }else if(descripcion == null){
-                    flag =  false;
-                    
-                }else{
+                } else if (descripcion == null) {
+                    flag = false;
+
+                } else {
                     catalogoDeCuentasDatos.guardarEnBaseTransaccion(fe, substring, descripcion);
                     JOptionPane.showMessageDialog(null, "Partida guardada con exito!!");
                     crearModelo();
@@ -380,17 +381,17 @@ public libroDiario() {
                     flag = false;
                 }
             }
-        }else if("$0.00".equals(lblHaber.getText()) && "$0.00".equals(lblDebe.getText())){
-            JOptionPane.showMessageDialog(null,"No puede registrar una transaccion sin movimiento de dinero","Error", JOptionPane.ERROR_MESSAGE);
-        }else{
-            JOptionPane.showMessageDialog(null,"No esta balanceada la transacción por ende no se puede guardar","Error", JOptionPane.ERROR_MESSAGE);
+        } else if ("$0.00".equals(lblHaber.getText()) && "$0.00".equals(lblDebe.getText())) {
+            JOptionPane.showMessageDialog(null, "No puede registrar una transaccion sin movimiento de dinero", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "No esta balanceada la transacción por ende no se puede guardar", "Error", JOptionPane.ERROR_MESSAGE);
         }
-     
+
     }//GEN-LAST:event_btnGuardarEnLibroMayorActionPerformed
 
     private void lblDebePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_lblDebePropertyChange
         // TODO add your handling code here:
-        if(lblDebe.getText().equals(lblHaber.getText())){
+        if (lblDebe.getText().equals(lblHaber.getText())) {
             btnGuardarEnLibroMayor.enable(true);
         }
     }//GEN-LAST:event_lblDebePropertyChange
@@ -402,7 +403,7 @@ public libroDiario() {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {

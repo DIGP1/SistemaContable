@@ -5,14 +5,14 @@
 package form;
 
 import javax.swing.JOptionPane;
+
 import logic.CatalogoDeCuentasDatos;
 
 /**
- *
  * @author angel
  */
 public class Registro_cuenta extends javax.swing.JPanel {
-private CatalogoDeCuentasDatos catalogoDeCuentasDatos = new CatalogoDeCuentasDatos();
+    private CatalogoDeCuentasDatos catalogoDeCuentasDatos = new CatalogoDeCuentasDatos();
 
     /**
      * Creates new form Registro_cuenta
@@ -69,45 +69,8 @@ private CatalogoDeCuentasDatos catalogoDeCuentasDatos = new CatalogoDeCuentasDat
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(43, 43, 43)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3))
-                        .addGap(22, 22, 22)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cc, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
-                            .addComponent(code)
-                            .addComponent(ss)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(118, 118, 118)
-                        .addComponent(jButton1)))
-                .addContainerGap(89, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(52, 52, 52)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(code, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(cc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(22, 22, 22)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(ss, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(62, 62, 62)
-                .addComponent(jButton1)
-                .addContainerGap(74, Short.MAX_VALUE))
-        );
+        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addGap(43, 43, 43).addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jLabel1).addComponent(jLabel2).addComponent(jLabel3)).addGap(22, 22, 22).addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false).addComponent(cc, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE).addComponent(code).addComponent(ss))).addGroup(layout.createSequentialGroup().addGap(118, 118, 118).addComponent(jButton1))).addContainerGap(89, Short.MAX_VALUE)));
+        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addGap(52, 52, 52).addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(jLabel1).addComponent(code, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addGap(27, 27, 27).addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(jLabel2).addComponent(cc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addGap(22, 22, 22).addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(jLabel3).addComponent(ss, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addGap(62, 62, 62).addComponent(jButton1).addContainerGap(74, Short.MAX_VALUE)));
     }// </editor-fold>//GEN-END:initComponents
 
     private void codeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_codeActionPerformed
@@ -123,33 +86,29 @@ private CatalogoDeCuentasDatos catalogoDeCuentasDatos = new CatalogoDeCuentasDat
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void guardarCuentaEnBD() {
-    String codigo = code.getText();
-    String cuenta = cc.getText();
-    String saldoText = ss.getText();
+        String codigo = code.getText();
+        String cuenta = cc.getText();
+        String saldoText = ss.getText();
 
-    double saldo = 0.0;  // Valor por defecto, puede ser nulo en la base de datos
+        double saldo = 0.0;  // Valor por defecto, puede ser nulo en la base de datos
 
-    // Verificar si el campo de saldo no está vacío
-    if (!saldoText.isEmpty()) {
-        try {
-            saldo = Double.parseDouble(saldoText);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "El valor de saldo no es un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
-            return; // Salir del método si la conversión falla
+        // Verificar si el campo de saldo no está vacío
+        if (!saldoText.isEmpty()) {
+            try {
+                saldo = Double.parseDouble(saldoText);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "El valor de saldo no es un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+                return; // Salir del método si la conversión falla
+            }
         }
+
+        // Ahora puedes usar 'saldo' en tu código para guardarlo en la base de datos
+        catalogoDeCuentasDatos.guardarTransaccionCatalogoCuentas(codigo, cuenta, saldo);
+
+        // Mostrar un mensaje de éxito
+        JOptionPane.showMessageDialog(this, "Los datos se guardaron con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    // Ahora puedes usar 'saldo' en tu código para guardarlo en la base de datos
-    catalogoDeCuentasDatos.guardarTransaccionCatalogoCuentas(codigo, cuenta, saldo);
-
-    // Mostrar un mensaje de éxito
-    JOptionPane.showMessageDialog(this, "Los datos se guardaron con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-
-  
-}
-
-    
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField cc;
