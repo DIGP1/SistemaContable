@@ -1,9 +1,9 @@
 package form;
 
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 import javax.swing.RowFilter;
 import javax.swing.event.DocumentEvent;
@@ -11,7 +11,9 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+
 import logic.CatalogoDeCuentasDatos;
+import logic.RegistrosContables;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -19,7 +21,6 @@ import logic.CatalogoDeCuentasDatos;
  */
 
 /**
- *
  * @author EstudianteFMO
  */
 public class SegLibroDiario extends javax.swing.JPanel {
@@ -30,11 +31,11 @@ public class SegLibroDiario extends javax.swing.JPanel {
     public SegLibroDiario() {
         initComponents();
         CatalogoDeCuentasDatos cc = new CatalogoDeCuentasDatos();
-        HashMap<String, List> inforLibro = new HashMap<>();
+        Map<Integer, List<RegistrosContables>> inforLibro = new HashMap<>();
         inforLibro = cc.CargarLibroDiario();
         ingresarDatosTabla(inforLibro);
-        
-        
+
+
         TableRowSorter<TableModel> filaFiltrada = new TableRowSorter<>(jTable1.getModel());
         jTable1.setRowSorter(filaFiltrada);
 
@@ -65,40 +66,20 @@ public class SegLibroDiario extends javax.swing.JPanel {
                 }
             }
         });
-        
+
     }
-    
-    
-    public void ingresarDatosTabla(HashMap<String, List> info){
+
+    public void ingresarDatosTabla(Map<Integer, List<RegistrosContables>> info) {
         CatalogoDeCuentasDatos cc = new CatalogoDeCuentasDatos();
-        String ids;
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        
-        for (int i = 0; i < info.get("fecha").size(); i++) {
-            ids =  (String) info.get("idMovimientos").get(i);
-             String[] id = ids.split(",");
-             model.addRow(new Object[]{info.get("fecha").get(i),"                                   Transaccion "+(i+1),"","",""});
-             for(String idString : id){
-                 String movimiento = cc.obtenerMovimiento(Integer.parseInt(idString));
-                 String[] movientosSplit = movimiento.split("\t");
-                 if(!"0".equals(movientosSplit[2])){
-                     model.addRow(new Object[]{"",movientosSplit[1],movientosSplit[0],movientosSplit[2],""});
-                 }else{
-                     model.addRow(new Object[]{"","             "+movientosSplit[1],movientosSplit[0],"",movientosSplit[3]});
-                 }
-                 
-             }
-             model.addRow(new Object[]{"",info.get("descripcion").get(i),"","",""});
+
+        for (Map.Entry<Integer, List<RegistrosContables>> entry : info.entrySet()) {
+            List<RegistrosContables> value = entry.getValue();
+            for (RegistrosContables registrosContables : value) {
+                model.addRow(new Object[]{registrosContables.getFecha(), registrosContables.getDescripcion(), registrosContables.getCodigo(), registrosContables.getDebe(), registrosContables.getHaber()});
+            }
         }
-                
-                
-               
-        
-        
     }
-    
-
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -120,15 +101,15 @@ public class SegLibroDiario extends javax.swing.JPanel {
         txtBuscar = new javax.swing.JTextField();
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
+                new Object[][]{
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null}
+                },
+                new String[]{
+                        "Title 1", "Title 2", "Title 3", "Title 4"
+                }
         ));
         jScrollPane2.setViewportView(jTable2);
 
@@ -137,19 +118,19 @@ public class SegLibroDiario extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(911, 310));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+                new Object[][]{
 
-            },
-            new String [] {
-                "Fecha", "Descripcion", "Codigo", "Debe", "Haber"
-            }
+                },
+                new String[]{
+                        "Fecha", "Descripcion", "Codigo", "Debe", "Haber"
+                }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+            boolean[] canEdit = new boolean[]{
+                    false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+                return canEdit[columnIndex];
             }
         });
         jScrollPane1.setViewportView(jTable1);
@@ -169,7 +150,7 @@ public class SegLibroDiario extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel1.setText("LIBRO DIARIO");
 
-        cbfiltrado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fecha", "Descripcion", "Codigo" }));
+        cbfiltrado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Fecha", "Descripcion", "Codigo"}));
         cbfiltrado.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 cbfiltradoComponentShown(evt);
@@ -183,40 +164,40 @@ public class SegLibroDiario extends javax.swing.JPanel {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(409, 409, 409)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(143, 143, 143)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 687, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cbfiltrado, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(81, Short.MAX_VALUE))
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGap(409, 409, 409)
+                                                .addComponent(jLabel1))
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGap(143, 143, 143)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 687, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                                .addComponent(jLabel2)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addComponent(cbfiltrado, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addComponent(jLabel3)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                                .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addContainerGap(81, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cbfiltrado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 492, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(cbfiltrado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel2)
+                                        .addComponent(jLabel3)
+                                        .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 492, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 

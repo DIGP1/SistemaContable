@@ -5,9 +5,9 @@
 package logic;
 
 /**
- *
  * @author Isaac
  */
+
 import form.LibroMayor;
 
 import java.sql.Connection;
@@ -18,6 +18,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -26,71 +27,99 @@ public class CatalogoDeCuentasDatos {
 
     public List<String> listarCuentas() {
         List<String> cuentas = new ArrayList<>();
-        
-        String sql = "SELECT * FROM CATALOGO_DE_CUENTAS";
-        
-        try (Connection conn = dbConnection.connect();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+
+        String sql = "SELECT * FROM tbl_catalogo_de_cuentas";
+
+        try (Connection conn = dbConnection.connect(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                String cuenta = rs.getString("Codigo") + "\t" +  
-                               rs.getString("Cuenta");
+                String cuenta = rs.getString("Codigo") + "\t" + rs.getString("Cuenta");
                 cuentas.add(cuenta);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        
+
         return cuentas;
     }
-        public HashMap<String, List> CargarLibroDiario(){
-        HashMap<String, List> inforLibro = new HashMap<>();
-        List<String> fechas = new ArrayList<>();
-        List<String> movimientos = new ArrayList<>();
-        List<String> descripcion = new ArrayList<>();
+
+    public Map<Integer, List<RegistrosContables>> CargarLibroDiario() {
+        Map<Integer, List<RegistrosContables>> registrosLibroDiario = new HashMap<>();
+        List<RegistrosContables> data = new ArrayList<>();
         
-        String sql = "SELECT * FROM TRANSACCIONES_LIBRO_DIARIO";
-        
-        try (Connection conn = dbConnection.connect();
-                Statement stmt = conn.createStatement();
-                ResultSet rs = stmt.executeQuery(sql)){
-            while (rs.next()) {
-                fechas.add(rs.getString("fecha"));
-                movimientos.add(rs.getString("idMovimientosLD"));
-                descripcion.add(rs.getString("descripcionTransaccion"));
-            }
-        }catch (SQLException e){
+        int counter = 0;
+
+        String sql = """
+                select \
+                    tbl_catalogo_de_cuentas.codigo as codigo, \
+                    tbl_transacciones_libro_diario.fecha                   as fecha, \
+                    tbl_libro_diario.Debe                                  as debe, \
+                    tbl_libro_diario.Haber                                 as haber, \
+                    tbl_catalogo_de_cuentas.cuenta as cuenta, \
+                    tbl_transacciones_libro_diario.descripcion_transaccion as descripcion \
+                from tbl_transacciones_libro_diario
+                inner join tbl_libro_diario on tbl_transacciones_libro_diario.id_movimiento = tbl_libro_diario.id_movimiento
+                inner join tbl_catalogo_de_cuentas on tbl_libro_diario.id_cuenta = tbl_catalogo_de_cuentas.id;
+                """;
+
+        try (Connection conn = dbConnection.connect(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+                while (rs.next()) {
+                    String fecha = rs.getString("fecha");
+                    String codigo = rs.getString("codigo");
+                    String cuenta = rs.getString("cuenta");
+                    String debe = rs.getString("debe");
+                    String haber = rs.getString("haber");
+                    String descripcionTransaccion = rs.getString("descripcion");
+                    
+                    if (debe.isEmpty()) {
+                        debe = "0";
+                    }
+                    
+                    if (haber.isEmpty()) {
+                        haber = "0";
+                    }
+                    
+                    RegistrosContables registro = new RegistrosContables(fecha, codigo, cuenta, debe, haber, descripcionTransaccion);
+                    data.add(registro);
+                    counter++;
+                    registrosLibroDiario.put(counter, data);
+                }
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
-        }  
-        inforLibro.put("fecha", fechas);
-        inforLibro.put("idMovimientos", movimientos);
-        inforLibro.put("descripcion", descripcion);
-        return inforLibro;
+        }
+        // iterate over the map and print the key and value
+        for (Map.Entry<Integer, List<RegistrosContables>> entry : registrosLibroDiario.entrySet()) {
+            // Iterate through the list:
+            System.out.println("Key: " + entry.getKey() + ". Fecha: " + entry.getValue().get(0).getFecha());
+            System.out.println("Key: " + entry.getKey() + ". Codigo: " + entry.getValue().get(0).getCodigo());
+            System.out.println("Key: " + entry.getKey() + ". Cuenta: " + entry.getValue().get(0).getCuenta());
+            System.out.println("Key: " + entry.getKey() + ". Debe: " + entry.getValue().get(0).getDebe());
+            System.out.println("Key: " + entry.getKey() + ". Haber: " + entry.getValue().get(0).getHaber());
+            System.out.println("Key: " + entry.getKey() + ". Descripcion: " + entry.getValue().get(0).getDescripcion());
+            
+        }
+        return registrosLibroDiario;
     }
-        
-        public String obtenerMovimiento(int id){
-            String movimiento = "";
-            String sql = "SELECT * FROM LIBRO_DIARIO WHERE id = ?";
-        
-        try (Connection conn = dbConnection.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-             pstmt.setInt(1, id);
+
+    public String obtenerMovimiento(int id) {
+        String movimiento = "";
+        String sql = "SELECT * FROM LIBRO_DIARIO WHERE id = ?";
+
+        try (Connection conn = dbConnection.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                movimiento = rs.getString("Codigo")+ "\t" + rs.getString("Descripcion");
-                if(!"".equals(rs.getString("Debe"))){
+                movimiento = rs.getString("Codigo") + "\t" + rs.getString("Descripcion");
+                if (!"".equals(rs.getString("Debe"))) {
                     movimiento += "\t" + rs.getString("Debe");
-                }else{
+                } else {
                     movimiento += "\t" + "0";
                 }
-                if(!"".equals(rs.getString("Haber"))){
+                if (!"".equals(rs.getString("Haber"))) {
                     movimiento += "\t" + rs.getString("Haber");
-                }else{
+                } else {
                     movimiento += "\t" + "0";
                 }
-               
-               
             }
 
             conn.close();
@@ -99,77 +128,66 @@ public class CatalogoDeCuentasDatos {
         }
 
         return movimiento;
-        }
-        
-        
+    }
 
 
-     public List<String> filtros(String ft) {
+    public List<String> filtros(String ft) {
         List<String> cuentas = new ArrayList<>();
-        
-        String sql = "SELECT * FROM CATALOGO_DE_CUENTAS WHERE Codigo LIKE '"+ft+"%'";
-        
-        try (Connection conn = dbConnection.connect();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+
+        String sql = "SELECT * FROM tbl_catalogo_de_cuentas WHERE Codigo LIKE '" + ft + "%'";
+
+        try (Connection conn = dbConnection.connect(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                String cuenta = rs.getString("Codigo") + "\t" +  
-                               rs.getString("Cuenta");
+                String cuenta = rs.getString("codigo") + "\t" + rs.getString("cuenta");
                 cuentas.add(cuenta);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        
+
         return cuentas;
     }
-    
-    
-    
-     
-public valoresBusqueda buscarNombreCuentaPorCodigo(String codigoIngresado) {
-    valoresBusqueda valorBusqueda;
-    HashMap<String, String> cuentas = new HashMap<>();
-    List<String> nombreCuentas = new ArrayList<>();
-    String sql = "SELECT Codigo, Cuenta FROM CATALOGO_DE_CUENTAS WHERE Cuenta LIKE '" + codigoIngresado + "%'";
-   
-    
 
-    try (Connection conn = dbConnection.connect();
-         Statement stmt = conn.createStatement();
-         ResultSet rs = stmt.executeQuery(sql)) {
 
-        if(rs.next()){
-            cuentas.put(rs.getString("Cuenta"), rs.getString("Codigo"));
-            nombreCuentas.add(rs.getString("Cuenta"));
-            while (rs.next()) {
-                cuentas.put(rs.getString("Cuenta"), rs.getString("Codigo"));
-                nombreCuentas.add(rs.getString("Cuenta"));
+    public valoresBusqueda buscarNombreCuentaPorCodigo(String codigoIngresado) {
+        valoresBusqueda valorBusqueda;
+        HashMap<String, String> cuentas = new HashMap<>();
+        List<String> nombreCuentas = new ArrayList<>();
+        String sql = "SELECT Codigo, Cuenta FROM tbl_catalogo_de_cuentas WHERE cuenta LIKE '" + codigoIngresado + "%'";
+
+
+        try (Connection conn = dbConnection.connect(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+
+            if (rs.next()) {
+                cuentas.put(rs.getString("cuenta"), rs.getString("codigo"));
+                nombreCuentas.add(rs.getString("cuenta"));
+                while (rs.next()) {
+                    cuentas.put(rs.getString("cuenta"), rs.getString("codigo"));
+                    nombreCuentas.add(rs.getString("cuenta"));
+                }
+                conn.close();
+                if (conn.isClosed()) {
+                    System.out.println("Se cerro conexion");
+                }
+            } else {
+                cuentas.put("Error", "No se encontro ninguna cuenta");
+                nombreCuentas.add("No se encontro ninguna cuenta");
+                valorBusqueda = new valoresBusqueda(cuentas, nombreCuentas);
+                conn.close();
+                return valorBusqueda;
             }
-            conn.close();
-            if(conn.isClosed()){
-                System.out.println("Se cerro conexion");
-            }
-        }else{
-            cuentas.put("Error", "No se encontro ninguna cuenta");
-            nombreCuentas.add("No se encontro ninguna cuenta");
-            valorBusqueda = new valoresBusqueda(cuentas,nombreCuentas);
-            conn.close();
-            return valorBusqueda;
-        }    
-    } catch (SQLException e) {
-        System.out.println(e.getMessage());
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        valorBusqueda = new valoresBusqueda(cuentas, nombreCuentas);
+        return valorBusqueda;
     }
-    valorBusqueda = new valoresBusqueda(cuentas,nombreCuentas);
-    return valorBusqueda;
-}
 
-    public void guardarEnBaseDeDatos(String fecha,String Codigo,String  Descripcion, String Debe, String Haber) {
+    public void guardarEnBaseDeDatos(String fecha, String Codigo, String Descripcion, String Debe, String Haber) {
         String sql = "INSERT INTO LIBRO_DIARIO (Fecha,Codigo,Descripcion,  Debe, Haber) VALUES (?, ?, ?, ?,?)";
 
-        try (Connection conn = dbConnection.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (Connection conn = dbConnection.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, fecha);
             pstmt.setString(2, Codigo);
             pstmt.setString(3, Descripcion);
@@ -191,13 +209,11 @@ public valoresBusqueda buscarNombreCuentaPorCodigo(String codigoIngresado) {
         }
     }
 
-    public List<List<Object>> libroDiario() { 
+    public List<List<Object>> libroDiario() {
         String sql = "SELECT * FROM LIBRO_DIARIO";
         List<List<Object>> resultList = new ArrayList<>();
 
-        try (Connection conn = dbConnection.connect();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+        try (Connection conn = dbConnection.connect(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
                 List<Object> row = new ArrayList<>();
@@ -214,15 +230,14 @@ public valoresBusqueda buscarNombreCuentaPorCodigo(String codigoIngresado) {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        return resultList; 
+        return resultList;
     }
 
     public String obtenerDescripcionPorId(int id) {
         String descripcion = null;
         String sql = "SELECT descripcion FROM LIBRO_DIARIO WHERE ID = ?";
 
-        try (Connection conn = dbConnection.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (Connection conn = dbConnection.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
 
@@ -239,13 +254,11 @@ public valoresBusqueda buscarNombreCuentaPorCodigo(String codigoIngresado) {
     }
 
 
-
     public String obtenerFechaPorId(int id) {
         String fecha = null;
         String sql = "SELECT fecha FROM LIBRO_DIARIO WHERE ID = ?";
 
-        try (Connection conn = dbConnection.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (Connection conn = dbConnection.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
 
@@ -262,11 +275,9 @@ public valoresBusqueda buscarNombreCuentaPorCodigo(String codigoIngresado) {
     }
 
     public void transacciones() {
-        String sql = "SELECT * FROM TRANSACCIONES_LIBRO_DIARIO";
+        String sql = "SELECT * FROM tbl_transacciones_libro_diario";
 
-        try (Connection conn = dbConnection.connect();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+        try (Connection conn = dbConnection.connect(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
             System.out.println(sql);
 
             while (rs.next()) {
@@ -295,13 +306,11 @@ public valoresBusqueda buscarNombreCuentaPorCodigo(String codigoIngresado) {
     }
 
 
-    public String retornarIDMayor(){
+    public String retornarIDMayor() {
         String cuenta = "";
         String sql = "SELECT MAX(id) FROM LIBRO_DIARIO;";
-        
-        try (Connection conn = dbConnection.connect();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+
+        try (Connection conn = dbConnection.connect(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
                 cuenta = rs.getString("MAX(id)");
@@ -309,21 +318,20 @@ public valoresBusqueda buscarNombreCuentaPorCodigo(String codigoIngresado) {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        
-        return cuenta; 
+
+        return cuenta;
     }
-    public void guardarEnBaseTransaccion(String fecha,String ids, String descripcion) {
-        String sql = "INSERT INTO TRANSACCIONES_LIBRO_DIARIO (fecha,idMovimientosLD,descripcionTransaccion) VALUES (?, ?, ?)";
-        
-        try (Connection conn = dbConnection.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+    public void guardarEnBaseTransaccion(String fecha, String ids, String descripcion) {
+        String sql = "INSERT INTO tbl_transacciones_libro_diario (fecha,idMovimientosLD,descripcionTransaccion) VALUES (?, ?, ?)";
+
+        try (Connection conn = dbConnection.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, fecha);
             pstmt.setString(2, ids);
             pstmt.setString(3, descripcion);
-;
-            
+
             int filasAfectadas = pstmt.executeUpdate();
-            
+
             if (filasAfectadas > 0) {
                 conn.close();
                 System.out.println("Datos guardados en la base de datos.");
@@ -336,125 +344,110 @@ public valoresBusqueda buscarNombreCuentaPorCodigo(String codigoIngresado) {
             System.out.println("Error al guardar en la base de datos: " + e.getMessage());
         }
     }
-    
-    public void registrarUsuario(String username, String pass, String rol, String Nombre){
-        
-        boolean usuarioEncontrado = false;
-        String sql1 = "SELECT username FROM USUARIOS WHERE username = '"+username+"'";
-        try (Connection conn = dbConnection.connect();
-         Statement stmt = conn.createStatement();
-         ResultSet rs = stmt.executeQuery(sql1)) {
 
-        if (rs.next()) {
-            usuarioEncontrado = true;
-        }
+    public void registrarUsuario(String username, String pass, String rol, String Nombre) {
+
+        boolean usuarioEncontrado = false;
+        String sql1 = "SELECT username FROM tbl_usuarios WHERE username = '" + username + "'";
+        try (Connection conn = dbConnection.connect(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql1)) {
+
+            if (rs.next()) {
+                usuarioEncontrado = true;
+            }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        
-        if(usuarioEncontrado){
-            JOptionPane.showMessageDialog(null, "El nombre de usuario ya existe","ERROR",1);
-        }
-        else{
-            String sql = "INSERT INTO USUARIOS (username, password, rol,nombrecompleto) VALUES (?,?,?,?)";
-            try(Connection conn = dbConnection.connect();
-                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+        if (usuarioEncontrado) {
+            JOptionPane.showMessageDialog(null, "El nombre de usuario ya existe", "ERROR", 1);
+        } else {
+            String sql = "INSERT INTO tbl_usuarios (username, password, rol,nombrecompleto) VALUES (?,?,?,?)";
+            try (Connection conn = dbConnection.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setString(1, username);
                 pstmt.setString(2, pass);
                 pstmt.setString(3, rol);
-                pstmt.setString(4,Nombre);
+                pstmt.setString(4, Nombre);
                 int filasAfectadas = pstmt.executeUpdate();
-            
+
                 if (filasAfectadas > 0) {
-                    JOptionPane.showMessageDialog(null, "Usuario registrado correctamente","Success",1);
+                    JOptionPane.showMessageDialog(null, "Usuario registrado correctamente", "Success", 1);
                 } else {
                     System.out.println("No se pudieron guardar los datos en la base de datos.");
                 }
             } catch (Exception e) {
-                    System.out.println("Error al guardar en la base de datos: " + e.getMessage());
-                }
+                System.out.println("Error al guardar en la base de datos: " + e.getMessage());
+            }
         }
     }
-    
-    public void guardarTransacciones(List<Integer> codigo, String descripcion){
-         String sql = "INSERT INTO TRANSACCIONES_LIBRO_DIARIO (nCuenta, DescripcionTransaccion) VALUES (?, ?)";
-            try (Connection conn = dbConnection.connect()) {
-                PreparedStatement pstmt = conn.prepareStatement(sql);
-                for (int nCuenta : codigo) {
-                    pstmt.setInt(1, nCuenta);
-                    pstmt.setString(2, descripcion);
-                    pstmt.executeUpdate(); // Ejecutar la inserción
-                }
-                System.out.println("Valores insertados correctamente.");
-            }
-            catch (SQLException e) {
-                e.printStackTrace();
-            }
-        } 
 
-        
-        
-    
-    public boolean verificacionAdmin(String username, String pass){
-        String usuarioEncontrado = "";
-        String sql1 = "SELECT username, password,rol FROM USUARIOS WHERE username = '"+username+"' AND password = '"+pass+"'";
-        try (Connection conn = dbConnection.connect();
-         Statement stmt = conn.createStatement();
-         ResultSet rs = stmt.executeQuery(sql1)) {
-
-        if (rs.next()) {
-            usuarioEncontrado = rs.getString("rol");
+    public void guardarTransacciones(List<Integer> codigo, String descripcion) {
+        String sql = "INSERT INTO tbl_transacciones_libro_diario (nCuenta, DescripcionTransaccion) VALUES (?, ?)";
+        try (Connection conn = dbConnection.connect()) {
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            for (int nCuenta : codigo) {
+                pstmt.setInt(1, nCuenta);
+                pstmt.setString(2, descripcion);
+                pstmt.executeUpdate(); // Ejecutar la inserción
+            }
+            System.out.println("Valores insertados correctamente.");
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+    }
+
+
+    public boolean verificacionAdmin(String username, String pass) {
+        String usuarioEncontrado = "";
+        String sql1 = "SELECT username, password,rol FROM tbl_usuarios WHERE username = '" + username + "' AND password = '" + pass + "'";
+        try (Connection conn = dbConnection.connect(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql1)) {
+
+            if (rs.next()) {
+                usuarioEncontrado = rs.getString("rol");
+            }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        
-        if("ADMINISTRADOR".equals(usuarioEncontrado)){
-            return  true;
-        }else{
+
+        if ("ADMINISTRADOR".equals(usuarioEncontrado)) {
+            return true;
+        } else {
             JOptionPane.showMessageDialog(null, "El administrador ingresado no existe");
             return false;
         }
     }
-    public boolean login(String username, String password){
-        boolean usuarioEncontrado = false;
-        String sql1 = "SELECT username, password FROM USUARIOS WHERE username = '"+username+"' AND password = '"+password+"'";
-        try (Connection conn = dbConnection.connect();
-         Statement stmt = conn.createStatement();
-         ResultSet rs = stmt.executeQuery(sql1)) {
 
-        if (rs.next()) {
-            usuarioEncontrado = true;
-        }
+    public boolean login(String username, String password) {
+        boolean usuarioEncontrado = false;
+        String sql1 = "SELECT username, password FROM tbl_usuarios WHERE username = '" + username + "' AND password = '" + password + "'";
+        try (Connection conn = dbConnection.connect(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql1)) {
+
+            if (rs.next()) {
+                usuarioEncontrado = true;
+            }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        
+
         return usuarioEncontrado;
     }
-    
-     public void guardarTransaccionCatalogoCuentas(String Codigo, String Cuenta, double Saldo) {
-    String sql = "INSERT INTO CATALOGO_DE_CUENTAS (Codigo, Cuenta, Saldo) VALUES (?, ?, ?)";
 
-    try (Connection conn = dbConnection.connect();
-         PreparedStatement pstmt = conn.prepareStatement(sql)) {
-        pstmt.setString(1, Codigo);
-        pstmt.setString(2, Cuenta);
-        pstmt.setDouble(3, Saldo);
+    public void guardarTransaccionCatalogoCuentas(String Codigo, String Cuenta, double Saldo) {
+        String sql = "INSERT INTO tbl_catalogo_de_cuentas (Codigo, Cuenta, Saldo) VALUES (?, ?, ?)";
 
-        int filasAfectadas = pstmt.executeUpdate();
+        try (Connection conn = dbConnection.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, Codigo);
+            pstmt.setString(2, Cuenta);
+            pstmt.setDouble(3, Saldo);
 
-        if (filasAfectadas > 0) {
-            System.out.println("Datos de transacción guardados en la tabla CATALOGO_CUENTAS.");
-        } else {
-            System.out.println("No se pudieron guardar los datos en la tabla CATALOGO_CUENTAS.");
+            int filasAfectadas = pstmt.executeUpdate();
+
+            if (filasAfectadas > 0) {
+                System.out.println("Datos de transacción guardados en la tabla CATALOGO_CUENTAS.");
+            } else {
+                System.out.println("No se pudieron guardar los datos en la tabla CATALOGO_CUENTAS.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al guardar la transacción en la tabla CATALOGO_CUENTAS: " + e.getMessage());
         }
-    } catch (SQLException e) {
-        System.out.println("Error al guardar la transacción en la tabla CATALOGO_CUENTAS: " + e.getMessage());
     }
 }
-
-    
-    
-}
-
