@@ -103,7 +103,7 @@ public class CatalogoDeCuentasDatos {
 
     public String obtenerMovimiento(int id) {
         String movimiento = "";
-        String sql = "SELECT * FROM LIBRO_DIARIO WHERE id = ?";
+        String sql = "SELECT * FROM tbl_libro_diario WHERE id = ?";
 
         try (Connection conn = dbConnection.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, id);
@@ -185,7 +185,11 @@ public class CatalogoDeCuentasDatos {
     }
 
     public void guardarEnBaseDeDatos(String fecha, String Codigo, String Descripcion, String Debe, String Haber) {
-        String sql = "INSERT INTO LIBRO_DIARIO (Fecha,Codigo,Descripcion,  Debe, Haber) VALUES (?, ?, ?, ?,?)";
+        int id_movimiento = getLastIdMovimiento() + 1;
+        int id_cuenta = getAccountId(Codigo);
+        saveLibroDiario(Debe, Haber, id_cuenta, id_movimiento);
+        
+        /*String sql = "INSERT INTO LIBRO_DIARIO (Fecha,Codigo,Descripcion,  Debe, Haber) VALUES (?, ?, ?, ?,?)";
 
         try (Connection conn = dbConnection.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, fecha);
@@ -206,7 +210,84 @@ public class CatalogoDeCuentasDatos {
             }
         } catch (SQLException e) {
             System.out.println("Error al guardar en la base de datos: " + e.getMessage());
+        }*/
+    }
+
+    private void saveTransaction(String fecha, String Descripcion, int lastId) {
+        String sql = "INSERT INTO tbl_transacciones_libro_diario (fecha,descripcion_transaccion, id_movimiento) VALUES (?, ?, ?)";
+
+        try (Connection conn = dbConnection.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, fecha);
+            pstmt.setString(2, Descripcion);
+            pstmt.setInt(3, lastId);
+
+            int filasAfectadas = pstmt.executeUpdate();
+
+            if (filasAfectadas > 0) {
+                conn.close();
+                System.out.println("Datos guardados en la base de datos.");
+                System.out.println(filasAfectadas);
+            } else {
+                conn.close();
+                System.out.println("No se pudieron guardar los datos en la base de datos.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al guardar en la base de datos: " + e.getMessage());
         }
+    }
+
+    private void saveLibroDiario(String debe, String haber, int id_cuenta, int id_movimiento) {
+        String sql = "INSERT INTO tbl_libro_diario (debe, haber, id_cuenta, id_movimiento) VALUES (?, ?, ?, ?)";
+
+        try (Connection conn = dbConnection.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, debe);
+            pstmt.setString(2, haber);
+            pstmt.setInt(3, id_cuenta);
+            pstmt.setInt(4, id_movimiento);
+
+            int filasAfectadas = pstmt.executeUpdate();
+
+            if (filasAfectadas > 0) {
+                conn.close();
+                System.out.println("Datos guardados en la base de datos.");
+                System.out.println(filasAfectadas);
+            } else {
+                conn.close();
+                System.out.println("No se pudieron guardar los datos en la base de datos.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al guardar en la base de datos: " + e.getMessage());
+        }
+    }
+
+    private int getLastIdMovimiento() {
+        String sql = "SELECT MAX(id_movimiento) FROM tbl_transacciones_libro_diario";
+        int lastId = 0;
+
+        try (Connection conn = dbConnection.connect(); PreparedStatement pstmt = conn.prepareStatement(sql); ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) {
+                lastId = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al obtener el último id_movimiento: " + e.getMessage());
+        }
+
+        return lastId;
+    }
+
+    private int getAccountId(String accountCode) {
+        String sql = "SELECT id FROM tbl_catalogo_de_cuentas WHERE codigo = '" + accountCode + "'";
+        int code = 0;
+
+        try (Connection conn = dbConnection.connect(); PreparedStatement pstmt = conn.prepareStatement(sql); ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) {
+                code = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al obtener el último id_movimiento: " + e.getMessage());
+        }
+
+        return code;
     }
 
     public List<List<Object>> libroDiario() {
@@ -297,7 +378,7 @@ public class CatalogoDeCuentasDatos {
                 int id = rs.getInt("ID"); // Reemplaza "ID" con el nombre real de la columna
                 String fecha = rs.getString("Fecha"); // Reemplaza "Fecha" con el nombre real de la columna
                 // Y así sucesivamente para cada columna que desees mostrar
-                String idMovimientosLD = rs.getString("idMovimientosLD"); // Nueva columna
+                String idMovimientosLD = rs.getString("id_movimiento"); // Nueva columna
                 String descripcionTransaccion = rs.getString("descripcionTransaccion"); // Nueva columna
 
                 // Imprimir los datos en la consola
@@ -320,7 +401,7 @@ public class CatalogoDeCuentasDatos {
 
     public String retornarIDMayor() {
         String cuenta = "";
-        String sql = "SELECT MAX(id) FROM LIBRO_DIARIO;";
+        String sql = "SELECT MAX(id) FROM tbl_libro_diario;";
 
         try (Connection conn = dbConnection.connect(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
 
@@ -335,7 +416,10 @@ public class CatalogoDeCuentasDatos {
     }
 
     public void guardarEnBaseTransaccion(String fecha, String ids, String descripcion) {
-        String sql = "INSERT INTO tbl_transacciones_libro_diario (fecha,idMovimientosLD,descripcionTransaccion) VALUES (?, ?, ?)";
+        int id_movimiento = getLastIdMovimiento() + 1;
+        saveTransaction(fecha, descripcion, id_movimiento);
+        
+        /*String sql = "INSERT INTO tbl_transacciones_libro_diario (fecha,idMovimientosLD,descripcionTransaccion) VALUES (?, ?, ?)";
 
         try (Connection conn = dbConnection.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, fecha);
@@ -354,7 +438,7 @@ public class CatalogoDeCuentasDatos {
             }
         } catch (SQLException e) {
             System.out.println("Error al guardar en la base de datos: " + e.getMessage());
-        }
+        }*/
     }
 
     public void registrarUsuario(String username, String pass, String rol, String Nombre) {
