@@ -435,8 +435,8 @@ public class CatalogoDeCuentasDatos {
     public void registrarUsuario(String username, String pass, int rol, String Nombre) {
 
         boolean usuarioEncontrado = false;
-        String sql1 = "SELECT username FROM tbl_usuarios WHERE username = '" + username + "'";
-        try (Connection conn = dbConnection.connect(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql1)) {
+        String sql = "SELECT username FROM tbl_usuarios WHERE username = '" + username + "'";
+        try (Connection conn = dbConnection.connect(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
 
             if (rs.next()) {
                 usuarioEncontrado = true;
@@ -446,10 +446,15 @@ public class CatalogoDeCuentasDatos {
         }
 
         if (usuarioEncontrado) {
-            JOptionPane.showMessageDialog(null, "El nombre de usuario ya existe", "ERROR", 1);
+            JOptionPane.showMessageDialog(
+                    null,
+                    "El nombre de usuario ya existe",
+                    "ERROR",
+                    JOptionPane.ERROR_MESSAGE
+            );
         } else {
-            String sql = "INSERT INTO tbl_usuarios (username, password, nombrecompleto, rol_id) VALUES (?,?,?,?)";
-            try (Connection conn = dbConnection.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            String sql1 = "INSERT INTO tbl_usuarios (username, password, nombrecompleto, rol_id) VALUES (?,?,?,?)";
+            try (Connection conn = dbConnection.connect(); PreparedStatement pstmt = conn.prepareStatement(sql1)) {
                 pstmt.setString(1, username);
                 pstmt.setString(2, pass);
                 pstmt.setString(3, Nombre);
@@ -457,7 +462,12 @@ public class CatalogoDeCuentasDatos {
                 int filasAfectadas = pstmt.executeUpdate();
 
                 if (filasAfectadas > 0) {
-                    JOptionPane.showMessageDialog(null, "Usuario registrado correctamente", "Success", 1);
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "Usuario registrado correctamente",
+                            "Success",
+                            JOptionPane.INFORMATION_MESSAGE
+                    );
                 } else {
                     System.out.println("No se pudieron guardar los datos en la base de datos.");
                 }
@@ -484,29 +494,51 @@ public class CatalogoDeCuentasDatos {
 
 
     public boolean verificacionAdmin(String username, String password) {
-        String rol = "";
-        String sql = "SELECT rol_id FROM tbl_usuarios WHERE username = ? AND password = ?";
+        if (!getUserPassword(username)) {
+            JOptionPane.showMessageDialog(null,
+                    "El usuario no existe",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+            return false;
+        }
 
+        String sql = "SELECT password, rol_id FROM tbl_usuarios WHERE username = ?";
         try (Connection conn = dbConnection.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, username);
-            pstmt.setString(2, password);
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                rol = rs.getString("rol_id");
+                String encryptedPassword = rs.getString("password");
+                boolean passwordMatches = PasswordVerify.verify(password, encryptedPassword);
+                if (!passwordMatches) {
+                    JOptionPane.showMessageDialog(null,
+                            "Contraseña incorrecta",
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE
+                    );
+                    return false; // Contraseña incorrecta
+                }
+
+                String rol = rs.getString("rol_id");
+                if (rol.equals("1")) {
+                    return true; // El usuario es administrador
+                } else {
+                    JOptionPane.showMessageDialog(null,
+                            "El usuario no es administrador",
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE
+                    );
+                    return false; // El usuario no es administrador
+                }
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-
-        if (rol.equals("1")) {
-            return true; // El usuario es administrador
-        } else {
-            JOptionPane.showMessageDialog(null, "El administrador ingresado no existe");
-            return false; // El usuario no es administrador o no existe
-        }
+        return false; // Fallback en caso de error
     }
+
 
     public boolean login(String username, String password) {
         if (!getUserPassword(username)) {
