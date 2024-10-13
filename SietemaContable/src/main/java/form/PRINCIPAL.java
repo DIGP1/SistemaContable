@@ -681,7 +681,7 @@ public class PRINCIPAL extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-         info.removeAll();
+        info.removeAll();
         jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         EmpresasR er = new EmpresasR();
         er.setSize(info.getSize()); // Establecer el tamaño igual al tamaño del contenedor
