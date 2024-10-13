@@ -118,6 +118,12 @@ public class Register extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Contraseña");
 
+        txtPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtPasswordKeyReleased(evt);
+            }
+        });
+
         button_register.setBackground(new java.awt.Color(0, 102, 102));
         button_register.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         button_register.setForeground(new java.awt.Color(255, 255, 255));
@@ -255,29 +261,42 @@ public class Register extends javax.swing.JFrame {
 
     private void button_registerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_registerActionPerformed
         // TODO add your handling code here:
+        
+        this.register();
+        //cc.registrarUsuario(txtUsername.getText(),txtPassword.getPassword(),);
+    }//GEN-LAST:event_button_registerActionPerformed
+
+    private void txtPasswordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordKeyReleased
+        // TODO add your handling code here:
+        if(evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            this.register();
+        }
+    }//GEN-LAST:event_txtPasswordKeyReleased
+    
+    void register(){
         char[] pass1 = txtPassword.getPassword();
         String password = new String(pass1);
 
         if (txtUsername.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(null, 
-                    "Por favor ingrese un nombre de usuario", 
-                    "Error", 
+            JOptionPane.showMessageDialog(null,
+                    "Por favor ingrese un nombre de usuario",
+                    "Error",
                     JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         if (password.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(null, 
-                    "Por favor ingrese una contraseña", 
-                    "Error", 
+            JOptionPane.showMessageDialog(null,
+                    "Por favor ingrese una contraseña",
+                    "Error",
                     JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         if (txtNombre.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(null, 
-                    "Por favor ingrese un nombre", 
-                    "Error", 
+            JOptionPane.showMessageDialog(null,
+                    "Por favor ingrese un nombre",
+                    "Error",
                     JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -298,9 +317,7 @@ public class Register extends javax.swing.JFrame {
         } else {
             cc.registrarUsuario(txtUsername.getText(), encryptedPass, 2, txtNombre.getText());
         }
-        
-        //cc.registrarUsuario(txtUsername.getText(),txtPassword.getPassword(),);
-    }//GEN-LAST:event_button_registerActionPerformed
+    }
 
 //    public static void main(String args[]) {
 //        /* Set the Nimbus look and feel */
