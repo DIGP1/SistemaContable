@@ -101,8 +101,13 @@ public class libroDiario extends javax.swing.JPanel {
                     jScrollPane3.setVisible(false);
                 } else {
                     String codigoIngresado = Dato.trim();
-
-                    valor = catalogoDeCuentasDatos.buscarNombreCuentaPorCodigo(codigoIngresado);
+                    try{
+                        Integer.parseInt(codigoIngresado);
+                        valor = catalogoDeCuentasDatos.buscarNombreCuentaPorCodigo(codigoIngresado, true);
+                    }catch(Exception e){
+                        valor = catalogoDeCuentasDatos.buscarNombreCuentaPorCodigo(codigoIngresado, false);
+                    }
+                    
                     DefaultListModel<String> modeloLista = new DefaultListModel<>();
                     for (String elemento : valor.getNombreCuentas()) {
                         modeloLista.addElement(elemento);

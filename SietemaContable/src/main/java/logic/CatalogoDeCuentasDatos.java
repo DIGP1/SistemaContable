@@ -140,13 +140,16 @@ public class CatalogoDeCuentasDatos {
     }
 
 
-    public valoresBusqueda buscarNombreCuentaPorCodigo(String codigoIngresado) {
+    public valoresBusqueda buscarNombreCuentaPorCodigo(String codigoIngresado, boolean codigoCuenta) {
         valoresBusqueda valorBusqueda;
         HashMap<String, String> cuentas = new HashMap<>();
         List<String> nombreCuentas = new ArrayList<>();
-        String sql = "SELECT Codigo, Cuenta FROM tbl_catalogo_de_cuentas WHERE cuenta LIKE '" + codigoIngresado + "%'";
-
-
+        String sql;
+        if(codigoCuenta){
+            sql = "SELECT Codigo, Cuenta FROM tbl_catalogo_de_cuentas WHERE Codigo LIKE '" + codigoIngresado + "%'";
+        }else{
+            sql = "SELECT Codigo, Cuenta FROM tbl_catalogo_de_cuentas WHERE cuenta LIKE '" + codigoIngresado + "%'";
+        }
         try (Connection conn = dbConnection.connect(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
 
             if (rs.next()) {
