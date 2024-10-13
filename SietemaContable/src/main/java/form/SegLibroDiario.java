@@ -24,7 +24,7 @@ import logic.RegistrosContables;
  * @author EstudianteFMO
  */
 public class SegLibroDiario extends javax.swing.JPanel {
-
+    private int empresa_id =1;
     /**
      * Creates new form SegLibroDiario
      */
@@ -32,7 +32,7 @@ public class SegLibroDiario extends javax.swing.JPanel {
         initComponents();
         CatalogoDeCuentasDatos cc = new CatalogoDeCuentasDatos();
         Map<Integer, List<RegistrosContables>> inforLibro = new HashMap<>();
-        inforLibro = cc.CargarLibroDiario();
+        inforLibro = cc.CargarLibroDiario(empresa_id);
         ingresarDatosTabla(inforLibro);
 
 

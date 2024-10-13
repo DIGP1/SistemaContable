@@ -30,6 +30,7 @@ import logic.valoresBusqueda;
 public class libroDiario extends javax.swing.JPanel {
     private CatalogoDeCuentasDatos catalogoDeCuentasDatos;
     public valoresBusqueda valor;
+    private int empresa_id = 1;
 
     public libroDiario() {
         initComponents();
@@ -103,9 +104,9 @@ public class libroDiario extends javax.swing.JPanel {
                     String codigoIngresado = Dato.trim();
                     try{
                         Integer.parseInt(codigoIngresado);
-                        valor = catalogoDeCuentasDatos.buscarNombreCuentaPorCodigo(codigoIngresado, true);
+                        valor = catalogoDeCuentasDatos.buscarNombreCuentaPorCodigo(codigoIngresado, true, empresa_id);
                     }catch(Exception e){
-                        valor = catalogoDeCuentasDatos.buscarNombreCuentaPorCodigo(codigoIngresado, false);
+                        valor = catalogoDeCuentasDatos.buscarNombreCuentaPorCodigo(codigoIngresado, false, empresa_id);
                     }
                     
                     DefaultListModel<String> modeloLista = new DefaultListModel<>();
@@ -356,7 +357,7 @@ public class libroDiario extends javax.swing.JPanel {
                         case 4 -> haber = valorTabla.toString();
                     }
                 }
-                catalogoDeCuentasDatos.guardarEnBaseDeDatos(fechaString, codigoTablaString, Descripcion, debe, haber);
+                catalogoDeCuentasDatos.guardarEnBaseDeDatos(fechaString, codigoTablaString, Descripcion, debe, haber,empresa_id);
                 ids.add(catalogoDeCuentasDatos.retornarIDMayor());
                 //nCuentas.add(Integer.parseInt(codigoTablaString));
             }
@@ -377,7 +378,7 @@ public class libroDiario extends javax.swing.JPanel {
                     flag = false;
 
                 } else {
-                    catalogoDeCuentasDatos.guardarEnBaseTransaccion(fe, substring, descripcion);
+                    catalogoDeCuentasDatos.guardarEnBaseTransaccion(fe, substring, descripcion, empresa_id);
                     JOptionPane.showMessageDialog(null, "Partida guardada con exito!!");
                     crearModelo();
                     limpiarTextBox();

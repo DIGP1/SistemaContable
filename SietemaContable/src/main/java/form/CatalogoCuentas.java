@@ -15,7 +15,7 @@ import logic.CatalogoDeCuentasDatos;
  */
 public class CatalogoCuentas extends javax.swing.JPanel {
     private CatalogoDeCuentasDatos catalogoDeCuentasDatos = new CatalogoDeCuentasDatos();
-
+    private int empresa_id = 1;
     /**
      * Creates new form CatalogoCuentas
      */
@@ -220,7 +220,7 @@ public class CatalogoCuentas extends javax.swing.JPanel {
     }
 
     private void cargarCuentasEnTabla() {
-        List<String> cuentas = catalogoDeCuentasDatos.listarCuentas();
+        List<String> cuentas = catalogoDeCuentasDatos.listarCuentas(empresa_id);
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
 
 
@@ -234,7 +234,7 @@ public class CatalogoCuentas extends javax.swing.JPanel {
     }
 
     private void filtrado(String filtro) {
-        List<String> cuentas = catalogoDeCuentasDatos.filtros(filtro);
+        List<String> cuentas = catalogoDeCuentasDatos.filtros(filtro, empresa_id);
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
 
 
