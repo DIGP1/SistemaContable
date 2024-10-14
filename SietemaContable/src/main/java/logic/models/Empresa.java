@@ -6,7 +6,13 @@ public class Empresa {
     String nit;
     int giroComercial;
     String direccion;
+    int departamentoId;
+    int municipioId;
     int distritoId;
+    GiroComercial giroComercialObj;
+    Department departmento;
+    Municipio municipio;
+    Districts distrito;
     int usuarioId;
 
     public Empresa(int id, String nombreComercial, String nit, int giroComercial, String direccion, int distritoId, int usuarioId) {
@@ -17,6 +23,20 @@ public class Empresa {
         this.direccion = direccion;
         this.distritoId = distritoId;
         this.usuarioId = usuarioId;
+    }
+
+    public Empresa(int id, String nombreComercial, String nit, GiroComercial giroComercial, String direccion, int idDistrito, 
+                   int idUsuario, Department departmento, Municipio municipio, Districts distrito) {
+        this.id = id;
+        this.nombreComercial = nombreComercial;
+        this.nit = nit;
+        this.giroComercialObj = giroComercial;
+        this.direccion = direccion;
+        this.distritoId = idDistrito;
+        this.usuarioId = idUsuario;
+        this.departmento = departmento;
+        this.municipio = municipio;
+        this.distrito = distrito;
     }
 
     public int getId() {
@@ -73,5 +93,61 @@ public class Empresa {
     
     public void setIdUsuario(int usuarioId) {
         this.usuarioId = usuarioId;
+    }
+
+    public int getDepartamentoId() {
+        return departamentoId;
+    }
+
+    public void setDepartamentoId(int departamentoId) {
+        this.departamentoId = departamentoId;
+    }
+
+    public int getMunicipioId() {
+        return municipioId;
+    }
+
+    public void setMunicipioId(int municipioId) {
+        this.municipioId = municipioId;
+    }
+
+    public Department getDepartmento() {
+        return departmento;
+    }
+
+    public void setDepartmento(Department departmento) {
+        this.departmento = departmento;
+    }
+
+    public Municipio getMunicipio() {
+        return municipio;
+    }
+
+    public void setMunicipio(Municipio municipio) {
+        this.municipio = municipio;
+    }
+
+    public Districts getDistrito() {
+        return distrito;
+    }
+
+    public void setDistrito(Districts distrito) {
+        this.distrito = distrito;
+    }
+
+    public int getUsuarioId() {
+        return usuarioId;
+    }
+
+    public void setUsuarioId(int usuarioId) {
+        this.usuarioId = usuarioId;
+    }
+
+    public GiroComercial getGiroComercialObj() {
+        return giroComercialObj;
+    }
+
+    public void setGiroComercialObj(GiroComercial giroComercialObj) {
+        this.giroComercialObj = giroComercialObj;
     }
 }

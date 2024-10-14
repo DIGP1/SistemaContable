@@ -1,7 +1,7 @@
 package logic.queries;
 
 import logic.DatabaseConnection;
-import logic.models.Empresa;
+import logic.models.*;
 
 import javax.swing.*;
 import java.sql.Connection;
@@ -68,21 +68,22 @@ public class SelectData {
     }
 
     public static List<Empresa> getCompanies() {
-        String myQuery = "SELECT\n" +
-                "    tbl_empresas.id,\n" +
-                "    nombre_comercial,\n" +
-                "    nit,\n" +
-                "    id_giro_comercial,\n" +
-                "    id_distrito,\n" +
-                "    id_usuario,\n" +
-                "    direccion,\n" +
-                "    distrito\n" +
-                "FROM\n" +
-                "    tbl_empresas\n" +
-                "INNER JOIN\n" +
-                "    tbl_distritos td\n" +
-                "ON\n" +
-                "    tbl_empresas.id_distrito = td.id";
+        String myQuery = """
+                SELECT
+                    tbl_empresas.id,
+                    nombre_comercial,
+                    nit,
+                    id_giro_comercial,
+                    id_distrito,
+                    id_usuario,
+                    direccion,
+                    distrito
+                FROM
+                    tbl_empresas
+                INNER JOIN
+                    tbl_distritos td
+                ON
+                    tbl_empresas.id_distrito = td.id""";
         List<Empresa> empresas = new ArrayList<>();
 
         try (Connection conn = dbConnection.connect();
@@ -91,7 +92,7 @@ public class SelectData {
 
             while (rs.next()) {
                 empresas.add(new Empresa(
-                        rs.getInt("id"), 
+                        rs.getInt("id"),
                         rs.getString("nombre_comercial"),
                         rs.getString("nit"),
                         rs.getInt("id_giro_comercial"),
@@ -104,6 +105,62 @@ public class SelectData {
             throw new RuntimeException("Error retrieving companies", e);
         }
 
+        return empresas;
+    }
+
+    public static List<Empresa> getCompanieById(int id) {
+        String myQuery = """
+                SELECT tbl_empresas.id,
+                       tbl_empresas.nombre_comercial,
+                       tbl_empresas.nit,
+                       tbl_empresas.id_giro_comercial,
+                       tbl_empresas.id_distrito,
+                       tbl_empresas.id_usuario,
+                       tbl_empresas.direccion,
+                       tg.id AS giro_comercial_id,
+                       td2.id AS departamento_id,
+                       tm.id AS municipio_id,
+                       td.id AS distrito_id,
+                       tg.giro_comercial AS giro_comercial,
+                       td2.departamento AS departamento,
+                       tm.municipio AS municipio,
+                       td.distrito AS distrito
+                FROM tbl_empresas
+                         INNER JOIN tbl_giros_comerciales tg ON tbl_empresas.id_giro_comercial = tg.id
+                         INNER JOIN tbl_distritos td ON tbl_empresas.id_distrito = td.id
+                         INNER JOIN tbl_municipios tm ON td.id_municipio = tm.id
+                         INNER JOIN tbl_departamentos td2 ON tm.id_departamento = td2.id
+                WHERE tbl_empresas.id = ?;""";
+        List<Empresa> empresas = new ArrayList<>();
+
+        try (Connection conn = dbConnection.connect();
+             PreparedStatement pstmt = conn.prepareStatement(myQuery)) {
+
+            pstmt.setInt(1, id);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    GiroComercial giro = new GiroComercial(rs.getInt("giro_comercial_id"), rs.getString("giro_comercial"));
+                    Department departmento = new Department(rs.getInt("departamento_id"), rs.getString("departamento"));
+                    Municipio municipio = new Municipio(rs.getInt("municipio_id"), rs.getString("municipio"));
+                    Districts distrito = new Districts(rs.getInt("distrito_id"), rs.getString("distrito"));
+
+                    empresas.add(new Empresa(
+                            rs.getInt("id"),
+                            rs.getString("nombre_comercial"),
+                            rs.getString("nit"),
+                            giro,
+                            rs.getString("direccion"),
+                            rs.getInt("id_distrito"),
+                            rs.getInt("id_usuario"),
+                            departmento,
+                            municipio,
+                            distrito
+                    ));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error retrieving companies", e);
+        }
         return empresas;
     }
 }

@@ -9,6 +9,10 @@ public class Municipio {
         this.id = id;
         this.name = name;
     }
+    
+    public Municipio(){
+        // Empty shit
+    }
 
     public int getId() {
         return id;

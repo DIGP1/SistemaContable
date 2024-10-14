@@ -8,6 +8,10 @@ public class Districts {
         this.id = id;
         this.name = name;
     }
+    
+    public Districts() {
+        // Empty shit
+    }
 
     public int getId() {
         return id;

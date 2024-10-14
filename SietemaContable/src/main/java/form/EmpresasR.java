@@ -19,6 +19,7 @@ import java.util.List;
 public class EmpresasR extends javax.swing.JPanel {
     
     String user;
+    int empresaId;
 
     /**
      * Creates new form EmpresasR
@@ -107,6 +108,11 @@ public class EmpresasR extends javax.swing.JPanel {
         jButtonEditarEmpresa.setText("Editar");
         jButtonEditarEmpresa.setEnabled(false);
         jButtonEditarEmpresa.setFocusPainted(false);
+        jButtonEditarEmpresa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEditarEmpresaActionPerformed(evt);
+            }
+        });
 
         jButtonEliminarEmpresa.setBackground(new java.awt.Color(204, 0, 0));
         jButtonEliminarEmpresa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -196,16 +202,28 @@ public class EmpresasR extends javax.swing.JPanel {
         jButtonEliminarEmpresa.setEnabled(true);
         
         int row = jTable1.getSelectedRow();
-        int id = (int) jTable1.getValueAt(row, 0);
+        empresaId = (int) jTable1.getValueAt(row, 0);
         String nombreComercial = (String) jTable1.getValueAt(row, 1);
         String nit = (String) jTable1.getValueAt(row, 2);
         String direccion = (String) jTable1.getValueAt(row, 3);
         
-        System.out.println("ID: " + id);
+        System.out.println("ID: " + empresaId);
         System.out.println("Nombre comercial: " + nombreComercial);
         System.out.println("NIT: " + nit);
         System.out.println("Dirección: " + direccion);
     }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButtonEditarEmpresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarEmpresaActionPerformed
+        jPanelContainer.removeAll();
+        jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        
+        EmpresasPanel er = new EmpresasPanel(empresaId);
+        er.setSize(jPanelContainer.getSize()); // Establecer el tamaño igual al tamaño del contenedor
+        jPanelContainer.setLayout(new BorderLayout()); // Usar un BorderLayout
+        jPanelContainer.add(er, BorderLayout.CENTER); // Agregar el componente en el centro
+        jPanelContainer.revalidate();
+        jPanelContainer.repaint();
+    }//GEN-LAST:event_jButtonEditarEmpresaActionPerformed
     
     void loadCompanies() {
         List<Empresa> empresas = SelectData.getCompanies();

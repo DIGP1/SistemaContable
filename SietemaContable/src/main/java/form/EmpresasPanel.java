@@ -5,6 +5,7 @@
 package form;
 
 import logic.models.Department;
+import logic.models.Districts;
 import logic.models.Empresa;
 import logic.models.Municipio;
 import logic.queries.LoadStaticData;
@@ -13,7 +14,10 @@ import logic.queries.SelectData;
 import javax.swing.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.IntStream;
 
 /**
  * @author alexu
@@ -21,6 +25,7 @@ import java.util.Objects;
 public class EmpresasPanel extends javax.swing.JPanel {
 
     String user;
+    int empresaId;
 
     /**
      * Creates new form EmpresasPanel
@@ -30,6 +35,64 @@ public class EmpresasPanel extends javax.swing.JPanel {
         initComponents();
         loadDepartments();
         loadGiros();
+    }
+
+    public EmpresasPanel(int empresaId) {
+        initComponents();
+        loadDataToEdit(empresaId);
+        loadGiros();
+    }
+
+    void loadDataToEdit(int empresaId) {
+        List<Empresa> listaEmpresa = SelectData.getCompanieById(empresaId);
+
+        if (!listaEmpresa.isEmpty()) {
+            Empresa empresa = listaEmpresa.get(0);
+
+            txtGetNombreComercial.setText(empresa.getNombreComercial());
+            txtGetNit.setText(empresa.getNit());
+            txtGetDireccion.setText(empresa.getDireccion());
+
+            loadDepartments();
+            loadGiros();
+
+            String giro = empresa.getGiroComercialObj().getId() + " - " + empresa.getGiroComercialObj().getGiro_comercial();
+            System.out.println("Giro to select: " + giro);
+            String departamento = empresa.getDepartmento().getId() + " - " + empresa.getDepartmento().getName();
+            String municipio = empresa.getMunicipio().getId() + " - " + empresa.getMunicipio().getName();
+            String distrito = empresa.getDistrito().getId() + " - " + empresa.getDistrito().getName();
+
+            SwingUtilities.invokeLater(() -> {
+                for (int i = 0; i < jComboBoxGiros.getItemCount(); i++) {
+                    System.out.println("Giro in ComboBox: " + jComboBoxGiros.getItemAt(i).toString());
+                    if (jComboBoxGiros.getItemAt(i).toString().equals(giro)) {
+                        jComboBoxGiros.setSelectedIndex(i);
+                        break;
+                    }
+                }
+
+                for (int i = 0; i < jComboBoxDepartamentos.getItemCount(); i++) {
+                    if (jComboBoxDepartamentos.getItemAt(i).toString().equals(departamento)) {
+                        jComboBoxDepartamentos.setSelectedIndex(i);
+                        break;
+                    }
+                }
+
+                for (int i = 0; i < jComboBoxMunicipio.getItemCount(); i++) {
+                    if (jComboBoxMunicipio.getItemAt(i).toString().equals(municipio)) {
+                        jComboBoxMunicipio.setSelectedIndex(i);
+                        break;
+                    }
+                }
+
+                for (int i = 0; i < jComboBoxDistrito.getItemCount(); i++) {
+                    if (jComboBoxDistrito.getItemAt(i).toString().equals(distrito)) {
+                        jComboBoxDistrito.setSelectedIndex(i);
+                        break;
+                    }
+                }
+            });
+        }
     }
 
     /**
@@ -57,7 +120,7 @@ public class EmpresasPanel extends javax.swing.JPanel {
         jLabel7 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        nombreComercial1 = new javax.swing.JTextField();
+        txtGetDireccion = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(18, 56, 84));
         setPreferredSize(new java.awt.Dimension(951, 547));
@@ -111,9 +174,6 @@ public class EmpresasPanel extends javax.swing.JPanel {
                 jButton2ActionPerformed(evt);
             }
         });
-        
-        jButton1.setFocusPainted(false);
-        jButton2.setFocusPainted(false);
 
         txtGetNombreComercial.setBackground(new java.awt.Color(153, 102, 0));
         txtGetNombreComercial.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
@@ -121,7 +181,7 @@ public class EmpresasPanel extends javax.swing.JPanel {
         txtGetNombreComercial.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtGetNombreComercial.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nombreComercialActionPerformed(evt);
+                txtGetNombreComercialActionPerformed(evt);
             }
         });
 
@@ -139,50 +199,6 @@ public class EmpresasPanel extends javax.swing.JPanel {
         txtGetNit.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         txtGetNit.setForeground(new java.awt.Color(255, 255, 255));
         txtGetNit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtGetNit.addKeyListener(new KeyAdapter() {
-
-            final int MaxLength = 17;
-
-            // Limitar la cantidad de caracteres a 17
-            @Override
-            public void keyTyped(KeyEvent e) {
-                if (txtGetNit.getText().length() == MaxLength) {
-                    e.consume();
-                }
-            }
-
-            final int[] validKeys = {
-                    KeyEvent.VK_BACK_SPACE, KeyEvent.VK_TAB,
-                    KeyEvent.VK_0, KeyEvent.VK_1, KeyEvent.VK_2,
-                    KeyEvent.VK_3, KeyEvent.VK_4, KeyEvent.VK_5,
-                    KeyEvent.VK_6, KeyEvent.VK_7, KeyEvent.VK_8,
-                    KeyEvent.VK_9
-            };
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-                boolean isValidKey = false;
-                for (int validKey : validKeys) {
-                    if (e.getKeyCode() == validKey) {
-                        isValidKey = true;
-                        break;
-                    }
-                }
-
-                if (!isValidKey) {
-                    JOptionPane.showMessageDialog(null, "Solo se permiten números", "Error", JOptionPane.ERROR_MESSAGE);
-                    e.consume();
-                    return;
-                }
-
-                // Colocar guion automático cada 4, 11 y 15 dígitos
-                if (e.getKeyCode() != KeyEvent.VK_BACK_SPACE && e.getKeyCode() != KeyEvent.VK_TAB) {
-                    if (txtGetNit.getText().length() == 4 || txtGetNit.getText().length() == 11 || txtGetNit.getText().length() == 15) {
-                        txtGetNit.setText(txtGetNit.getText() + "-");
-                    }
-                }
-            }
-        });
 
         jComboBoxDistrito.setBackground(new java.awt.Color(153, 102, 0));
         jComboBoxDistrito.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
@@ -214,13 +230,13 @@ public class EmpresasPanel extends javax.swing.JPanel {
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Dirección");
 
-        nombreComercial1.setBackground(new java.awt.Color(153, 102, 0));
-        nombreComercial1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        nombreComercial1.setForeground(new java.awt.Color(255, 255, 255));
-        nombreComercial1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        nombreComercial1.addActionListener(new java.awt.event.ActionListener() {
+        txtGetDireccion.setBackground(new java.awt.Color(153, 102, 0));
+        txtGetDireccion.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        txtGetDireccion.setForeground(new java.awt.Color(255, 255, 255));
+        txtGetDireccion.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtGetDireccion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nombreComercial1ActionPerformed(evt);
+                txtGetDireccionActionPerformed(evt);
             }
         });
 
@@ -251,7 +267,7 @@ public class EmpresasPanel extends javax.swing.JPanel {
                                                 .addGap(1, 1, 1)
                                                 .addComponent(jLabel8)
                                                 .addGap(104, 104, 104)
-                                                .addComponent(nombreComercial1, javax.swing.GroupLayout.PREFERRED_SIZE, 740, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addComponent(txtGetDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 740, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGroup(layout.createSequentialGroup()
                                                 .addGap(1, 1, 1)
                                                 .addComponent(jLabel5)
@@ -296,7 +312,7 @@ public class EmpresasPanel extends javax.swing.JPanel {
                                 .addGap(64, 64, 64)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jLabel8)
-                                        .addComponent(nombreComercial1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(txtGetDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(53, 53, 53)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jComboBoxDepartamentos, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -319,9 +335,9 @@ public class EmpresasPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void nombreComercialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreComercialActionPerformed
+    private void txtGetNombreComercialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtGetNombreComercialActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_nombreComercialActionPerformed
+    }//GEN-LAST:event_txtGetNombreComercialActionPerformed
 
     private void jComboBoxMunicipioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxMunicipioActionPerformed
         setjComboBoxGetDistrict(evt);
@@ -337,125 +353,69 @@ public class EmpresasPanel extends javax.swing.JPanel {
         String distrito = Objects.requireNonNull(jComboBoxDistrito.getSelectedItem()).toString();
 
         if (nombreComercial.isEmpty()) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Ingrese el nombre de la empresa",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE
-            );
+            JOptionPane.showMessageDialog(this, "Ingrese el nombre de la empresa", "Error", JOptionPane.ERROR_MESSAGE);
             txtGetNombreComercial.setText("");
             txtGetNombreComercial.requestFocus();
             return;
         }
 
         if (nit.isEmpty()) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Ingrese el NIT de la empresa",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE
-            );
+            JOptionPane.showMessageDialog(this, "Ingrese el NIT de la empresa", "Error", JOptionPane.ERROR_MESSAGE);
             txtGetNit.setText("");
             txtGetNit.requestFocus();
             return;
         }
 
         if (!nit.matches("\\d{4}-\\d{6}-\\d{3}-\\d{1}")) {
-            JOptionPane.showMessageDialog(null,
-                    "El formato del NIT es incorrecto. Debe seguir este formato: 1234-567890-123-4",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "El formato del NIT es incorrecto. Debe seguir este formato: 1234-567890-123-4", "Error", JOptionPane.ERROR_MESSAGE);
             txtGetNit.setText("");
             txtGetNit.requestFocus();
             return;
         }
 
         if (giro.isEmpty() || giro.equals("Seleccionar giro comercial")) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Ingrese el giro comercial de la empresa",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE
-            );
+            JOptionPane.showMessageDialog(this, "Ingrese el giro comercial de la empresa", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         if (departamento.isEmpty() || departamento.equals("Seleccionar departamento")) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Ingrese el departamento donde se ubica la empresa",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE
-            );
+            JOptionPane.showMessageDialog(this, "Ingrese el departamento donde se ubica la empresa", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         if (municipio.isEmpty() || municipio.equals("Seleccionar municipio")) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Ingrese el municipio donde se ubica la empresa",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE
-            );
+            JOptionPane.showMessageDialog(this, "Ingrese el municipio donde se ubica la empresa", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         if (distrito.isEmpty() || distrito.equals("Seleccionar distrito")) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Ingrese el distrito donde se ubica la empresa",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE
-            );
+            JOptionPane.showMessageDialog(this, "Ingrese el distrito donde se ubica la empresa", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         int companyId = SelectData.getLastCompanyId();
         int userId = SelectData.getUserID(user);
-        
+
         if (SelectData.ValidateNIT(nit)) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    "El NIT ingresado ya existe",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE
-            );
+            JOptionPane.showMessageDialog(this, "El NIT ingresado ya existe", "Error", JOptionPane.ERROR_MESSAGE);
             txtGetNit.setText("");
             txtGetNit.requestFocus();
             return;
         }
 
-        Empresa empresa = new Empresa(
-                companyId,
-                nombreComercial,
-                nit,
-                Integer.parseInt(giro.split(" - ")[0]),
-                nombreComercial1.getText(),
-                Integer.parseInt(distrito.split(" - ")[0]),
-                userId
-        );
+        Empresa empresa = new Empresa(companyId, nombreComercial, nit, Integer.parseInt(giro.split(" - ")[0]), txtGetDireccion.getText(), Integer.parseInt(distrito.split(" - ")[0]), userId);
 
         if (logic.queries.InsertData.saveCompanyInformation(empresa)) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Empresa agregada exitosamente",
-                    "Éxito",
-                    JOptionPane.INFORMATION_MESSAGE
-            );
+            JOptionPane.showMessageDialog(this, "Empresa agregada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Error al guardar la empresa",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE
-            );
+            JOptionPane.showMessageDialog(this, "Error al guardar la empresa", "Error", JOptionPane.ERROR_MESSAGE);
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void nombreComercial1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreComercial1ActionPerformed
+    private void txtGetDireccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtGetDireccionActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_nombreComercial1ActionPerformed
+    }//GEN-LAST:event_txtGetDireccionActionPerformed
 
     private void jComboBoxDepartamentosActionPerformed(java.awt.event.ActionEvent evt) {
         if (jComboBoxDepartamentos.getSelectedIndex() <= 0) {
@@ -518,8 +478,8 @@ public class EmpresasPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JTextField txtGetDireccion;
     private javax.swing.JTextField txtGetNit;
     private javax.swing.JTextField txtGetNombreComercial;
-    private javax.swing.JTextField nombreComercial1;
     // End of variables declaration//GEN-END:variables
 }

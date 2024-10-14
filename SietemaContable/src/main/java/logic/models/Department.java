@@ -9,6 +9,10 @@ public class Department {
         this.id = id;
         this.name = name;
     }
+    
+    public Department(){
+        // Empy shit
+    }
 
     public Department(String name) {
         this.name = name;

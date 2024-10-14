@@ -34,11 +34,11 @@
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="21" pref="21" max="-2" attributes="0"/>
-                      <Component id="nombreComercial" min="-2" pref="430" max="-2" attributes="0"/>
+                      <Component id="txtGetNombreComercial" min="-2" pref="430" max="-2" attributes="0"/>
                       <EmptySpace min="30" pref="30" max="-2" attributes="0"/>
                       <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="24" pref="24" max="-2" attributes="0"/>
-                      <Component id="nit" min="-2" pref="230" max="-2" attributes="0"/>
+                      <Component id="txtGetNit" min="-2" pref="230" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
@@ -50,7 +50,7 @@
                       <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
                       <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="104" pref="104" max="-2" attributes="0"/>
-                      <Component id="nombreComercial1" min="-2" pref="740" max="-2" attributes="0"/>
+                      <Component id="txtGetDireccion" min="-2" pref="740" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
@@ -88,12 +88,12 @@
                       <EmptySpace min="4" pref="4" max="-2" attributes="0"/>
                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="nombreComercial" min="-2" pref="37" max="-2" attributes="0"/>
+                  <Component id="txtGetNombreComercial" min="-2" pref="37" max="-2" attributes="0"/>
                   <Group type="102" attributes="0">
                       <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
                       <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="nit" min="-2" pref="37" max="-2" attributes="0"/>
+                  <Component id="txtGetNit" min="-2" pref="37" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="33" pref="33" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -106,7 +106,7 @@
               <EmptySpace min="64" pref="64" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
-                  <Component id="nombreComercial1" min="-2" pref="37" max="-2" attributes="0"/>
+                  <Component id="txtGetDireccion" min="-2" pref="37" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="53" pref="53" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -260,7 +260,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="nombreComercial">
+    <Component class="javax.swing.JTextField" name="txtGetNombreComercial">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="0" green="66" red="99" type="rgb"/>
@@ -274,7 +274,7 @@
         <Property name="horizontalAlignment" type="int" value="0"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nombreComercialActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtGetNombreComercialActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JComboBox" name="jComboBoxDepartamentos">
@@ -304,7 +304,7 @@
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JTextField" name="nit">
+    <Component class="javax.swing.JTextField" name="txtGetNit">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="0" green="66" red="99" type="rgb"/>
@@ -411,7 +411,7 @@
         <Property name="text" type="java.lang.String" value="Direcci&#xf3;n"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="nombreComercial1">
+    <Component class="javax.swing.JTextField" name="txtGetDireccion">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="0" green="66" red="99" type="rgb"/>
@@ -425,7 +425,7 @@
         <Property name="horizontalAlignment" type="int" value="0"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nombreComercial1ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtGetDireccionActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
