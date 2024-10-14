@@ -128,9 +128,9 @@ public class PRINCIPAL extends javax.swing.JFrame {
         user.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 
         jButton8.setBackground(new java.awt.Color(0, 0, 0));
-        jButton8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jButton8.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
         jButton8.setForeground(new java.awt.Color(255, 255, 255));
-        jButton8.setText("MIS EMPRESAS");
+        jButton8.setText("Mis empresas");
         jButton8.setFocusPainted(false);
         jButton8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

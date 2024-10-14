@@ -1,11 +1,10 @@
 package logic.models;
 
-public class Municipio {
-
+public class Districts {
     private int id;
     private String name;
 
-    public Municipio(int id, String name) {
+    public Districts(int id, String name) {
         this.id = id;
         this.name = name;
     }

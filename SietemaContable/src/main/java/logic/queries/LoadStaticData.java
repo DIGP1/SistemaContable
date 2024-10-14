@@ -2,6 +2,7 @@ package logic.queries;
 
 import logic.DatabaseConnection;
 import logic.models.Department;
+import logic.models.Districts;
 import logic.models.Giros;
 import logic.models.Municipio;
 
@@ -54,6 +55,24 @@ public class LoadStaticData {
         }
 
         return municipios;
+    }
+
+    public static List<Districts> getDistricts(String municipioId) {
+        String myQuery = "SELECT id, distrito FROM tbl_distritos WHERE id_municipio = CAST(? AS INTEGER) ORDER BY id";
+        List<Districts> distritos = new ArrayList<>();
+
+        try (Connection conn = dbConnection.connect(); PreparedStatement pstmt = conn.prepareStatement(myQuery)) {
+            pstmt.setString(1, municipioId);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                distritos.add(new Districts(rs.getInt("id"), rs.getString("distrito")));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return distritos;
     }
 
     public static List<Giros> getGiros() {

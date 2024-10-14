@@ -1,4 +1,5 @@
 logic\models\Department.class
+logic\models\Districts.class
 form\Empresas$1.class
 form\EmpresasR.class
 form\EmpresasR$1.class
@@ -14,5 +15,4 @@ form\PRINCIPAL$12.class
 form\Register$3.class
 form\Empresas$3.class
 form\EmpresasPanel.class
-form\EmpresasPanel$3.class
 form\EmpresasPanel$2.class
