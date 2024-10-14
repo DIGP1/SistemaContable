@@ -238,6 +238,7 @@ public class EmpresasR extends javax.swing.JPanel {
                     "Atención", 
                     JOptionPane.INFORMATION_MESSAGE
             );
+            return;
         }
 
         if (!DeleteData.deleteCompany(empresaId)){
