@@ -183,9 +183,14 @@ public class libroDiario extends javax.swing.JPanel {
         setBackground(new java.awt.Color(245, 245, 220));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        tabla1.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{
+        tabla1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
 
-        }, new String[]{"Fecha", "Cuenta", "Ref", "Debe", "Haber"}));
+            },
+            new String [] {
+                "Fecha", "Cuenta", "Ref", "Debe", "Haber"
+            }
+        ));
         jScrollPane1.setViewportView(tabla1);
 
         add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 120, 480, -1));
@@ -243,7 +248,7 @@ public class libroDiario extends javax.swing.JPanel {
         jButton2.setText("Crear Cuenta");
         add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 80, -1, -1));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"-", "Debe", "Haber"}));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "Debe", "Haber" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -281,6 +286,12 @@ public class libroDiario extends javax.swing.JPanel {
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("Buscar Cuenta");
         add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 80, -1, -1));
+
+        txtbuscarCuenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtbuscarCuentaActionPerformed(evt);
+            }
+        });
         add(txtbuscarCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 80, 184, -1));
 
         fecha.setMaxSelectableDate(new java.util.Date(253370790065000L));
@@ -401,6 +412,10 @@ public class libroDiario extends javax.swing.JPanel {
             btnGuardarEnLibroMayor.enable(true);
         }
     }//GEN-LAST:event_lblDebePropertyChange
+
+    private void txtbuscarCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtbuscarCuentaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtbuscarCuentaActionPerformed
 
     /**
      * @param args the command line arguments
