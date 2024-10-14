@@ -66,6 +66,7 @@ public class login extends javax.swing.JFrame {
         button_login.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         button_login.setForeground(new java.awt.Color(255, 255, 255));
         button_login.setText("Login");
+        button_login.setFocusPainted(false);
         button_login.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 button_loginMouseClicked(evt);
@@ -80,6 +81,7 @@ public class login extends javax.swing.JFrame {
         button_registrarse_form.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         button_registrarse_form.setForeground(new java.awt.Color(255, 255, 255));
         button_registrarse_form.setText("Registrarse");
+        button_registrarse_form.setFocusPainted(false);
         button_registrarse_form.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 button_registrarse_formActionPerformed(evt);
