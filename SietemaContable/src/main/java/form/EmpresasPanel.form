@@ -56,8 +56,8 @@
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="cb_depa" alignment="1" min="-2" pref="269" max="-2" attributes="0"/>
                                   <Component id="jComboBoxDepartamentos" alignment="1" min="-2" pref="269" max="-2" attributes="0"/>
-                                  <Component id="cb_muni" alignment="1" min="-2" pref="269" max="-2" attributes="0"/>
-                                  <Component id="jComboBox2" alignment="1" min="-2" pref="272" max="-2" attributes="0"/>
+                                  <Component id="jComboBoxMunicipio" alignment="1" min="-2" pref="269" max="-2" attributes="0"/>
+                                  <Component id="jComboBoxDistrito" alignment="1" min="-2" pref="272" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -102,12 +102,12 @@
                       <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="cb_muni" alignment="3" min="-2" pref="39" max="-2" attributes="0"/>
+                          <Component id="jComboBoxMunicipio" alignment="3" min="-2" pref="39" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jComboBox2" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                          <Component id="jComboBoxDistrito" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" attributes="0">
@@ -283,6 +283,9 @@
           </StringArray>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxDepartamentosActionPerformed"/>
+      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
@@ -300,7 +303,7 @@
         </Property>
       </Properties>
     </Component>
-    <Component class="javax.swing.JComboBox" name="jComboBox2">
+    <Component class="javax.swing.JComboBox" name="jComboBoxDistrito">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="0" green="66" red="99" type="rgb"/>
@@ -324,7 +327,7 @@
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JComboBox" name="cb_muni">
+    <Component class="javax.swing.JComboBox" name="jComboBoxMunicipio">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="0" green="66" red="99" type="rgb"/>

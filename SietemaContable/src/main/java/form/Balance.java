@@ -5,9 +5,6 @@
 package form;
 
 import javax.swing.table.DefaultTableModel;
-import java.sql.SQLOutput;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
