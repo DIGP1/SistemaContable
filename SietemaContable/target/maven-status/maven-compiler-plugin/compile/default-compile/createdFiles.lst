@@ -4,6 +4,7 @@ logic\models\Department.class
 logic\models\Districts.class
 logic\queries\InsertData.class
 logic\queries\SelectData.class
+logic\queries\DeleteData.class
 form\EmpresasR.class
 form\EmpresasR$1.class
 logic\models\GiroComercial.class
@@ -31,5 +32,6 @@ form\PRINCIPAL$11$1.class
 form\Register$3.class
 form\Empresas$3.class
 form\EmpresasPanel.class
+form\EmpresasR$6.class
 form\EmpresasPanel$6.class
 form\EmpresasR$5.class

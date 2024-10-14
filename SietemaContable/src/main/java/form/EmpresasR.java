@@ -5,6 +5,7 @@
 package form;
 
 import logic.models.Empresa;
+import logic.queries.DeleteData;
 import logic.queries.SelectData;
 
 import javax.swing.*;
@@ -20,6 +21,7 @@ public class EmpresasR extends javax.swing.JPanel {
     
     String user;
     int empresaId;
+    String nombreEmpresa;
 
     /**
      * Creates new form EmpresasR
@@ -120,6 +122,11 @@ public class EmpresasR extends javax.swing.JPanel {
         jButtonEliminarEmpresa.setText("Eliminar");
         jButtonEliminarEmpresa.setEnabled(false);
         jButtonEliminarEmpresa.setFocusPainted(false);
+        jButtonEliminarEmpresa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEliminarEmpresaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelContainerLayout = new javax.swing.GroupLayout(jPanelContainer);
         jPanelContainer.setLayout(jPanelContainerLayout);
@@ -203,6 +210,7 @@ public class EmpresasR extends javax.swing.JPanel {
         
         int row = jTable1.getSelectedRow();
         empresaId = (int) jTable1.getValueAt(row, 0);
+        nombreEmpresa = (String) jTable1.getValueAt(row, 1);
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButtonEditarEmpresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarEmpresaActionPerformed
@@ -216,6 +224,40 @@ public class EmpresasR extends javax.swing.JPanel {
         jPanelContainer.revalidate();
         jPanelContainer.repaint();
     }//GEN-LAST:event_jButtonEditarEmpresaActionPerformed
+
+    private void jButtonEliminarEmpresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarEmpresaActionPerformed
+        int option = JOptionPane.showConfirmDialog(this, 
+                "¿Estás seguro que deseas eliminar " + nombreEmpresa, 
+                "Atención", 
+                JOptionPane.YES_NO_OPTION
+        );
+        
+        if (option == 1){
+            JOptionPane.showMessageDialog(this, 
+                    "Operación cancelada", 
+                    "Atención", 
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+        }
+
+        if (!DeleteData.deleteCompany(empresaId)){
+            JOptionPane.showMessageDialog(this,
+                    "Error al eliminar la empresa",
+                    "Atención",
+                    JOptionPane.ERROR_MESSAGE
+            );
+            return;
+        }
+
+        JOptionPane.showMessageDialog(this,
+                "Empresa eliminada correctamente",
+                "Atención",
+                JOptionPane.INFORMATION_MESSAGE
+        );
+        
+        // Recargar el panel
+        loadCompanies();
+    }//GEN-LAST:event_jButtonEliminarEmpresaActionPerformed
     
     void loadCompanies() {
         List<Empresa> empresas = SelectData.getCompanies();
