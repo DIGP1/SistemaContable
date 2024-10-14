@@ -1,6 +1,7 @@
 package form;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +32,7 @@ public class SegLibroDiario extends javax.swing.JPanel {
     public SegLibroDiario() {
         initComponents();
         CatalogoDeCuentasDatos cc = new CatalogoDeCuentasDatos();
-        Map<Integer, List<RegistrosContables>> inforLibro = new HashMap<>();
+        List<RegistrosContables> inforLibro = new ArrayList<RegistrosContables>();
         inforLibro = cc.CargarLibroDiario(empresa_id);
         ingresarDatosTabla(inforLibro);
 
@@ -68,18 +69,42 @@ public class SegLibroDiario extends javax.swing.JPanel {
         });
 
     }
-
-    public void ingresarDatosTabla(Map<Integer, List<RegistrosContables>> info) {
-        CatalogoDeCuentasDatos cc = new CatalogoDeCuentasDatos();
+    public void ingresarDatosTabla(List<RegistrosContables> info) {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0); // Limpiar la tabla antes de cargar los nuevos datos
 
-        for (Map.Entry<Integer, List<RegistrosContables>> entry : info.entrySet()) {
-            List<RegistrosContables> value = entry.getValue();
-            for (RegistrosContables registrosContables : value) {
-                model.addRow(new Object[]{registrosContables.getFecha(), registrosContables.getDescripcion(), registrosContables.getCodigo(), registrosContables.getDebe(), registrosContables.getHaber()});
+        String descripcionAnterior = ""; // Inicializar la descripción anterior
+        int contador = 0;
+
+        for (int i = 0; i < info.size(); i++) {
+            RegistrosContables registros = info.get(i);
+            String descripcionActual = registros.getDescripcion();
+
+            // Si la descripción cambia o es la primera vez, incrementa el contador y crea una nueva transacción
+            if (!descripcionActual.equals(descripcionAnterior)) {
+                contador++;
+                model.addRow(new Object[]{registros.getFecha(), "                                   Transaccion " + contador, "", "", ""});
             }
+
+            // Agregar los registros según "debe" o "haber"
+            if (!"0".equals(registros.getDebe())) {
+                model.addRow(new Object[]{"", registros.getCuenta(), registros.getCodigo(), registros.getDebe(), ""});
+            } else {
+                model.addRow(new Object[]{"", "             " + registros.getCuenta(), registros.getCodigo(), "", registros.getHaber()});
+            }
+
+            // Verificar si es el último registro de la transacción (si la siguiente descripción cambia o si es el último elemento)
+            if (i == info.size() - 1 || !info.get(i + 1).getDescripcion().equals(descripcionActual)) {
+                // Agregar la descripción al final de la transacción
+                model.addRow(new Object[]{"", descripcionActual, "", "", ""});
+            }
+
+            // Actualizar la descripción anterior para la próxima iteración
+            descripcionAnterior = descripcionActual;
         }
     }
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.

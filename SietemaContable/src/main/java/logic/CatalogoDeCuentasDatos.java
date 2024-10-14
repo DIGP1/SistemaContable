@@ -44,13 +44,9 @@ public class CatalogoDeCuentasDatos {
         return cuentas;
     }
 
-    public Map<Integer, List<RegistrosContables>> CargarLibroDiario(int empresa_id) {
-        Map<Integer, List<RegistrosContables>> registrosLibroDiario = new HashMap<>();
+    public List<RegistrosContables> CargarLibroDiario(int empresa_id) {
         List<RegistrosContables> data = new ArrayList<>();
-
-        int counter = 0;
-
-        String sql = """
+       String sql = """
                 select \
                     tbl_catalogo_de_cuentas.codigo as codigo, \
                     tbl_transacciones_libro_diario.fecha                   as fecha, \
@@ -61,7 +57,7 @@ public class CatalogoDeCuentasDatos {
                 from tbl_transacciones_libro_diario
                 inner join tbl_libro_diario on tbl_transacciones_libro_diario.id_movimiento = tbl_libro_diario.id_movimiento
                 inner join tbl_catalogo_de_cuentas on tbl_libro_diario.id_cuenta = tbl_catalogo_de_cuentas.id
-                where empresa_id = ?;
+                where tbl_transacciones_libro_diario.empresa_id = ?;
                 """;
         try (Connection conn = dbConnection.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, empresa_id);
@@ -73,7 +69,7 @@ public class CatalogoDeCuentasDatos {
                 String debe = rs.getString("debe");
                 String haber = rs.getString("haber");
                 String descripcionTransaccion = rs.getString("descripcion");
-
+                System.out.println(cuenta);
                 if (debe.isEmpty()) {
                     debe = "0";
                 }
@@ -83,17 +79,16 @@ public class CatalogoDeCuentasDatos {
                 }
 
                 RegistrosContables registro = new RegistrosContables(fecha, codigo, cuenta, debe, haber, descripcionTransaccion);
+                System.out.println(registro);
                 data.add(registro);
-                counter++;
-                registrosLibroDiario.put(counter, data);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        return registrosLibroDiario;
+        return data;
     }
 
-    /*public String obtenerMovimiento(int id, int empresa_id, int java) {
+    public String obtenerMovimiento(int id, int empresa_id) {
         String movimiento = "";
         String sql = "SELECT * FROM tbl_libro_diario WHERE id = ? AND empresa_id = ?";
 
@@ -121,7 +116,7 @@ public class CatalogoDeCuentasDatos {
         }
 
         return movimiento;
-    }*/
+    }
 
 
     public List<String> filtros(String ft, int empresa_id) {
@@ -274,7 +269,7 @@ public class CatalogoDeCuentasDatos {
     }
 
     private int getAccountId(String accountCode, int empresa_id) {
-        String sql = "SELECT id FROM tbl_catalogo_de_cuentas WHERE codigo = '" + accountCode + "' empresa_id = "+ empresa_id;
+        String sql = "SELECT id FROM tbl_catalogo_de_cuentas WHERE codigo = '" + accountCode + "'AND empresa_id = "+ empresa_id;
         int code = 0;
 
         try (Connection conn = dbConnection.connect(); PreparedStatement pstmt = conn.prepareStatement(sql); ResultSet rs = pstmt.executeQuery()) {
@@ -301,7 +296,7 @@ public class CatalogoDeCuentasDatos {
                 from tbl_transacciones_libro_diario
                 inner join tbl_libro_diario on tbl_transacciones_libro_diario.id_movimiento = tbl_libro_diario.id_movimiento
                 inner join tbl_catalogo_de_cuentas on tbl_libro_diario.id_cuenta = tbl_catalogo_de_cuentas.id
-                where empresa_id = ?;
+                where tbl_libro_diario.empresa_id = ?;
                 """;
         List<List<Object>> resultList = new ArrayList<>();
 
