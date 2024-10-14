@@ -50,12 +50,17 @@ public class login extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("USER");
+        jLabel2.setText("Nombre de usuario");
+
+        user.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        user.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("PASSWORD");
+        jLabel3.setText("Contraseña");
 
+        password.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        password.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         password.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 passwordKeyReleased(evt);
@@ -65,8 +70,7 @@ public class login extends javax.swing.JFrame {
         button_login.setBackground(new java.awt.Color(0, 102, 102));
         button_login.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         button_login.setForeground(new java.awt.Color(255, 255, 255));
-        button_login.setText("Login");
-        button_login.setFocusPainted(false);
+        button_login.setText("Iniciar sesión");
         button_login.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 button_loginMouseClicked(evt);
@@ -81,7 +85,6 @@ public class login extends javax.swing.JFrame {
         button_registrarse_form.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         button_registrarse_form.setForeground(new java.awt.Color(255, 255, 255));
         button_registrarse_form.setText("Registrarse");
-        button_registrarse_form.setFocusPainted(false);
         button_registrarse_form.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 button_registrarse_formActionPerformed(evt);
@@ -100,25 +103,20 @@ public class login extends javax.swing.JFrame {
                     .addGroup(panel_derechoLayout.createSequentialGroup()
                         .addGroup(panel_derechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addGroup(panel_derechoLayout.createSequentialGroup()
-                                .addGap(133, 133, 133)
-                                .addComponent(button_login)))
-                        .addGap(8, 8, 8)))
+                            .addComponent(jLabel3))
+                        .addGap(139, 139, 139)))
                 .addContainerGap(36, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_derechoLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(panel_derechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_derechoLayout.createSequentialGroup()
-                        .addComponent(button_registrarse_form)
-                        .addGap(136, 136, 136))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_derechoLayout.createSequentialGroup()
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(124, 124, 124))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_derechoLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(136, 136, 136))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_derechoLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(panel_derechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(button_registrarse_form, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(button_login, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(124, 124, 124))
         );
         panel_derechoLayout.setVerticalGroup(
             panel_derechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -135,7 +133,7 @@ public class login extends javax.swing.JFrame {
                 .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33)
                 .addComponent(button_login, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                 .addComponent(button_registrarse_form, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)

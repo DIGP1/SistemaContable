@@ -9,6 +9,9 @@ import logic.models.Municipio;
 import logic.queries.LoadStaticData;
 
 import javax.swing.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.Objects;
 
 /**
  * @author alexu
@@ -48,6 +51,8 @@ public class EmpresasPanel extends javax.swing.JPanel {
         jComboBoxMunicipio = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        nombreComercial1 = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(18, 56, 84));
         setPreferredSize(new java.awt.Dimension(951, 547));
@@ -75,12 +80,17 @@ public class EmpresasPanel extends javax.swing.JPanel {
         jComboBoxGiros.setBackground(new java.awt.Color(153, 102, 0));
         jComboBoxGiros.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jComboBoxGiros.setForeground(new java.awt.Color(255, 255, 255));
-        jComboBoxGiros.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Seleccionar giro comercial"}));
+        jComboBoxGiros.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jButton1.setBackground(new java.awt.Color(0, 102, 0));
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Agregar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setBackground(new java.awt.Color(18, 56, 84));
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
@@ -100,6 +110,7 @@ public class EmpresasPanel extends javax.swing.JPanel {
         nombreComercial.setBackground(new java.awt.Color(153, 102, 0));
         nombreComercial.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         nombreComercial.setForeground(new java.awt.Color(255, 255, 255));
+        nombreComercial.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         nombreComercial.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nombreComercialActionPerformed(evt);
@@ -109,23 +120,76 @@ public class EmpresasPanel extends javax.swing.JPanel {
         jComboBoxDepartamentos.setBackground(new java.awt.Color(153, 102, 0));
         jComboBoxDepartamentos.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jComboBoxDepartamentos.setForeground(new java.awt.Color(255, 255, 255));
-        jComboBoxDepartamentos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Seleccionar departamento"}));
-        jComboBoxDepartamentos.addActionListener(this::jComboBoxDepartamentosActionPerformed);
+        jComboBoxDepartamentos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxDepartamentos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxDepartamentosActionPerformed(evt);
+            }
+        });
 
         nit.setBackground(new java.awt.Color(153, 102, 0));
         nit.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         nit.setForeground(new java.awt.Color(255, 255, 255));
+        nit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        nit.addKeyListener(new KeyAdapter() {
+
+            final int MaxLength = 17;
+
+            // Limitar la cantidad de caracteres a 17
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if (nit.getText().length() == MaxLength) {
+                    e.consume();
+                }
+            }
+
+            final int[] validKeys = {
+                    KeyEvent.VK_BACK_SPACE, KeyEvent.VK_TAB,
+                    KeyEvent.VK_0, KeyEvent.VK_1, KeyEvent.VK_2,
+                    KeyEvent.VK_3, KeyEvent.VK_4, KeyEvent.VK_5,
+                    KeyEvent.VK_6, KeyEvent.VK_7, KeyEvent.VK_8,
+                    KeyEvent.VK_9
+            };
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                boolean isValidKey = false;
+                for (int validKey : validKeys) {
+                    if (e.getKeyCode() == validKey) {
+                        isValidKey = true;
+                        break;
+                    }
+                }
+
+                if (!isValidKey) {
+                    JOptionPane.showMessageDialog(null, "Solo se permiten números", "Error", JOptionPane.ERROR_MESSAGE);
+                    e.consume();
+                    return;
+                }
+
+                // Colocar guion automático cada 4, 11 y 15 dígitos
+                if (e.getKeyCode() != KeyEvent.VK_BACK_SPACE && e.getKeyCode() != KeyEvent.VK_TAB) {
+                    if (nit.getText().length() == 4 || nit.getText().length() == 11 || nit.getText().length() == 15) {
+                        nit.setText(nit.getText() + "-");
+                    }
+                }
+            }
+        });
 
         jComboBoxDistrito.setBackground(new java.awt.Color(153, 102, 0));
         jComboBoxDistrito.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jComboBoxDistrito.setForeground(new java.awt.Color(255, 255, 255));
-        jComboBoxDistrito.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Seleccionar distrito"}));
+        jComboBoxDistrito.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jComboBoxMunicipio.setBackground(new java.awt.Color(153, 102, 0));
         jComboBoxMunicipio.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jComboBoxMunicipio.setForeground(new java.awt.Color(255, 255, 255));
-        jComboBoxMunicipio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Seleccionar municipio"}));
-        jComboBoxMunicipio.addActionListener(this::jComboBoxMunicipioActionPerformed);
+        jComboBoxMunicipio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxMunicipio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxMunicipioActionPerformed(evt);
+            }
+        });
 
         jLabel7.setBackground(new java.awt.Color(18, 56, 84));
         jLabel7.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
@@ -137,95 +201,109 @@ public class EmpresasPanel extends javax.swing.JPanel {
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Nombre Comercial");
 
+        jLabel8.setBackground(new java.awt.Color(18, 56, 84));
+        jLabel8.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setText("Dirección");
+
+        nombreComercial1.setBackground(new java.awt.Color(153, 102, 0));
+        nombreComercial1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        nombreComercial1.setForeground(new java.awt.Color(255, 255, 255));
+        nombreComercial1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        nombreComercial1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nombreComercial1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addGap(600, 600, 600)
-                                .addComponent(jLabel1))
-                        .addGroup(layout.createSequentialGroup()
-                                .addGap(90, 90, 90)
-                                .addComponent(jLabel2)
-                                .addGap(47, 47, 47)
-                                .addComponent(nombreComercial, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                                .addGap(90, 90, 90)
-                                .addComponent(jLabel3)
-                                .addGap(191, 191, 191)
-                                .addComponent(nit, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                                .addGap(90, 90, 90)
-                                .addComponent(jLabel4)
-                                .addGap(82, 82, 82)
-                                .addComponent(jComboBoxGiros, javax.swing.GroupLayout.PREFERRED_SIZE, 412, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                                .addGap(90, 90, 90)
-                                .addComponent(jLabel5)
-                                .addGap(88, 88, 88)
-                                .addComponent(jComboBoxDepartamentos, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                                .addGap(90, 90, 90)
-                                .addComponent(jLabel6)
-                                .addGap(131, 131, 131)
-                                .addComponent(jComboBoxMunicipio, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(93, 93, 93)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                                .addGap(90, 90, 90)
-                                .addComponent(jLabel7)
-                                .addGap(157, 157, 157)
-                                .addComponent(jComboBoxDistrito, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(96, 96, 96)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(561, 561, 561)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(21, 21, 21)
+                        .addComponent(nombreComercial, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(jLabel3)
+                        .addGap(24, 24, 24)
+                        .addComponent(nit, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(jLabel4)
+                        .addGap(55, 55, 55)
+                        .addComponent(jComboBoxGiros, javax.swing.GroupLayout.PREFERRED_SIZE, 740, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(jLabel8)
+                        .addGap(104, 104, 104)
+                        .addComponent(nombreComercial1, javax.swing.GroupLayout.PREFERRED_SIZE, 740, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(jLabel5)
+                        .addGap(61, 61, 61)
+                        .addComponent(jComboBoxDepartamentos, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(jLabel6)
+                        .addGap(14, 14, 14)
+                        .addComponent(jComboBoxMunicipio, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(jLabel7)
+                        .addGap(13, 13, 13)
+                        .addComponent(jComboBoxDistrito, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(671, 671, 671)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(37, 37, 37)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addGap(20, 20, 20)
-                                .addComponent(jLabel1)
-                                .addGap(21, 21, 21)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addGap(5, 5, 5)
-                                                .addComponent(jLabel2))
-                                        .addComponent(nombreComercial, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(35, 35, 35)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addGap(5, 5, 5)
-                                                .addComponent(jLabel3))
-                                        .addComponent(nit, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(44, 44, 44)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addGap(5, 5, 5)
-                                                .addComponent(jLabel4))
-                                        .addComponent(jComboBoxGiros, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(32, 32, 32)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addGap(5, 5, 5)
-                                                .addComponent(jLabel5))
-                                        .addComponent(jComboBoxDepartamentos, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(31, 31, 31)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addGap(22, 22, 22)
-                                                .addComponent(jLabel6))
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addGap(16, 16, 16)
-                                                .addComponent(jComboBoxMunicipio, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(35, 35, 35)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addGap(11, 11, 11)
-                                                .addComponent(jLabel7))
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addGap(8, 8, 8)
-                                                .addComponent(jComboBoxDistrito, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jLabel1)
+                .addGap(19, 19, 19)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(jLabel2))
+                    .addComponent(nombreComercial, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jLabel3))
+                    .addComponent(nit, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(33, 33, 33)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jLabel4))
+                    .addComponent(jComboBoxGiros, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(64, 64, 64)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8)
+                    .addComponent(nombreComercial1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(53, 53, 53)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jComboBoxDepartamentos, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBoxMunicipio, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBoxDistrito, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel7))))
+                .addGap(100, 100, 100)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -240,6 +318,82 @@ public class EmpresasPanel extends javax.swing.JPanel {
     private void jComboBoxMunicipioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxMunicipioActionPerformed
         setjComboBoxGetDistrict(evt);
     }//GEN-LAST:event_jComboBoxMunicipioActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String nombreComercial = this.nombreComercial.getText();
+        String nit = this.nit.getText();
+        String giro = Objects.requireNonNull(jComboBoxGiros.getSelectedItem()).toString();
+        String departamento = Objects.requireNonNull(jComboBoxDepartamentos.getSelectedItem()).toString();
+        String municipio = Objects.requireNonNull(jComboBoxMunicipio.getSelectedItem()).toString();
+        String distrito = Objects.requireNonNull(jComboBoxDistrito.getSelectedItem()).toString();
+        
+        if (nombreComercial.isEmpty()){
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Ingrese el nombre de la empresa",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+            return;
+        }
+        
+        if (nit.isEmpty()){
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Ingrese el NIT de la empresa",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+            return;
+        }
+        
+        if (giro.isEmpty() || giro.equals("Seleccionar giro comercial")){
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Ingrese el giro comercial de la empresa",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+            return;
+        }
+        
+        if (departamento.isEmpty() || departamento.equals("Seleccionar departamento")){
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Ingrese el departamento donde se ubica la empresa",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+            return;
+        }
+        
+        if (municipio.isEmpty() || municipio.equals("Seleccionar municipio")){
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Ingrese el municipio donde se ubica la empresa",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+            return;
+        }
+        
+        if (distrito.isEmpty() || distrito.equals("Seleccionar distrito")){
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Ingrese el distrito donde se ubica la empresa",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+            return;
+        }
+        
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void nombreComercial1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreComercial1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nombreComercial1ActionPerformed
 
     private void jComboBoxDepartamentosActionPerformed(java.awt.event.ActionEvent evt) {
         if (jComboBoxDepartamentos.getSelectedIndex() <= 0) {
@@ -303,7 +457,9 @@ public class EmpresasPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JTextField nit;
     private javax.swing.JTextField nombreComercial;
+    private javax.swing.JTextField nombreComercial1;
     // End of variables declaration//GEN-END:variables
 }
