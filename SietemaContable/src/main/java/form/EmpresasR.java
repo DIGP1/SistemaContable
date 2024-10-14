@@ -39,7 +39,8 @@ public class EmpresasR extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(18, 56, 84));
 
-        jPanelContainer.setBackground(new java.awt.Color(18, 56, 84));
+        jPanelContainer.setBackground(new java.awt.Color(0, 153, 153));
+        jPanelContainer.setForeground(new java.awt.Color(255, 255, 255));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
