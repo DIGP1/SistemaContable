@@ -26,10 +26,10 @@ import javax.swing.JOptionPane;
 public class CatalogoDeCuentasDatos {
     private DatabaseConnection dbConnection = new DatabaseConnection();
 
-    public List<String> listarCuentas() {
+    public List<String> listarCuentas(int empresa_id) {
         List<String> cuentas = new ArrayList<>();
 
-        String sql = "SELECT * FROM tbl_catalogo_de_cuentas";
+        String sql = "SELECT * FROM tbl_catalogo_de_cuentas WHERE empresa_id = "+empresa_id;
 
         try (Connection conn = dbConnection.connect(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
 
@@ -44,13 +44,9 @@ public class CatalogoDeCuentasDatos {
         return cuentas;
     }
 
-    public Map<Integer, List<RegistrosContables>> CargarLibroDiario() {
-        Map<Integer, List<RegistrosContables>> registrosLibroDiario = new HashMap<>();
+    public List<RegistrosContables> CargarLibroDiario(int empresa_id) {
         List<RegistrosContables> data = new ArrayList<>();
-
-        int counter = 0;
-
-        String sql = """
+       String sql = """
                 select \
                     tbl_catalogo_de_cuentas.codigo as codigo, \
                     tbl_transacciones_libro_diario.fecha                   as fecha, \
@@ -60,10 +56,12 @@ public class CatalogoDeCuentasDatos {
                     tbl_transacciones_libro_diario.descripcion_transaccion as descripcion \
                 from tbl_transacciones_libro_diario
                 inner join tbl_libro_diario on tbl_transacciones_libro_diario.id_movimiento = tbl_libro_diario.id_movimiento
-                inner join tbl_catalogo_de_cuentas on tbl_libro_diario.id_cuenta = tbl_catalogo_de_cuentas.id;
+                inner join tbl_catalogo_de_cuentas on tbl_libro_diario.id_cuenta = tbl_catalogo_de_cuentas.id
+                where tbl_transacciones_libro_diario.empresa_id = ?;
                 """;
-
-        try (Connection conn = dbConnection.connect(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+        try (Connection conn = dbConnection.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, empresa_id);
+            ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 String fecha = rs.getString("fecha");
                 String codigo = rs.getString("codigo");
@@ -71,7 +69,7 @@ public class CatalogoDeCuentasDatos {
                 String debe = rs.getString("debe");
                 String haber = rs.getString("haber");
                 String descripcionTransaccion = rs.getString("descripcion");
-
+                System.out.println(cuenta);
                 if (debe.isEmpty()) {
                     debe = "0";
                 }
@@ -81,22 +79,22 @@ public class CatalogoDeCuentasDatos {
                 }
 
                 RegistrosContables registro = new RegistrosContables(fecha, codigo, cuenta, debe, haber, descripcionTransaccion);
+                System.out.println(registro);
                 data.add(registro);
-                counter++;
-                registrosLibroDiario.put(counter, data);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        return registrosLibroDiario;
+        return data;
     }
 
-    public String obtenerMovimiento(int id) {
+    public String obtenerMovimiento(int id, int empresa_id) {
         String movimiento = "";
-        String sql = "SELECT * FROM tbl_libro_diario WHERE id = ?";
+        String sql = "SELECT * FROM tbl_libro_diario WHERE id = ? AND empresa_id = ?";
 
         try (Connection conn = dbConnection.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, id);
+            pstmt.setInt(2, empresa_id);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 movimiento = rs.getString("Codigo") + "\t" + rs.getString("Descripcion");
@@ -121,10 +119,10 @@ public class CatalogoDeCuentasDatos {
     }
 
 
-    public List<String> filtros(String ft) {
+    public List<String> filtros(String ft, int empresa_id) {
         List<String> cuentas = new ArrayList<>();
 
-        String sql = "SELECT * FROM tbl_catalogo_de_cuentas WHERE Codigo LIKE '" + ft + "%'";
+        String sql = "SELECT * FROM tbl_catalogo_de_cuentas WHERE Codigo LIKE '" + ft + "%' AND empresa_id = "+empresa_id;
 
         try (Connection conn = dbConnection.connect(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
 
@@ -140,15 +138,15 @@ public class CatalogoDeCuentasDatos {
     }
 
 
-    public valoresBusqueda buscarNombreCuentaPorCodigo(String codigoIngresado, boolean codigoCuenta) {
+    public valoresBusqueda buscarNombreCuentaPorCodigo(String codigoIngresado, boolean codigoCuenta, int empresa_id) {
         valoresBusqueda valorBusqueda;
         HashMap<String, String> cuentas = new HashMap<>();
         List<String> nombreCuentas = new ArrayList<>();
         String sql;
         if(codigoCuenta){
-            sql = "SELECT Codigo, Cuenta FROM tbl_catalogo_de_cuentas WHERE Codigo LIKE '" + codigoIngresado + "%'";
+            sql = "SELECT Codigo, Cuenta FROM tbl_catalogo_de_cuentas WHERE Codigo LIKE '" + codigoIngresado + "%' AND empresa_id = "+empresa_id;
         }else{
-            sql = "SELECT Codigo, Cuenta FROM tbl_catalogo_de_cuentas WHERE cuenta LIKE '" + codigoIngresado + "%'";
+            sql = "SELECT Codigo, Cuenta FROM tbl_catalogo_de_cuentas WHERE cuenta LIKE '" + codigoIngresado + "%' AND empresa_id = "+empresa_id;
         }
         try (Connection conn = dbConnection.connect(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
 
@@ -177,10 +175,10 @@ public class CatalogoDeCuentasDatos {
         return valorBusqueda;
     }
 
-    public void guardarEnBaseDeDatos(String fecha, String Codigo, String Descripcion, String Debe, String Haber) {
-        int id_movimiento = getLastIdMovimiento() + 1;
-        int id_cuenta = getAccountId(Codigo);
-        saveLibroDiario(Debe, Haber, id_cuenta, id_movimiento);
+    public void guardarEnBaseDeDatos(String fecha, String Codigo, String Descripcion, String Debe, String Haber, int empresa_id) {
+        int id_movimiento = getLastIdMovimiento(empresa_id) + 1;
+        int id_cuenta = getAccountId(Codigo, empresa_id);
+        saveLibroDiario(Debe, Haber, id_cuenta, id_movimiento, empresa_id);
         
         /*String sql = "INSERT INTO LIBRO_DIARIO (Fecha,Codigo,Descripcion,  Debe, Haber) VALUES (?, ?, ?, ?,?)";
 
@@ -206,13 +204,14 @@ public class CatalogoDeCuentasDatos {
         }*/
     }
 
-    private void saveTransaction(String fecha, String Descripcion, int lastId) {
-        String sql = "INSERT INTO tbl_transacciones_libro_diario (fecha,descripcion_transaccion, id_movimiento) VALUES (?, ?, ?)";
+    private void saveTransaction(String fecha, String Descripcion, int lastId, int empresa_id) {
+        String sql = "INSERT INTO tbl_transacciones_libro_diario (fecha,descripcion_transaccion, id_movimiento, empresa_id) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = dbConnection.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, fecha);
             pstmt.setString(2, Descripcion);
             pstmt.setInt(3, lastId);
+            pstmt.setInt(4, empresa_id);
 
             int filasAfectadas = pstmt.executeUpdate();
 
@@ -229,14 +228,15 @@ public class CatalogoDeCuentasDatos {
         }
     }
 
-    private void saveLibroDiario(String debe, String haber, int id_cuenta, int id_movimiento) {
-        String sql = "INSERT INTO tbl_libro_diario (debe, haber, id_cuenta, id_movimiento) VALUES (?, ?, ?, ?)";
+    private void saveLibroDiario(String debe, String haber, int id_cuenta, int id_movimiento, int empresa_id) {
+        String sql = "INSERT INTO tbl_libro_diario (debe, haber, id_cuenta, id_movimiento, empresa_id) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = dbConnection.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, debe);
             pstmt.setString(2, haber);
             pstmt.setInt(3, id_cuenta);
             pstmt.setInt(4, id_movimiento);
+            pstmt.setInt(5, empresa_id);
 
             int filasAfectadas = pstmt.executeUpdate();
 
@@ -253,8 +253,8 @@ public class CatalogoDeCuentasDatos {
         }
     }
 
-    private int getLastIdMovimiento() {
-        String sql = "SELECT MAX(id_movimiento) FROM tbl_transacciones_libro_diario";
+    private int getLastIdMovimiento(int empresa_id) {
+        String sql = "SELECT MAX(id_movimiento) FROM tbl_transacciones_libro_diario WHERE empresa_id = "+empresa_id;
         int lastId = 0;
 
         try (Connection conn = dbConnection.connect(); PreparedStatement pstmt = conn.prepareStatement(sql); ResultSet rs = pstmt.executeQuery()) {
@@ -268,8 +268,8 @@ public class CatalogoDeCuentasDatos {
         return lastId;
     }
 
-    private int getAccountId(String accountCode) {
-        String sql = "SELECT id FROM tbl_catalogo_de_cuentas WHERE codigo = '" + accountCode + "'";
+    private int getAccountId(String accountCode, int empresa_id) {
+        String sql = "SELECT id FROM tbl_catalogo_de_cuentas WHERE codigo = '" + accountCode + "'AND empresa_id = "+ empresa_id;
         int code = 0;
 
         try (Connection conn = dbConnection.connect(); PreparedStatement pstmt = conn.prepareStatement(sql); ResultSet rs = pstmt.executeQuery()) {
@@ -283,7 +283,7 @@ public class CatalogoDeCuentasDatos {
         return code;
     }
 
-    public List<List<Object>> libroDiario() {
+    public List<List<Object>> libroDiario(int empresa_id) {
         String sql = """
                 select \
                     tbl_libro_diario.id as id, \
@@ -295,12 +295,14 @@ public class CatalogoDeCuentasDatos {
                     tbl_transacciones_libro_diario.descripcion_transaccion as descripcion \
                 from tbl_transacciones_libro_diario
                 inner join tbl_libro_diario on tbl_transacciones_libro_diario.id_movimiento = tbl_libro_diario.id_movimiento
-                inner join tbl_catalogo_de_cuentas on tbl_libro_diario.id_cuenta = tbl_catalogo_de_cuentas.id;
+                inner join tbl_catalogo_de_cuentas on tbl_libro_diario.id_cuenta = tbl_catalogo_de_cuentas.id
+                where tbl_libro_diario.empresa_id = ?;
                 """;
         List<List<Object>> resultList = new ArrayList<>();
 
-        try (Connection conn = dbConnection.connect(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
-
+        try (Connection conn = dbConnection.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, empresa_id);
+            ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 List<Object> row = new ArrayList<>();
                 row.add(rs.getInt("id"));
@@ -320,7 +322,7 @@ public class CatalogoDeCuentasDatos {
         return resultList;
     }
 
-    public String obtenerDescripcionPorId(int id) {
+   /* public String obtenerDescripcionPorId(int id) {
         String descripcion = null;
         String sql = "SELECT descripcion FROM LIBRO_DIARIO WHERE ID = ?";
 
@@ -339,9 +341,9 @@ public class CatalogoDeCuentasDatos {
 
         return descripcion;
     }
+    */
 
-
-    public String obtenerFechaPorId(int id) {
+   /* public String obtenerFechaPorId(int id) {
         String fecha = null;
         String sql = "SELECT fecha FROM LIBRO_DIARIO WHERE ID = ?";
 
@@ -360,9 +362,9 @@ public class CatalogoDeCuentasDatos {
 
         return fecha;
     }
-
-    public void transacciones() {
-        String sql = "SELECT * FROM tbl_transacciones_libro_diario";
+        */
+   /* public void transacciones(int empresa_id) {
+        String sql = "SELECT * FROM tbl_transacciones_libro_diario WHERE empresa_id = "+empresa_id;
 
         try (Connection conn = dbConnection.connect(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
             System.out.println(sql);
@@ -390,7 +392,7 @@ public class CatalogoDeCuentasDatos {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-    }
+    }*/
 
 
     public String retornarIDMayor() {
@@ -409,9 +411,9 @@ public class CatalogoDeCuentasDatos {
         return cuenta;
     }
 
-    public void guardarEnBaseTransaccion(String fecha, String ids, String descripcion) {
-        int id_movimiento = getLastIdMovimiento() + 1;
-        saveTransaction(fecha, descripcion, id_movimiento);
+    public void guardarEnBaseTransaccion(String fecha, String ids, String descripcion, int empresa_id) {
+        int id_movimiento = getLastIdMovimiento(empresa_id) + 1;
+        saveTransaction(fecha, descripcion, id_movimiento, empresa_id);
         
         /*String sql = "INSERT INTO tbl_transacciones_libro_diario (fecha,idMovimientosLD,descripcionTransaccion) VALUES (?, ?, ?)";
 
@@ -480,7 +482,7 @@ public class CatalogoDeCuentasDatos {
         }
     }
 
-    public void guardarTransacciones(List<Integer> codigo, String descripcion) {
+   /* public void guardarTransacciones(List<Integer> codigo, String descripcion) {
         String sql = "INSERT INTO tbl_transacciones_libro_diario (nCuenta, DescripcionTransaccion) VALUES (?, ?)";
         try (Connection conn = dbConnection.connect()) {
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -493,7 +495,7 @@ public class CatalogoDeCuentasDatos {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
 
     public boolean verificacionAdmin(String username, String password) {
@@ -607,13 +609,14 @@ public class CatalogoDeCuentasDatos {
         return null;
     }
 
-    public void guardarTransaccionCatalogoCuentas(String Codigo, String Cuenta, double Saldo) {
-        String sql = "INSERT INTO tbl_catalogo_de_cuentas (codigo, cuenta, Saldo) VALUES (?, ?, ?)";
+    public void guardarTransaccionCatalogoCuentas(String Codigo, String Cuenta, double Saldo, int empresa_id) {
+        String sql = "INSERT INTO tbl_catalogo_de_cuentas (codigo, cuenta, Saldo, empresa_id) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = dbConnection.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, Codigo);
             pstmt.setString(2, Cuenta);
             pstmt.setDouble(3, Saldo);
+            pstmt.setInt(4, empresa_id);
 
             int filasAfectadas = pstmt.executeUpdate();
 

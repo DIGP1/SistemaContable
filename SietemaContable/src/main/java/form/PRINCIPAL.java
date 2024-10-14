@@ -28,6 +28,7 @@ import java.util.Set;
  */
 public class PRINCIPAL extends javax.swing.JFrame {
     private JPanel panelPrincipal;
+    private int empresa_id = 1;
 
 
     public PRINCIPAL() {
@@ -345,7 +346,7 @@ public class PRINCIPAL extends javax.swing.JFrame {
 //        info.repaint();
 
         CatalogoDeCuentasDatos catalogo = new CatalogoDeCuentasDatos();
-        List<List<Object>> cuentas = catalogo.libroDiario();
+        List<List<Object>> cuentas = catalogo.libroDiario(empresa_id);
         for (List<Object> row : cuentas) {
             System.out.println("Cuentas list item: " + row);
         }

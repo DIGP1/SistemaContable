@@ -13,7 +13,7 @@ import logic.CatalogoDeCuentasDatos;
  */
 public class Registro_cuenta extends javax.swing.JPanel {
     private CatalogoDeCuentasDatos catalogoDeCuentasDatos = new CatalogoDeCuentasDatos();
-
+    private int empresa_id = 1;
     /**
      * Creates new form Registro_cuenta
      */
@@ -103,7 +103,7 @@ public class Registro_cuenta extends javax.swing.JPanel {
         }
 
         // Ahora puedes usar 'saldo' en tu código para guardarlo en la base de datos
-        catalogoDeCuentasDatos.guardarTransaccionCatalogoCuentas(codigo, cuenta, saldo);
+        catalogoDeCuentasDatos.guardarTransaccionCatalogoCuentas(codigo, cuenta, saldo, empresa_id);
 
         // Mostrar un mensaje de éxito
         JOptionPane.showMessageDialog(this, "Los datos se guardaron con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
