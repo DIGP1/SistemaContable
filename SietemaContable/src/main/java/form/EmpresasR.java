@@ -12,11 +12,14 @@ import java.awt.*;
  * @author angel
  */
 public class EmpresasR extends javax.swing.JPanel {
+    
+    String user;
 
     /**
      * Creates new form EmpresasR
      */
-    public EmpresasR() {
+    public EmpresasR(String user) {
+        this.user = user;
         initComponents();
     }
 
@@ -152,7 +155,7 @@ public class EmpresasR extends javax.swing.JPanel {
         
         jPanelContainer.removeAll();
         jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        EmpresasPanel er = new EmpresasPanel();
+        EmpresasPanel er = new EmpresasPanel(user);
         er.setSize(jPanelContainer.getSize()); // Establecer el tamaño igual al tamaño del contenedor
         jPanelContainer.setLayout(new BorderLayout()); // Usar un BorderLayout
         jPanelContainer.add(er, BorderLayout.CENTER); // Agregar el componente en el centro

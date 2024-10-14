@@ -1,7 +1,9 @@
 logic\models\Department.class
 logic\models\Districts.class
 form\EmpresasPanel$5.class
+logic\queries\InsertData.class
 form\Empresas$1.class
+logic\queries\SelectData.class
 form\EmpresasR.class
 form\EmpresasR$1.class
 form\EmpresasPanel$1.class
@@ -10,6 +12,7 @@ form\EmpresasPanel$4.class
 form\Empresas$2.class
 logic\models\Municipio.class
 form\Empresas.class
+form\EmpresasPanel$7.class
 form\login$3.class
 form\PRINCIPAL$11$1.class
 form\EmpresasR$2.class
@@ -18,5 +21,6 @@ form\Register$3.class
 form\Empresas$3.class
 form\EmpresasPanel.class
 form\EmpresasPanel$3.class
+logic\models\Empresa.class
 form\EmpresasPanel$6.class
 form\EmpresasPanel$2.class

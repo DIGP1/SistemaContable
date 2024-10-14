@@ -279,7 +279,7 @@ public class login extends javax.swing.JFrame {
             prn.setVisible(true);
             prn.pack();
             prn.setLocationRelativeTo(null);
-            prn.setUsuarioLabel(nombreUsuario); // Actualiza el JLabel con el nombre de usuario
+            prn.setUsuarioLabel(nombreUsuario);
             this.dispose();
         }
     }

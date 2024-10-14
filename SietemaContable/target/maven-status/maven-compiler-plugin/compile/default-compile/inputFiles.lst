@@ -1,6 +1,7 @@
 C:\Users\alexu\IdeaProjects\SistemaContable\SietemaContable\src\main\java\logic\models\Giros.java
 C:\Users\alexu\IdeaProjects\SistemaContable\SietemaContable\src\main\java\form\Empresas.java
 C:\Users\alexu\IdeaProjects\SistemaContable\SietemaContable\src\main\java\logic\models\Department.java
+C:\Users\alexu\IdeaProjects\SistemaContable\SietemaContable\src\main\java\logic\queries\InsertData.java
 C:\Users\alexu\IdeaProjects\SistemaContable\SietemaContable\src\main\java\logic\queries\LoadStaticData.java
 C:\Users\alexu\IdeaProjects\SistemaContable\SietemaContable\src\main\java\form\Register.java
 C:\Users\alexu\IdeaProjects\SistemaContable\SietemaContable\src\main\java\form\Balance.java
@@ -8,6 +9,7 @@ C:\Users\alexu\IdeaProjects\SistemaContable\SietemaContable\src\main\java\form\E
 C:\Users\alexu\IdeaProjects\SistemaContable\SietemaContable\src\main\java\form\PRINCIPAL.java
 C:\Users\alexu\IdeaProjects\SistemaContable\SietemaContable\src\main\java\logic\valoresBusqueda.java
 C:\Users\alexu\IdeaProjects\SistemaContable\SietemaContable\src\main\java\form\Registro_cuenta.java
+C:\Users\alexu\IdeaProjects\SistemaContable\SietemaContable\src\main\java\logic\queries\SelectData.java
 C:\Users\alexu\IdeaProjects\SistemaContable\SietemaContable\src\main\java\form\verificarAdmin.java
 C:\Users\alexu\IdeaProjects\SistemaContable\SietemaContable\src\main\java\form\LibroMayor.java
 C:\Users\alexu\IdeaProjects\SistemaContable\SietemaContable\src\main\java\form\CatalogoCuentas.java
@@ -19,6 +21,7 @@ C:\Users\alexu\IdeaProjects\SistemaContable\SietemaContable\src\main\java\form\l
 C:\Users\alexu\IdeaProjects\SistemaContable\SietemaContable\src\main\java\logic\DatabaseConnection.java
 C:\Users\alexu\IdeaProjects\SistemaContable\SietemaContable\src\main\java\logic\cargarLibroDiario.java
 C:\Users\alexu\IdeaProjects\SistemaContable\SietemaContable\src\main\java\logic\models\Municipio.java
+C:\Users\alexu\IdeaProjects\SistemaContable\SietemaContable\src\main\java\logic\models\Empresa.java
 C:\Users\alexu\IdeaProjects\SistemaContable\SietemaContable\src\main\java\logic\passwordmanagement\PasswordEncryption.java
 C:\Users\alexu\IdeaProjects\SistemaContable\SietemaContable\src\main\java\logic\CatalogoDeCuentasDatos.java
 C:\Users\alexu\IdeaProjects\SistemaContable\SietemaContable\src\main\java\form\EmpresasR.java
