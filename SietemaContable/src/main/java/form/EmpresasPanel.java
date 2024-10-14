@@ -47,6 +47,7 @@ public class EmpresasPanel extends javax.swing.JPanel {
     }
 
     void loadDataToEdit(int empresaId) {
+        jLabel1.setText("ACTUALIZAR DATOS DE LA EMPRESA");
         List<Empresa> listaEmpresa = SelectData.getCompanieById(empresaId);
 
         if (!listaEmpresa.isEmpty()) {
