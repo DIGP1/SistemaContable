@@ -5,19 +5,18 @@
 package form;
 
 import logic.models.Department;
-import logic.models.Districts;
 import logic.models.Empresa;
 import logic.models.Municipio;
+import logic.queries.InsertData;
 import logic.queries.LoadStaticData;
 import logic.queries.SelectData;
+import logic.queries.UpdateData;
 
 import javax.swing.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.IntStream;
 
 /**
  * @author alexu
@@ -25,6 +24,7 @@ import java.util.stream.IntStream;
 public class EmpresasPanel extends javax.swing.JPanel {
 
     String user;
+    boolean update;
     int empresaId;
 
     /**
@@ -37,8 +37,10 @@ public class EmpresasPanel extends javax.swing.JPanel {
         loadGiros();
     }
 
-    public EmpresasPanel(int empresaId) {
+    public EmpresasPanel(int empresaId, boolean update) {
         initComponents();
+        this.update = update;
+        this.empresaId = empresaId;
         loadDataToEdit(empresaId);
         loadGiros();
     }
@@ -64,7 +66,6 @@ public class EmpresasPanel extends javax.swing.JPanel {
 
             SwingUtilities.invokeLater(() -> {
                 for (int i = 0; i < jComboBoxGiros.getItemCount(); i++) {
-                    System.out.println("Giro in ComboBox: " + jComboBoxGiros.getItemAt(i).toString());
                     if (jComboBoxGiros.getItemAt(i).toString().equals(giro)) {
                         jComboBoxGiros.setSelectedIndex(i);
                         break;
@@ -153,7 +154,7 @@ public class EmpresasPanel extends javax.swing.JPanel {
         jButton1.setBackground(new java.awt.Color(0, 102, 0));
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Agregar");
+        jButton1.setText("Aceptar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -199,6 +200,50 @@ public class EmpresasPanel extends javax.swing.JPanel {
         txtGetNit.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         txtGetNit.setForeground(new java.awt.Color(255, 255, 255));
         txtGetNit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtGetNit.addKeyListener(new KeyAdapter() {
+
+            final int MaxLength = 17;
+
+            // Limitar la cantidad de caracteres a 17
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if (txtGetNit.getText().length() == MaxLength) {
+                    e.consume();
+                }
+            }
+
+            final int[] validKeys = {
+                    KeyEvent.VK_BACK_SPACE, KeyEvent.VK_TAB,
+                    KeyEvent.VK_0, KeyEvent.VK_1, KeyEvent.VK_2,
+                    KeyEvent.VK_3, KeyEvent.VK_4, KeyEvent.VK_5,
+                    KeyEvent.VK_6, KeyEvent.VK_7, KeyEvent.VK_8,
+                    KeyEvent.VK_9
+            };
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                boolean isValidKey = false;
+                for (int validKey : validKeys) {
+                    if (e.getKeyCode() == validKey) {
+                        isValidKey = true;
+                        break;
+                    }
+                }
+
+                if (!isValidKey) {
+                    JOptionPane.showMessageDialog(null, "Solo se permiten números", "Error", JOptionPane.ERROR_MESSAGE);
+                    e.consume();
+                    return;
+                }
+
+                // Colocar guion automático cada 4, 11 y 15 dígitos
+                if (e.getKeyCode() != KeyEvent.VK_BACK_SPACE && e.getKeyCode() != KeyEvent.VK_TAB) {
+                    if (txtGetNit.getText().length() == 4 || txtGetNit.getText().length() == 11 || txtGetNit.getText().length() == 15) {
+                        txtGetNit.setText(txtGetNit.getText() + "-");
+                    }
+                }
+            }
+        });
 
         jComboBoxDistrito.setBackground(new java.awt.Color(153, 102, 0));
         jComboBoxDistrito.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
@@ -396,19 +441,53 @@ public class EmpresasPanel extends javax.swing.JPanel {
         int companyId = SelectData.getLastCompanyId();
         int userId = SelectData.getUserID(user);
 
-        if (SelectData.ValidateNIT(nit)) {
-            JOptionPane.showMessageDialog(this, "El NIT ingresado ya existe", "Error", JOptionPane.ERROR_MESSAGE);
-            txtGetNit.setText("");
-            txtGetNit.requestFocus();
-            return;
+        if(!update){
+            if (SelectData.ValidateNIT(nit)) {
+                JOptionPane.showMessageDialog(this, "El NIT ingresado ya existe", "Error", JOptionPane.ERROR_MESSAGE);
+                txtGetNit.setText("");
+                txtGetNit.requestFocus();
+                return;
+            }
+        }else{
+            if (SelectData.ValidateNIT(nit, companyId)) {
+                JOptionPane.showMessageDialog(this, "El NIT ingresado ya existe", "Error", JOptionPane.ERROR_MESSAGE);
+                txtGetNit.setText("");
+                txtGetNit.requestFocus();
+                return;
+            }
         }
 
         Empresa empresa = new Empresa(companyId, nombreComercial, nit, Integer.parseInt(giro.split(" - ")[0]), txtGetDireccion.getText(), Integer.parseInt(distrito.split(" - ")[0]), userId);
 
-        if (logic.queries.InsertData.saveCompanyInformation(empresa)) {
-            JOptionPane.showMessageDialog(this, "Empresa agregada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(this, "Error al guardar la empresa", "Error", JOptionPane.ERROR_MESSAGE);
+        if (update){
+            if (UpdateData.updateCompanyInformation(empresa, empresaId)) {
+                JOptionPane.showMessageDialog(this, 
+                        "Empresa actualizada exitosamente", 
+                        "Éxito", 
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+                
+            } else {
+                JOptionPane.showMessageDialog(this, 
+                        "Error al actualizar la empresa", 
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE
+                );
+            }
+        }else{
+            if (InsertData.saveCompanyInformation(empresa)) {
+                JOptionPane.showMessageDialog(this, 
+                        "Empresa agregada exitosamente", 
+                        "Éxito", 
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+            } else {
+                JOptionPane.showMessageDialog(this, 
+                        "Error al guardar la empresa", 
+                        "Error", 
+                        JOptionPane.ERROR_MESSAGE
+                );
+            }
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed

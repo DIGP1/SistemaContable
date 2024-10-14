@@ -11,6 +11,7 @@ form\EmpresasPanel$1.class
 logic\queries\LoadStaticData.class
 form\EmpresasPanel$4.class
 form\Empresas$2.class
+form\EmpresasPanel$7.class
 form\EmpresasR$2.class
 form\PRINCIPAL$12.class
 form\CatalogoCuentas$11.class
@@ -21,6 +22,7 @@ form\EmpresasPanel$2.class
 form\libroDiario$9.class
 form\EmpresasPanel$5.class
 form\Empresas$1.class
+logic\queries\UpdateData.class
 form\EmpresasR$3.class
 logic\models\Municipio.class
 form\Empresas.class

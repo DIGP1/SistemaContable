@@ -67,6 +67,25 @@ public class SelectData {
         return false;
     }
 
+    public static boolean ValidateNIT(String nit, int id) {
+        String myQuery = "SELECT nit FROM tbl_empresas WHERE nit = ? AND id = ?";
+
+        try (Connection conn = dbConnection.connect(); PreparedStatement pstmt = conn.prepareStatement(myQuery)) {
+            pstmt.setString(1, nit);
+            pstmt.setInt(2, id);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    // Esta mierda es así: si ese nit ya existe, no hacer nada (como los alcaldes del pais).
+                    return false;
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            return true;
+        }
+        return true;
+    }
+
     public static List<Empresa> getCompanies() {
         String myQuery = """
                 SELECT

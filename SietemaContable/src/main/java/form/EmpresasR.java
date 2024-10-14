@@ -203,21 +203,13 @@ public class EmpresasR extends javax.swing.JPanel {
         
         int row = jTable1.getSelectedRow();
         empresaId = (int) jTable1.getValueAt(row, 0);
-        String nombreComercial = (String) jTable1.getValueAt(row, 1);
-        String nit = (String) jTable1.getValueAt(row, 2);
-        String direccion = (String) jTable1.getValueAt(row, 3);
-        
-        System.out.println("ID: " + empresaId);
-        System.out.println("Nombre comercial: " + nombreComercial);
-        System.out.println("NIT: " + nit);
-        System.out.println("Dirección: " + direccion);
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButtonEditarEmpresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarEmpresaActionPerformed
         jPanelContainer.removeAll();
         jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         
-        EmpresasPanel er = new EmpresasPanel(empresaId);
+        EmpresasPanel er = new EmpresasPanel(empresaId, true);
         er.setSize(jPanelContainer.getSize()); // Establecer el tamaño igual al tamaño del contenedor
         jPanelContainer.setLayout(new BorderLayout()); // Usar un BorderLayout
         jPanelContainer.add(er, BorderLayout.CENTER); // Agregar el componente en el centro
