@@ -6,6 +6,7 @@ form\Empresas$1.class
 logic\queries\SelectData.class
 form\EmpresasR.class
 form\EmpresasR$1.class
+form\EmpresasR$3.class
 form\EmpresasPanel$1.class
 logic\queries\LoadStaticData.class
 form\EmpresasPanel$4.class

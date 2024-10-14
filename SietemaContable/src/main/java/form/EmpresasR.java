@@ -4,8 +4,13 @@
  */
 package form;
 
+import logic.models.Empresa;
+import logic.queries.SelectData;
+
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.util.List;
 
 /**
  *
@@ -21,6 +26,7 @@ public class EmpresasR extends javax.swing.JPanel {
     public EmpresasR(String user) {
         this.user = user;
         initComponents();
+        loadCompanies();
     }
 
     /**
@@ -42,23 +48,35 @@ public class EmpresasR extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(18, 56, 84));
 
-        jPanelContainer.setBackground(new java.awt.Color(0, 153, 153));
+        jPanelContainer.setBackground(new java.awt.Color(18, 56, 84));
         jPanelContainer.setForeground(new java.awt.Color(255, 255, 255));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "Nombre comercial", "NIT", "Dirección"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("EMPRESAS REGISTRADAS");
 
@@ -91,33 +109,32 @@ public class EmpresasR extends javax.swing.JPanel {
         jPanelContainer.setLayout(jPanelContainerLayout);
         jPanelContainerLayout.setHorizontalGroup(
             jPanelContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelContainerLayout.createSequentialGroup()
-                .addContainerGap(72, Short.MAX_VALUE)
+            .addGroup(jPanelContainerLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanelContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addGroup(jPanelContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(jPanelContainerLayout.createSequentialGroup()
-                            .addComponent(jButton1)
-                            .addGap(18, 18, 18)
-                            .addComponent(Editar)
-                            .addGap(18, 18, 18)
-                            .addComponent(jButton2))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 839, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(40, 40, 40))
+                    .addGroup(jPanelContainerLayout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 364, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addGap(18, 18, 18)
+                        .addComponent(Editar)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2))
+                    .addComponent(jScrollPane1))
+                .addContainerGap())
         );
         jPanelContainerLayout.setVerticalGroup(
             jPanelContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelContainerLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addGroup(jPanelContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
                     .addComponent(Editar)
-                    .addComponent(jButton1))
+                    .addComponent(jButton1)
+                    .addComponent(jLabel1))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 471, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -163,6 +180,24 @@ public class EmpresasR extends javax.swing.JPanel {
         jPanelContainer.repaint();
         
     }//GEN-LAST:event_jButton1ActionPerformed
+    
+    void loadCompanies() {
+        List<Empresa> empresas = SelectData.getCompanies();
+        
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+        
+        empresas.forEach((empresa) -> {
+            model.addRow(new Object[] {
+                empresa.getId(),
+                empresa.getNombreComercial(),
+                empresa.getNit(),
+                empresa.getDireccion()
+            });
+        });
+        
+        jTable1.setModel(model);
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
