@@ -43,8 +43,8 @@ public class EmpresasR extends javax.swing.JPanel {
         jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        Editar = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jButtonEditarEmpresa = new javax.swing.JButton();
+        jButtonEliminarEmpresa = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(18, 56, 84));
 
@@ -74,6 +74,11 @@ public class EmpresasR extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
@@ -84,6 +89,7 @@ public class EmpresasR extends javax.swing.JPanel {
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Agregar");
+        jButton1.setFocusPainted(false);
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton1MouseClicked(evt);
@@ -95,15 +101,19 @@ public class EmpresasR extends javax.swing.JPanel {
             }
         });
 
-        Editar.setBackground(new java.awt.Color(51, 102, 255));
-        Editar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        Editar.setForeground(new java.awt.Color(255, 255, 255));
-        Editar.setText("Editar");
+        jButtonEditarEmpresa.setBackground(new java.awt.Color(51, 102, 255));
+        jButtonEditarEmpresa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButtonEditarEmpresa.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonEditarEmpresa.setText("Editar");
+        jButtonEditarEmpresa.setEnabled(false);
+        jButtonEditarEmpresa.setFocusPainted(false);
 
-        jButton2.setBackground(new java.awt.Color(204, 0, 0));
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Eliminar");
+        jButtonEliminarEmpresa.setBackground(new java.awt.Color(204, 0, 0));
+        jButtonEliminarEmpresa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButtonEliminarEmpresa.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonEliminarEmpresa.setText("Eliminar");
+        jButtonEliminarEmpresa.setEnabled(false);
+        jButtonEliminarEmpresa.setFocusPainted(false);
 
         javax.swing.GroupLayout jPanelContainerLayout = new javax.swing.GroupLayout(jPanelContainer);
         jPanelContainer.setLayout(jPanelContainerLayout);
@@ -117,9 +127,9 @@ public class EmpresasR extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 364, Short.MAX_VALUE)
                         .addComponent(jButton1)
                         .addGap(18, 18, 18)
-                        .addComponent(Editar)
+                        .addComponent(jButtonEditarEmpresa)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2))
+                        .addComponent(jButtonEliminarEmpresa))
                     .addComponent(jScrollPane1))
                 .addContainerGap())
         );
@@ -128,8 +138,8 @@ public class EmpresasR extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelContainerLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(Editar)
+                    .addComponent(jButtonEliminarEmpresa)
+                    .addComponent(jButtonEditarEmpresa)
                     .addComponent(jButton1)
                     .addComponent(jLabel1))
                 .addGap(18, 18, 18)
@@ -180,6 +190,22 @@ public class EmpresasR extends javax.swing.JPanel {
         jPanelContainer.repaint();
         
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        jButtonEditarEmpresa.setEnabled(true);
+        jButtonEliminarEmpresa.setEnabled(true);
+        
+        int row = jTable1.getSelectedRow();
+        int id = (int) jTable1.getValueAt(row, 0);
+        String nombreComercial = (String) jTable1.getValueAt(row, 1);
+        String nit = (String) jTable1.getValueAt(row, 2);
+        String direccion = (String) jTable1.getValueAt(row, 3);
+        
+        System.out.println("ID: " + id);
+        System.out.println("Nombre comercial: " + nombreComercial);
+        System.out.println("NIT: " + nit);
+        System.out.println("Dirección: " + direccion);
+    }//GEN-LAST:event_jTable1MouseClicked
     
     void loadCompanies() {
         List<Empresa> empresas = SelectData.getCompanies();
@@ -201,9 +227,9 @@ public class EmpresasR extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Editar;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButtonEditarEmpresa;
+    private javax.swing.JButton jButtonEliminarEmpresa;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanelContainer;
     private javax.swing.JScrollPane jScrollPane1;
