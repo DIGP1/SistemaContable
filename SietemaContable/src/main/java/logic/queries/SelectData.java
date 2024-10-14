@@ -68,22 +68,21 @@ public class SelectData {
     }
 
     public static boolean ValidateNIT(String nit, int id) {
-        String myQuery = "SELECT nit FROM tbl_empresas WHERE nit = ? AND id = ?";
+        String myQuery = "SELECT nit FROM tbl_empresas WHERE nit = ? AND id != ?";
 
         try (Connection conn = dbConnection.connect(); PreparedStatement pstmt = conn.prepareStatement(myQuery)) {
             pstmt.setString(1, nit);
             pstmt.setInt(2, id);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
-                    // Esta mierda es así: si ese nit ya existe, no hacer nada (como los alcaldes del pais).
-                    return false;
+                    return true; // NIT exists and belongs to a different company
                 }
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            return true;
+            return true; // Return true to indicate an error occurred
         }
-        return true;
+        return false; // NIT does not exist or belongs to the same company
     }
 
     public static List<Empresa> getCompanies() {
