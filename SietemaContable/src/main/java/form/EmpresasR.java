@@ -51,7 +51,7 @@ public class EmpresasR extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(18, 56, 84));
 
-        jPanelContainer.setBackground(new java.awt.Color(18, 56, 84));
+        jPanelContainer.setBackground(new java.awt.Color(245, 245, 220));
         jPanelContainer.setForeground(new java.awt.Color(255, 255, 255));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -85,12 +85,10 @@ public class EmpresasR extends javax.swing.JPanel {
         jScrollPane1.setViewportView(jTable1);
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("EMPRESAS REGISTRADAS");
 
         jButton1.setBackground(new java.awt.Color(0, 204, 51));
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Agregar");
         jButton1.setFocusPainted(false);
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -106,7 +104,6 @@ public class EmpresasR extends javax.swing.JPanel {
 
         jButtonEditarEmpresa.setBackground(new java.awt.Color(51, 102, 255));
         jButtonEditarEmpresa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButtonEditarEmpresa.setForeground(new java.awt.Color(255, 255, 255));
         jButtonEditarEmpresa.setText("Editar");
         jButtonEditarEmpresa.setEnabled(false);
         jButtonEditarEmpresa.setFocusPainted(false);
