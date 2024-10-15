@@ -12,6 +12,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
+import logic.EmpresaSelected;
 
 /**
  *
@@ -22,12 +23,16 @@ public class EmpresasR extends javax.swing.JPanel {
     String user;
     int empresaId;
     String nombreEmpresa;
+    private int idUser;
+    private EmpresaSelected empresaSelected;
 
     /**
      * Creates new form EmpresasR
      */
-    public EmpresasR(String user) {
+    public EmpresasR(String user, EmpresaSelected empresaSelected, int userID) {
         this.user = user;
+        this.idUser = userID;
+        this.empresaSelected = empresaSelected;
         initComponents();
         loadCompanies();
     }
@@ -192,7 +197,7 @@ public class EmpresasR extends javax.swing.JPanel {
         
         jPanelContainer.removeAll();
         jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        EmpresasPanel er = new EmpresasPanel(user);
+        EmpresasPanel er = new EmpresasPanel(user, empresaSelected, idUser);
         er.setSize(jPanelContainer.getSize()); // Establecer el tamaño igual al tamaño del contenedor
         jPanelContainer.setLayout(new BorderLayout()); // Usar un BorderLayout
         jPanelContainer.add(er, BorderLayout.CENTER); // Agregar el componente en el centro
@@ -202,12 +207,29 @@ public class EmpresasR extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        jButtonEditarEmpresa.setEnabled(true);
-        jButtonEliminarEmpresa.setEnabled(true);
+            // Un solo clic: habilitar botones
+    jButtonEditarEmpresa.setEnabled(true);
+    jButtonEliminarEmpresa.setEnabled(true);
+    
+    // Obtener la fila seleccionada
+    int row = jTable1.getSelectedRow();
+    
+    // Obtener los valores de la tabla
+    empresaId = (int) jTable1.getValueAt(row, 0);
+    nombreEmpresa = (String) jTable1.getValueAt(row, 1);
+
+    // Detección de doble clic
+    if (evt.getClickCount() == 2) {
+        // Mostrar un cuadro de diálogo de confirmación
+        int respuesta = JOptionPane.showConfirmDialog(null, 
+            "¿Realmente quieres escoger la empresa " + nombreEmpresa + "?", 
+            "Confirmación", JOptionPane.YES_NO_OPTION);
         
-        int row = jTable1.getSelectedRow();
-        empresaId = (int) jTable1.getValueAt(row, 0);
-        nombreEmpresa = (String) jTable1.getValueAt(row, 1);
+        if (respuesta == JOptionPane.YES_OPTION) {
+            empresaSelected.empresaSeleccionada(empresaId, nombreEmpresa);
+        }
+    }
+        
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButtonEditarEmpresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarEmpresaActionPerformed
@@ -258,7 +280,7 @@ public class EmpresasR extends javax.swing.JPanel {
     }//GEN-LAST:event_jButtonEliminarEmpresaActionPerformed
     
     void loadCompanies() {
-        List<Empresa> empresas = SelectData.getCompanies();
+        List<Empresa> empresas = SelectData.getCompanies(idUser);
         
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);

@@ -13,11 +13,12 @@ import logic.CatalogoDeCuentasDatos;
  */
 public class Registro_cuenta extends javax.swing.JPanel {
     private CatalogoDeCuentasDatos catalogoDeCuentasDatos = new CatalogoDeCuentasDatos();
-    private int empresa_id = 1;
+    private int empresa_id = 0;
     /**
      * Creates new form Registro_cuenta
      */
-    public Registro_cuenta() {
+    public Registro_cuenta(int idEmpresa) {
+        this.empresa_id = idEmpresa;
         initComponents();
     }
 

@@ -85,7 +85,7 @@ public class SelectData {
         return false; // NIT does not exist or belongs to the same company
     }
 
-    public static List<Empresa> getCompanies() {
+    public static List<Empresa> getCompanies(int idUser) {
         String myQuery = """
                 SELECT
                     tbl_empresas.id,
@@ -101,12 +101,13 @@ public class SelectData {
                 INNER JOIN
                     tbl_distritos td
                 ON
-                    tbl_empresas.id_distrito = td.id""";
+                    tbl_empresas.id_distrito = td.id
+                WHERE id_usuario = ?""";
         List<Empresa> empresas = new ArrayList<>();
 
-        try (Connection conn = dbConnection.connect();
-             PreparedStatement pstmt = conn.prepareStatement(myQuery);
-             ResultSet rs = pstmt.executeQuery()) {
+        try (Connection conn = dbConnection.connect(); PreparedStatement pstmt = conn.prepareStatement(myQuery)) {
+            pstmt.setInt(1,idUser);
+            ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
                 empresas.add(new Empresa(

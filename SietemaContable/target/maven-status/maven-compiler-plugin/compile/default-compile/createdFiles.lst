@@ -6,6 +6,7 @@ logic\queries\InsertData.class
 logic\queries\SelectData.class
 logic\queries\DeleteData.class
 form\EmpresasR.class
+logic\EmpresaSelected.class
 form\EmpresasR$1.class
 logic\models\GiroComercial.class
 form\EmpresasPanel$1.class
@@ -14,13 +15,11 @@ form\EmpresasPanel$4.class
 form\Empresas$2.class
 form\EmpresasPanel$7.class
 form\EmpresasR$2.class
-form\PRINCIPAL$12.class
 form\CatalogoCuentas$11.class
 form\EmpresasPanel$3.class
 logic\models\Empresa.class
 form\CatalogoCuentas$12.class
 form\EmpresasPanel$2.class
-form\libroDiario$9.class
 form\EmpresasPanel$5.class
 form\Empresas$1.class
 logic\queries\UpdateData.class

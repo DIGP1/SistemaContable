@@ -20,12 +20,13 @@ import logic.CatalogoDeCuentasDatos;
  */
 public class CatalogoCuentas extends javax.swing.JPanel {
     private CatalogoDeCuentasDatos catalogoDeCuentasDatos = new CatalogoDeCuentasDatos();
-    private final int empresa_id = 1;
+    private int empresa_id = 0;
 
     /**
      * Creates new form CatalogoCuentas
      */
-    public CatalogoCuentas() {
+    public CatalogoCuentas(int idEmpresa) {
+        this.empresa_id = idEmpresa;
         initComponents();
         cargarCuentasEnTabla();
     }
@@ -347,38 +348,6 @@ public class CatalogoCuentas extends javax.swing.JPanel {
         JOptionPane.showMessageDialog(this, KeyEvent.KEY_PRESSED);
     }//GEN-LAST:event_jTextFieldBuscarCuentaKeyTyped
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CatalogoCuentas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CatalogoCuentas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CatalogoCuentas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CatalogoCuentas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> {
-            new CatalogoCuentas().setVisible(true);
-        });
-    }
 
     /*private void cargarCuentasEnTabla() {
         List<String> cuentas = catalogoDeCuentasDatos.listarCuentas(empresa_id);

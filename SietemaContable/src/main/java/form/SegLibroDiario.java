@@ -29,7 +29,8 @@ public class SegLibroDiario extends javax.swing.JPanel {
     /**
      * Creates new form SegLibroDiario
      */
-    public SegLibroDiario() {
+    public SegLibroDiario(int idEmpresa) {
+        this.empresa_id = idEmpresa;
         initComponents();
         CatalogoDeCuentasDatos cc = new CatalogoDeCuentasDatos();
         List<RegistrosContables> inforLibro = new ArrayList<RegistrosContables>();

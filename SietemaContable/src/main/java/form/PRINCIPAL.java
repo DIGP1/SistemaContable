@@ -8,6 +8,7 @@ import logic.CatalogoDeCuentasDatos;
 import logic.DatabaseConnection;
 import logic.queries.LoadStaticData;
 import logic.queries.SelectData;
+import logic.EmpresaSelected;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -27,17 +28,30 @@ import java.util.Set;
 /**
  * @author angel
  */
-public class PRINCIPAL extends javax.swing.JFrame {
+public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
     private JPanel panelPrincipal;
-    private int empresa_id = 1;
+    private int empresa_id = 0;
+    private String nombreEmpresa;
+    private int idUser = 0;
 
 
-    public PRINCIPAL() {
+    public PRINCIPAL(int userId) {
+        this.idUser = userId;
         initComponents();
-    }
+        habilitarBotones(false);
 
+    }
+    
     public void setUsuarioLabel(String nombreUsuario) {
         user.setText(nombreUsuario);
+    }
+    
+    @Override
+    public void empresaSeleccionada(int idEmpresa, String nombreEmpresa){
+        empresa_id = idEmpresa;
+        this.nombreEmpresa = nombreEmpresa;
+        jLabel2.setText(this.nombreEmpresa);
+        habilitarBotones(true);
     }
     
     /*public int getUserID(){
@@ -46,7 +60,12 @@ public class PRINCIPAL extends javax.swing.JFrame {
     }*/
 
     public Balance bc = new Balance();
-
+    private void habilitarBotones(boolean opcion){
+        jButton1.setEnabled(opcion);
+        jButton2.setEnabled(opcion);
+        jButton3.setEnabled(opcion);
+        jButton4.setEnabled(opcion);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -231,9 +250,9 @@ public class PRINCIPAL extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButton5)
-                .addGap(193, 193, 193)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 186, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 716, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(jButton6)
                 .addGap(105, 105, 105))
         );
@@ -265,7 +284,7 @@ public class PRINCIPAL extends javax.swing.JFrame {
         );
 
         getContentPane().add(jPanel2);
-        jPanel2.setBounds(310, 0, 1149, 103);
+        jPanel2.setBounds(310, 0, 1129, 103);
 
         jScrollPane1.setBackground(new java.awt.Color(0, 0, 0));
         jScrollPane1.setBorder(null);
@@ -316,7 +335,7 @@ public class PRINCIPAL extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
         info.removeAll();
         jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        libroDiario diario = new libroDiario();
+        libroDiario diario = new libroDiario(empresa_id);
         diario.setSize(info.getSize()); // Establecer el tamaño igual al tamaño del contenedor
         info.setLayout(new BorderLayout()); // Usar un BorderLayout
         info.add(diario, BorderLayout.CENTER); // Agregar el componente en el centro
@@ -327,7 +346,7 @@ public class PRINCIPAL extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
         info.removeAll();
         jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        CatalogoCuentas catalogoCuentas = new CatalogoCuentas();
+        CatalogoCuentas catalogoCuentas = new CatalogoCuentas(empresa_id);
         catalogoCuentas.setSize(info.getSize()); // Establecer el tamaño igual al tamaño del contenedor
         info.setLayout(new BorderLayout()); // Usar un BorderLayout
         info.add(catalogoCuentas, BorderLayout.CENTER); // Agregar el componente en el centro
@@ -661,7 +680,7 @@ public class PRINCIPAL extends javax.swing.JFrame {
         // TODO add your handling code here:
         info.removeAll();
         jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        SegLibroDiario diario = new SegLibroDiario();
+        SegLibroDiario diario = new SegLibroDiario(empresa_id);
         diario.setSize(info.getSize()); // Establecer el tamaño igual al tamaño del contenedor
         info.setLayout(new BorderLayout()); // Usar un BorderLayout
         info.add(diario, BorderLayout.CENTER); // Agregar el componente en el centro
@@ -674,7 +693,7 @@ public class PRINCIPAL extends javax.swing.JFrame {
 
         info.removeAll();
         jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        Registro_cuenta rc = new Registro_cuenta();
+        Registro_cuenta rc = new Registro_cuenta(empresa_id);
         rc.setSize(info.getSize()); // Establecer el tamaño igual al tamaño del contenedor
         info.setLayout(new BorderLayout()); // Usar un BorderLayout
         info.add(rc, BorderLayout.CENTER); // Agregar el componente en el centro
@@ -694,7 +713,7 @@ public class PRINCIPAL extends javax.swing.JFrame {
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         info.removeAll();
         jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        EmpresasR er = new EmpresasR(user.getText());
+        EmpresasR er = new EmpresasR(user.getText(), this, idUser);
         er.setSize(info.getSize()); // Establecer el tamaño igual al tamaño del contenedor
         info.setLayout(new BorderLayout()); // Usar un BorderLayout
         info.add(er, BorderLayout.CENTER); // Agregar el componente en el centro
@@ -702,40 +721,6 @@ public class PRINCIPAL extends javax.swing.JFrame {
         info.repaint();
     }//GEN-LAST:event_jButton8ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PRINCIPAL.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PRINCIPAL.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PRINCIPAL.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PRINCIPAL.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new PRINCIPAL().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel info;

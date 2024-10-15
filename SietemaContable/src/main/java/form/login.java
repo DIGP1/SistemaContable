@@ -1,5 +1,6 @@
 package form;
 
+import java.util.List;
 import javax.swing.JOptionPane;
 
 import logic.CatalogoDeCuentasDatos;
@@ -269,17 +270,17 @@ public class login extends javax.swing.JFrame {
         if (!cc.login(user.getText(), pass)) {
             return;
         } else {
-            String nombreUsuario = new CatalogoDeCuentasDatos().getUserFullName(user.getText());
+            List<String> nombreUsuario = new CatalogoDeCuentasDatos().getUserFullName(user.getText());
             JOptionPane.showMessageDialog(null,
-                    "Bienvenido " + nombreUsuario,
+                    "Bienvenido " + nombreUsuario.get(0),
                     "Bienvenido",
                     JOptionPane.INFORMATION_MESSAGE
             );
-            PRINCIPAL prn = new PRINCIPAL();
+            PRINCIPAL prn = new PRINCIPAL(Integer.parseInt(nombreUsuario.get(1)));
             prn.setVisible(true);
             prn.pack();
             prn.setLocationRelativeTo(null);
-            prn.setUsuarioLabel(nombreUsuario);
+            prn.setUsuarioLabel(nombreUsuario.get(0));
             this.dispose();
         }
     }

@@ -176,7 +176,7 @@ public class CatalogoDeCuentasDatos {
     }
 
     public void guardarEnBaseDeDatos(String fecha, String Codigo, String Descripcion, String Debe, String Haber, int empresa_id) {
-        int id_movimiento = getLastIdMovimiento(empresa_id) + 1;
+        int id_movimiento = getLastIdMovimiento() + 1;
         int id_cuenta = getAccountId(Codigo, empresa_id);
         saveLibroDiario(Debe, Haber, id_cuenta, id_movimiento, empresa_id);
         
@@ -253,8 +253,8 @@ public class CatalogoDeCuentasDatos {
         }
     }
 
-    private int getLastIdMovimiento(int empresa_id) {
-        String sql = "SELECT MAX(id_movimiento) FROM tbl_transacciones_libro_diario WHERE empresa_id = "+empresa_id;
+    private int getLastIdMovimiento() {
+        String sql = "SELECT MAX(id_movimiento) FROM tbl_transacciones_libro_diario";
         int lastId = 0;
 
         try (Connection conn = dbConnection.connect(); PreparedStatement pstmt = conn.prepareStatement(sql); ResultSet rs = pstmt.executeQuery()) {
@@ -412,7 +412,7 @@ public class CatalogoDeCuentasDatos {
     }
 
     public void guardarEnBaseTransaccion(String fecha, String ids, String descripcion, int empresa_id) {
-        int id_movimiento = getLastIdMovimiento(empresa_id) + 1;
+        int id_movimiento = getLastIdMovimiento() + 1;
         saveTransaction(fecha, descripcion, id_movimiento, empresa_id);
         
         /*String sql = "INSERT INTO tbl_transacciones_libro_diario (fecha,idMovimientosLD,descripcionTransaccion) VALUES (?, ?, ?)";
@@ -594,14 +594,17 @@ public class CatalogoDeCuentasDatos {
         return false;
     }
 
-    public String getUserFullName(String username) {
-        String sql = "SELECT nombrecompleto FROM tbl_usuarios WHERE username = ?";
+    public List<String> getUserFullName(String username) {
+        List<String> infoUser = new ArrayList<String>();
+        String sql = "SELECT nombrecompleto, id FROM tbl_usuarios WHERE username = ?";
         try (Connection conn = dbConnection.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, username);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                return rs.getString("nombrecompleto");
+                infoUser.add(rs.getString("nombrecompleto"));
+                infoUser.add(String.valueOf(rs.getInt("id")));
+                return infoUser;
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());

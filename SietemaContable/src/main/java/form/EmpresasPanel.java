@@ -18,6 +18,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.List;
 import java.util.Objects;
+import logic.EmpresaSelected;
 
 /**
  * @author alexu
@@ -27,12 +28,16 @@ public class EmpresasPanel extends javax.swing.JPanel {
     String user;
     boolean update;
     int empresaId;
+    private int idUser;
+    private EmpresaSelected empresaSelected;
 
     /**
      * Creates new form EmpresasPanel
      */
-    public EmpresasPanel(String user) {
+    public EmpresasPanel(String user, EmpresaSelected empresaSelected, int userID) {
         this.user = user;
+        this.idUser = userID;
+        this.empresaSelected = empresaSelected;
         initComponents();
         loadDepartments();
         loadGiros();
@@ -568,7 +573,7 @@ public class EmpresasPanel extends javax.swing.JPanel {
     
     void reloadPanel(){
         jPanel1.removeAll();
-        EmpresasR er = new EmpresasR(user);
+        EmpresasR er = new EmpresasR(user, empresaSelected, idUser );
         er.setSize(jPanel1.getSize()); // Establecer el tamaño igual al tamaño del contenedor
         jPanel1.setLayout(new BorderLayout()); // Usar un BorderLayout
         jPanel1.add(er, BorderLayout.CENTER); // Agregar el componente en el centro
