@@ -4,7 +4,11 @@
  */
 package form;
 
+import java.io.File;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import logic.exportarPDF;
 
 /**
  *
@@ -34,6 +38,7 @@ public class Balance extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         totaldebe = new javax.swing.JLabel();
         totalhaber = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(245, 245, 220));
 
@@ -56,6 +61,13 @@ public class Balance extends javax.swing.JPanel {
 
         totalhaber.setText("0.00");
 
+        jButton1.setText("EXPORTAR PDF");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -73,23 +85,57 @@ public class Balance extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 283, Short.MAX_VALUE)
                         .addComponent(totalhaber)
                         .addGap(251, 251, 251))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addComponent(jButton1)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(43, 43, 43)
+                .addGap(20, 20, 20)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(totaldebe)
                     .addComponent(totalhaber)
                     .addComponent(jLabel1))
-                .addContainerGap(95, Short.MAX_VALUE))
+                .addContainerGap(89, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+         exportarPDF exportar = new exportarPDF();
+    
+    
+
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Guardar PDF");
+        fileChooser.setSelectedFile(new File("Balance_General.pdf")); // Nombre por defecto del archivo
+
+
+        int userSelection = fileChooser.showSaveDialog(this);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            String ruta = fileToSave.getAbsolutePath();
+
+            try {
+                exportar.exportarJTableAPDF(jTable1, ruta);
+                JOptionPane.showMessageDialog(this, "PDF exportado correctamente a: " + ruta);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error al exportar PDF: " + e.getMessage());
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Exportación cancelada.");
+    }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;

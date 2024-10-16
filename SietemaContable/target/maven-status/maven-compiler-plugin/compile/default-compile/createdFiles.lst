@@ -24,6 +24,7 @@ form\EmpresasPanel$5.class
 form\Empresas$1.class
 logic\queries\UpdateData.class
 form\EmpresasR$3.class
+form\Balance$1.class
 logic\models\Municipio.class
 form\Empresas.class
 form\login$3.class
