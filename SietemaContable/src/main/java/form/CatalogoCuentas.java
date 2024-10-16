@@ -4,7 +4,6 @@
  */
 package form;
 
-import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -12,8 +11,6 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-import com.itextpdf.testutils.ITextTest;
-import org.apache.poi.POIDocument;
 
 import logic.CatalogoDeCuentasDatos;
 
@@ -54,8 +51,6 @@ public class CatalogoCuentas extends javax.swing.JPanel {
         jButton8 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jButtonNextPage = new javax.swing.JButton();
-        jButtonPreviousPage = new javax.swing.JButton();
         jTextFieldBuscarCuenta = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(245, 245, 220));
@@ -174,48 +169,27 @@ public class CatalogoCuentas extends javax.swing.JPanel {
         jButton7.setFocusPainted(false);
         jButton8.setFocusPainted(false);
         jButton9.setFocusPainted(false);
-        jButtonNextPage.setFocusPainted(false);
-        jButtonPreviousPage.setFocusPainted(false);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setText("FILTRAR POR");
 
-        jButtonNextPage.setText(">");
-        jButtonNextPage.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonNextPageActionPerformed(evt);
-            }
-        });
-
-        jButtonPreviousPage.setText("<");
-        jButtonPreviousPage.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonPreviousPageActionPerformed(evt);
-            }
-        });
-
         jTextFieldBuscarCuenta.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-                buscarNombreCuenta();
+                buscarEnTabla(jTextFieldBuscarCuenta.getText().trim());
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                buscarNombreCuenta();
+                buscarEnTabla(jTextFieldBuscarCuenta.getText().trim());
                 
                 if (jTextFieldBuscarCuenta.getText().isEmpty()) {
-                    System.out.println("Vacío...");
                     cargarCuentasEnTabla();
                 }
             }
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-                buscarNombreCuenta();
-            }
-
-            private void buscarNombreCuenta() {
                 buscarEnTabla(jTextFieldBuscarCuenta.getText().trim());
             }
 
@@ -233,10 +207,6 @@ public class CatalogoCuentas extends javax.swing.JPanel {
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
-                                .addGap(398, 398, 398)
-                                .addComponent(jButtonPreviousPage)
-                                .addGap(35, 35, 35)
-                                .addComponent(jButtonNextPage)
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -297,9 +267,7 @@ public class CatalogoCuentas extends javax.swing.JPanel {
                                                 .addGap(18, 18, 18)
                                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jButtonNextPage)
-                                        .addComponent(jButtonPreviousPage))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING))
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -343,20 +311,8 @@ public class CatalogoCuentas extends javax.swing.JPanel {
         cargarCuentasEnTabla();
     }//GEN-LAST:event_jButton9ActionPerformed
 
-    private void jButtonPreviousPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPreviousPageActionPerformed
-        previousPage();
-    }//GEN-LAST:event_jButtonPreviousPageActionPerformed
 
-    private void jButtonNextPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNextPageActionPerformed
-        nextPage();
-    }//GEN-LAST:event_jButtonNextPageActionPerformed
-
-    private void jTextFieldBuscarCuentaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldBuscarCuentaKeyTyped
-        JOptionPane.showMessageDialog(this, KeyEvent.KEY_PRESSED);
-    }//GEN-LAST:event_jTextFieldBuscarCuentaKeyTyped
-
-
-    /*private void cargarCuentasEnTabla() {
+    private void cargarCuentasEnTabla() {
         List<String> cuentas = catalogoDeCuentasDatos.listarCuentas(empresa_id);
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
 
@@ -368,15 +324,16 @@ public class CatalogoCuentas extends javax.swing.JPanel {
             String[] cuentaSplit = cuenta.split("\t");
             model.addRow(new Object[]{cuentaSplit[0], cuentaSplit[1]});
         }
-    }*/
+    }
 
-    private static final int PAGE_SIZE = 30;
+    /*private static final int PAGE_SIZE = 30;
     private int currentPage = 1;
     private int totalPages = 1;
     private List<String> allCuentas;
 
     private void cargarCuentasEnTabla() {
         allCuentas = catalogoDeCuentasDatos.listarCuentas(empresa_id);
+        currentPage = 1; // Reset to the first page
         updateTable();
     }
 
@@ -412,7 +369,7 @@ public class CatalogoCuentas extends javax.swing.JPanel {
             currentPage = totalPages;
             updateTable();
         }
-    }
+    }*/
 
     void tableFilter(String item) {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
@@ -446,8 +403,6 @@ public class CatalogoCuentas extends javax.swing.JPanel {
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
-    private javax.swing.JButton jButtonNextPage;
-    private javax.swing.JButton jButtonPreviousPage;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;

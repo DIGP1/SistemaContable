@@ -42,6 +42,11 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
 
     }
     
+    public PRINCIPAL() {
+        initComponents();
+        habilitarBotones(false);
+    }
+    
     public void setUsuarioLabel(String nombreUsuario) {
         user.setText(nombreUsuario);
     }
@@ -721,6 +726,9 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
         info.repaint();
     }//GEN-LAST:event_jButton8ActionPerformed
 
+    public void pressButton(){
+        jButton2.doClick();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel info;
