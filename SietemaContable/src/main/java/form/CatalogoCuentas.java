@@ -12,6 +12,8 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+import com.itextpdf.testutils.ITextTest;
+import org.apache.poi.POIDocument;
 
 import logic.CatalogoDeCuentasDatos;
 
@@ -201,6 +203,11 @@ public class CatalogoCuentas extends javax.swing.JPanel {
             @Override
             public void removeUpdate(DocumentEvent e) {
                 buscarNombreCuenta();
+                
+                if (jTextFieldBuscarCuenta.getText().isEmpty()) {
+                    System.out.println("Vacío...");
+                    cargarCuentasEnTabla();
+                }
             }
 
             @Override
