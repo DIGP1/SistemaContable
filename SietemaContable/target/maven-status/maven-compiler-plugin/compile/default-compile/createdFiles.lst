@@ -1,4 +1,3 @@
-form\CatalogoCuentas$13.class
 form\EmpresasR$4.class
 logic\models\Department.class
 logic\models\Districts.class
@@ -11,6 +10,7 @@ form\EmpresasR$1.class
 logic\models\GiroComercial.class
 form\EmpresasPanel$1.class
 logic\queries\LoadStaticData.class
+logic\exportarPDF.class
 form\EmpresasPanel$4.class
 form\Empresas$2.class
 form\EmpresasPanel$7.class
@@ -18,7 +18,7 @@ form\EmpresasR$2.class
 form\CatalogoCuentas$11.class
 form\EmpresasPanel$3.class
 logic\models\Empresa.class
-form\CatalogoCuentas$12.class
+form\SegLibroDiario$4.class
 form\EmpresasPanel$2.class
 form\EmpresasPanel$5.class
 form\Empresas$1.class
