@@ -51,8 +51,9 @@ public class CatalogoCuentas extends javax.swing.JPanel {
         jButton8 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jTextFieldBuscarCuenta = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
+        jButton10 = new javax.swing.JButton();
+        jTextFieldBuscarCuenta = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(245, 245, 220));
         setMaximumSize(new java.awt.Dimension(1028, 820));
@@ -167,39 +168,29 @@ public class CatalogoCuentas extends javax.swing.JPanel {
         jLabel1.setForeground(new java.awt.Color(18, 30, 49));
         jLabel1.setText("FILTRAR POR");
 
-        jTextFieldBuscarCuenta.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                buscarEnTabla(jTextFieldBuscarCuenta.getText().trim());
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                buscarEnTabla(jTextFieldBuscarCuenta.getText().trim());
-
-                if (jTextFieldBuscarCuenta.getText().isEmpty()) {
-                    cargarCuentasEnTabla();
-                }
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                buscarEnTabla(jTextFieldBuscarCuenta.getText().trim());
-            }
-
-            void buscarEnTabla(String item) {
-                if (item.isEmpty()) {
-                    cargarCuentasEnTabla();
-                } else {
-                    tableFilter(item);
-                }
-            }
-        });
-
         jLabel2.setBackground(new java.awt.Color(245, 245, 220));
         jLabel2.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(18, 30, 49));
         jLabel2.setText("Buscar por codigo o nombre:");
+
+        jButton10.setBackground(new java.awt.Color(0, 102, 102));
+        jButton10.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        jButton10.setForeground(new java.awt.Color(255, 255, 255));
+        jButton10.setText("Importar excel");
+        jButton10.setFocusPainted(false);
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
+
+        jTextFieldBuscarCuenta.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
+        jTextFieldBuscarCuenta.setForeground(new java.awt.Color(0, 0, 0));
+        jTextFieldBuscarCuenta.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldBuscarCuentaKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -212,8 +203,8 @@ public class CatalogoCuentas extends javax.swing.JPanel {
                         .addComponent(jButton9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldBuscarCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextFieldBuscarCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(12, 12, 12)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 893, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -232,14 +223,17 @@ public class CatalogoCuentas extends javax.swing.JPanel {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(11, 11, 11)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGap(49, 49, 49)
                         .addComponent(jLabel1)
@@ -258,14 +252,16 @@ public class CatalogoCuentas extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton7)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton8))
+                        .addComponent(jButton8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jTextFieldBuscarCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel2)))
-                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
+                            .addComponent(jTextFieldBuscarCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(258, Short.MAX_VALUE))
         );
@@ -309,6 +305,42 @@ public class CatalogoCuentas extends javax.swing.JPanel {
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         cargarCuentasEnTabla();
     }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jTextFieldBuscarCuentaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldBuscarCuentaKeyTyped
+        jTextFieldBuscarCuenta.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                buscarEnTabla(jTextFieldBuscarCuenta.getText().trim());
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                buscarEnTabla(jTextFieldBuscarCuenta.getText().trim());
+
+                if (jTextFieldBuscarCuenta.getText().isEmpty()) {
+                    cargarCuentasEnTabla();
+                }
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                buscarEnTabla(jTextFieldBuscarCuenta.getText().trim());
+            }
+
+            void buscarEnTabla(String item) {
+                if (item.isEmpty()) {
+                    cargarCuentasEnTabla();
+                } else {
+                    tableFilter(item);
+                }
+            }
+        });
+    }//GEN-LAST:event_jTextFieldBuscarCuentaKeyTyped
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(this, "Importar Excel clickado");
+    }//GEN-LAST:event_jButton10ActionPerformed
 
 
     private void cargarCuentasEnTabla() {
@@ -394,6 +426,7 @@ public class CatalogoCuentas extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
