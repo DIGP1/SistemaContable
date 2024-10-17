@@ -18,6 +18,11 @@ public class Balance extends javax.swing.JPanel {
     /**
      * Creates new form Balance
      */
+    
+    
+    private int empresa_id = 0;
+    private String nombreEmpresa;
+    private int idUser = 0;
     public Balance() {
         initComponents();
     }
@@ -107,30 +112,7 @@ public class Balance extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-         exportarPDF exportar = new exportarPDF();
-    
-    
-
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Guardar PDF");
-        fileChooser.setSelectedFile(new File("Balance_General.pdf")); // Nombre por defecto del archivo
-
-
-        int userSelection = fileChooser.showSaveDialog(this);
-
-        if (userSelection == JFileChooser.APPROVE_OPTION) {
-            File fileToSave = fileChooser.getSelectedFile();
-            String ruta = fileToSave.getAbsolutePath();
-
-            try {
-                exportar.exportarJTableAPDF(jTable1, ruta);
-                JOptionPane.showMessageDialog(this, "PDF exportado correctamente a: " + ruta);
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Error al exportar PDF: " + e.getMessage());
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Exportación cancelada.");
-    }
+      
     }//GEN-LAST:event_jButton1ActionPerformed
 
 

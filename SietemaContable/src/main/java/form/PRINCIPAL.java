@@ -471,7 +471,7 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
         // TODO add your handling code here:
         info.removeAll();
         jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        SegLibroDiario diario = new SegLibroDiario(empresa_id);
+        SegLibroDiario diario = new SegLibroDiario(empresa_id,nombreEmpresa);
         diario.setSize(info.getSize()); // Establecer el tamaño igual al tamaño del contenedor
         info.setLayout(new BorderLayout()); // Usar un BorderLayout
         info.add(diario, BorderLayout.CENTER); // Agregar el componente en el centro

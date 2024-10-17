@@ -32,16 +32,19 @@ import logic.RegistrosContables;
  * @author EstudianteFMO
  */
 public class SegLibroDiario extends javax.swing.JPanel {
-    private int empresa_id =1;
+     private int empresa_id=1;
+    private String nombreEmpresa;
     /**
      * Creates new form SegLibroDiario
      */
-    public SegLibroDiario(int idEmpresa) {
+    public SegLibroDiario(int idEmpresa ,String nombreEmpresa) {
         this.empresa_id = idEmpresa;
+        this.nombreEmpresa = nombreEmpresa;
         initComponents();
         CatalogoDeCuentasDatos cc = new CatalogoDeCuentasDatos();
         List<RegistrosContables> inforLibro = new ArrayList<RegistrosContables>();
         inforLibro = cc.CargarLibroDiario(empresa_id);
+        
         ingresarDatosTabla(inforLibro);
 
 
@@ -255,29 +258,26 @@ public class SegLibroDiario extends javax.swing.JPanel {
     }//GEN-LAST:event_cbfiltradoComponentShown
 
     private void exActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exActionPerformed
-        exportarPDF exportar = new exportarPDF();
-    
+         exportarPDF exportar = new exportarPDF();
     
 
-    JFileChooser fileChooser = new JFileChooser();
-    fileChooser.setDialogTitle("Guardar PDF");
-    fileChooser.setSelectedFile(new File("libro_diario.pdf")); // Nombre por defecto del archivo
 
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Guardar PDF");
+        fileChooser.setSelectedFile(new File("libro_diario.pdf")); 
 
-    int userSelection = fileChooser.showSaveDialog(this);
+        int userSelection = fileChooser.showSaveDialog(this);
     
-    if (userSelection == JFileChooser.APPROVE_OPTION) {
-        File fileToSave = fileChooser.getSelectedFile();
-        String ruta = fileToSave.getAbsolutePath();
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            String ruta = fileToSave.getAbsolutePath();
 
         try {
-            exportar.exportarJTableAPDF(jTable1, ruta);
-            JOptionPane.showMessageDialog(this, "PDF exportado correctamente a: " + ruta);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al exportar PDF: " + e.getMessage());
+           
+            exportar.exportarPDF(ruta, nombreEmpresa, jTable1); 
+        } catch (FileNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "Error al guardar el archivo: " + ex.getMessage());
         }
-    } else {
-        JOptionPane.showMessageDialog(this, "Exportación cancelada.");
     }
     }//GEN-LAST:event_exActionPerformed
 
