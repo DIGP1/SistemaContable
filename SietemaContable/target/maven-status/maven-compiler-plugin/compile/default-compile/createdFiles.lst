@@ -40,6 +40,7 @@ form\Balance$1.class
 logic\models\Municipio.class
 form\Empresas.class
 form\CatalogoCuentas$8.class
+logic\CellRenderer.class
 form\login$3.class
 form\PRINCIPAL$11$1.class
 form\Register$3.class
