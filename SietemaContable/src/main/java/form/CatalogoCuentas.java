@@ -4,6 +4,7 @@
  */
 package form;
 
+import java.io.IOException;
 import java.util.List;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -13,6 +14,7 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import logic.CatalogoDeCuentasDatos;
+import logic.excel;
 
 /**
  * @author angel
@@ -339,7 +341,13 @@ public class CatalogoCuentas extends javax.swing.JPanel {
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(this, "Importar Excel clickado");
+         try {
+           
+            excel importE = new excel();
+             importE.importarExcel(jTable1); 
+        } catch (IOException ex) {
+            ex.printStackTrace();         }
+    
     }//GEN-LAST:event_jButton10ActionPerformed
 
 

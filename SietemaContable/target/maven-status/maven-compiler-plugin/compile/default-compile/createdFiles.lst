@@ -27,6 +27,7 @@ form\CatalogoCuentas$7.class
 form\EmpresasPanel$3.class
 logic\models\Empresa.class
 form\CatalogoCuentas$12.class
+logic\excel$1.class
 form\SegLibroDiario$4.class
 form\EmpresasPanel$2.class
 form\EmpresasPanel$5.class
@@ -46,6 +47,7 @@ form\Empresas$3.class
 form\EmpresasPanel.class
 form\EmpresasR$6.class
 form\CatalogoCuentas$4.class
+logic\excel.class
 form\EmpresasPanel$6.class
 form\CatalogoCuentas$3.class
 form\EmpresasR$5.class
