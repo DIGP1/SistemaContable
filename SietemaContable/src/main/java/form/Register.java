@@ -314,6 +314,7 @@ public class Register extends javax.swing.JFrame {
                     "Por favor ingrese un nombre de usuario",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
+            txtUsername.requestFocus();
             return;
         }
 
@@ -322,14 +323,37 @@ public class Register extends javax.swing.JFrame {
                     "Por favor ingrese una contraseña",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
+            txtPassword.requestFocus();
+            return;
+        }
+        
+        final int PASSWORD_LENGTH = 5;
+        
+        if (password.getBytes().length < PASSWORD_LENGTH) {
+            JOptionPane.showMessageDialog(null,
+                    "La contraseña debe tener al menos " + PASSWORD_LENGTH + " caracteres",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            txtPassword.requestFocus();
             return;
         }
 
         if (txtNombre.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(null,
-                    "Por favor ingrese un nombre",
+                    "Por favor ingrese su nombre",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
+            txtNombre.requestFocus();
+            return;
+        }
+        
+        // Unicamente permitir letras, con la tilde y la ñ:
+        if (!txtNombre.getText().matches("^[a-zA-ZñÑáéíóúÁÉÍÓÚ\\s]+$")) {
+            JOptionPane.showMessageDialog(null,
+                    "El nombre solo puede contener letras",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            txtNombre.requestFocus();
             return;
         }
 
