@@ -35,6 +35,8 @@ form\Empresas$1.class
 form\CatalogoCuentas$2.class
 logic\queries\UpdateData.class
 form\EmpresasR$3.class
+form\login$4.class
+form\Register$4.class
 form\CatalogoCuentas$5.class
 form\Balance$1.class
 logic\models\Municipio.class

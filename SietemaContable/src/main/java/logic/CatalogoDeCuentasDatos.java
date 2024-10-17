@@ -437,7 +437,7 @@ public class CatalogoDeCuentasDatos {
         }*/
     }
 
-    public void registrarUsuario(String username, String pass, int rol, String Nombre) {
+    public boolean registrarUsuario(String username, String pass, int rol, String Nombre) {
 
         boolean usuarioEncontrado = false;
         String sql = "SELECT username FROM tbl_usuarios WHERE username = '" + username + "'";
@@ -457,6 +457,7 @@ public class CatalogoDeCuentasDatos {
                     "ERROR",
                     JOptionPane.ERROR_MESSAGE
             );
+            return false;
         } else {
             String sql1 = "INSERT INTO tbl_usuarios (username, password, nombrecompleto, rol_id) VALUES (?,?,?,?)";
             try (Connection conn = dbConnection.connect(); PreparedStatement pstmt = conn.prepareStatement(sql1)) {
@@ -473,13 +474,17 @@ public class CatalogoDeCuentasDatos {
                             "Success",
                             JOptionPane.INFORMATION_MESSAGE
                     );
+                    return true;
                 } else {
                     System.out.println("No se pudieron guardar los datos en la base de datos.");
+                    return false;
                 }
             } catch (Exception e) {
                 System.out.println("Error al guardar en la base de datos: " + e.getMessage());
             }
         }
+        
+        return false;
     }
 
    /* public void guardarTransacciones(List<Integer> codigo, String descripcion) {
