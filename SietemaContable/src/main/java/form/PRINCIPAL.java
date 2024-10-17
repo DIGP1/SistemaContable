@@ -363,313 +363,99 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-
-        List<String> lista_nombre_cuenta = new ArrayList<>();
-        List<Float> lista_valor_cuenta_debe = new ArrayList<>();
-        List<Float> lista_valor_cuenta_haber = new ArrayList<>();
-
-        info.removeAll();
+       info.removeAll();
         jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         jScrollPane1.getVerticalScrollBar().setUnitIncrement(20);
+
         // Configurar el layout del JPanel info
-        info.setLayout(new GridLayout(0, 1)); // Usamos FlowLayout con alineación izquierda
+        info.setLayout(new GridLayout(0, 1)); // Usamos GridLayout para añadir el panel del libro mayor
 
-        // Revalidar y repintar el panel info para mostrar los cambios
-//        info.revalidate();
-//        info.repaint();
-
+        // Código para obtener las cuentas que tienen valores en la empresa
         CatalogoDeCuentasDatos catalogo = new CatalogoDeCuentasDatos();
         List<List<Object>> cuentas = catalogo.libroDiario(empresa_id);
+
+        Map<String, List<List<Object>>> diccionario = new HashMap<>();
+
+        // Recorremos las cuentas y las organizamos en el diccionario
         for (List<Object> row : cuentas) {
-            System.out.println("Cuentas list item: " + row);
+            System.err.println("Cuentas" + row);
+            String nombreCuenta = (String) row.get(3); // Se asume que la cuenta está en la posición 3
+            diccionario.computeIfAbsent(nombreCuenta, k -> new ArrayList<>()).add(row);
         }
 
-        Set<Integer> uniqueCodes = new HashSet<>();
+        // Recorrer las entradas del diccionario y mostrar los datos en el formulario
+        for (Map.Entry<String, List<List<Object>>> entrada : diccionario.entrySet()) {
+            String cuenta = entrada.getKey();
+            List<List<Object>> valores = entrada.getValue();
 
-        for (List<Object> row : cuentas) {
-            // Suponemos que el código se encuentra en la columna "codigo" (índice 2 en base 0)
-            Integer code = Integer.valueOf(row.get(2).toString()); // Obtén el código
+            if (!valores.isEmpty()) {
+                 // Creamos una instancia del formulario LibroMayor
+                LibroMayor libroMayorForm = new LibroMayor();
+                // Llenar la tabla con los valores (fecha, descripcion, debe, haber)
+                DefaultTableModel model = new DefaultTableModel(new String[]{"Fecha", "Descripción", "Debe", "Haber","Saldo"}, 0);
 
-            uniqueCodes.add(code); // Agrega el código al conjunto
-        }
+                double totalDebe = 0.0;
+                double totalHaber = 0.0;
+                double saldoAnterior = 0.0;
+                for (List<Object> row : valores) {
+               
+                    String fecha = (String) row.get(1); // Se asume que la fecha está en la posición 1
+                    String descripcion = (String) row.get(4); // Se asume que la descripción está en la posición 4
+                    String debeStr = (String) row.get(5); // Obtenemos el valor como String
+                    String haberStr = (String) row.get(6);
 
-        System.out.println(uniqueCodes);
+                    double debe = 0.0;
+                    double haber = 0.0;
 
-        List<List<Object>> datosPorCodigos = new ArrayList<>();
+                    try {
+                        // Convertimos las cadenas a números
+                        if (debeStr != null && !debeStr.isEmpty()) {
+                            debe = Double.parseDouble(debeStr);
+                        }
+                        if (haberStr != null && !haberStr.isEmpty()) {
+                            haber = Double.parseDouble(haberStr);
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Error al convertir debe/haber a número: " + e.getMessage());
+                    }
+                    saldoAnterior += debe - haber;
+                    if (saldoAnterior<-1) {
+                        saldoAnterior = saldoAnterior * -1;
+                    }
+                    
+                    if (haber != 0) {
+                        totalDebe += debe - haber; // Resta haber de debe
+                    } else {
+                        totalDebe += debe; // Solo suma debe si haber es cero
+                    }
 
-        // Crear un mapa para agrupar cuentas por código
-        Map<Integer, List<List<Object>>> cuentasAgrupadas = new HashMap<>();
-        for (Integer code : uniqueCodes) {
-            List<List<Object>> cuentasPorCodigo = new ArrayList<>();
-            for (List<Object> row : cuentas) {
-                Integer rowCode = (Integer) row.get(2); // Suponiendo que el código se encuentra en la columna 2
-                if (rowCode != null && rowCode.equals(code)) {
-                    cuentasPorCodigo.add(row);
+                    totalHaber += haber; // Suma haber a totalHaber
+
+                    // Añadir la fila al modelo de la tabla
+                    model.addRow(new Object[]{fecha, descripcion, "$" + debe, "$" + haber,"$" + saldoAnterior});
                 }
-            }
-            // Iterate through cuentasPorCodigo:
-            for (List<Object> cuenta : cuentasPorCodigo) {
-                System.out.println(cuenta);
-            }
-            cuentasAgrupadas.put(code, cuentasPorCodigo);
-        }
-        System.out.println(cuentasAgrupadas);
 
-        // Agregar componentes a info (asegúrate de que sean lo suficientemente anchos)
-        for (Map.Entry<Integer, List<List<Object>>> entry : cuentasAgrupadas.entrySet()) {
-            String[] columnNames = {"Fecha", "Descripcion", "Debe", "Haber"};
+                // Asignar el modelo a la tabla del formulario
+                libroMayorForm.getModel(model);
 
-            // Crear un modelo de datos no editable
-            DefaultTableModel model = new DefaultTableModel(null, columnNames) {
-                @Override
-                public boolean isCellEditable(int row, int column) {
-                    // Desactiva la edición de todas las celdas
-                    return false;
+                // Configurar los JLabel del formulario
+                libroMayorForm.nombreCuenta.setText(cuenta);
+                if (totalDebe>totalHaber) {
+                    libroMayorForm.totalDebe.setText("$" + totalDebe);
+                    libroMayorForm.totalHaber.setText("");   
+                } else {
+                    libroMayorForm.totalDebe.setText("");
+                    libroMayorForm.totalHaber.setText("$" + totalHaber);
                 }
-            };
-            Integer codigo = entry.getKey(); // Obtener el código
-            int bandera = 0;
-            List<List<Object>> datosPorCodigo = entry.getValue(); // Obtener los datos por código
-            LibroMayor libroM = new LibroMayor();
 
-            float debeTotal = 0;
-            float haberTotal = 0;
-            String cuenta = "";
-
-            for (List<Object> datos : datosPorCodigo) {
-                System.out.println(datos);
-
-
-                // Obtener la descripción
-                String descripcion = (String) datos.get(3); // Suponiendo que la descripción está en la posición 1
-
-                // Obtener la fecha
-                String fecha = datos.get(1).toString(); // Suponiendo que la fecha está en la posición 0
-
-                // Obtener debe
-//                String debe = (String) datos.get(4);
-
-                // Obtener haber
-//                String haber = (String) datos.get(5);
-
-                // Obtener el código de la cuenta
-                String codigoCuenta = datos.get(2).toString();
-
-                // Evaluar el primer dígito del código para determinar si es activo o pasivo
-                char primerDigito = codigoCuenta.charAt(0);
-
-                String debeStr = (String) datos.get(5);
-                String haberStr = (String) datos.get(6);
-
-                if (primerDigito == '1') {
-                    // Es una cuenta de activo
-                    if (!debeStr.isEmpty()) {
-                        debeTotal += Float.parseFloat(debeStr); // Convierte la cadena en un número y suma
-                    }
-                    if (!haberStr.isEmpty()) {
-                        haberTotal += Float.parseFloat(haberStr); // Convierte la cadena en un número y suma
-                    }
-                } else if (primerDigito == '2') {
-                    // Es una cuenta de pasivo
-                    if (!haberStr.isEmpty()) {
-                        haberTotal += Float.parseFloat(haberStr); // Convierte la cadena en un número y suma
-                    }
-                    if (!debeStr.isEmpty()) {
-                        debeTotal += Float.parseFloat(debeStr); // Convierte la cadena en un número y suma
-                    }
-                }
-                // Asignar la descripción a nombreCuenta
-                libroM.nombreCuenta.setText(descripcion);
-
-//
-//                System.out.println(fecha+descripcion+debe+haber);
-                Object[] fila = {fecha, descripcion, debeStr, haberStr};
-                model.addRow(fila);
-                //tabla_balance.addRow(fila);
-                libroM.getModel(model);
-                cuenta = descripcion;
+                // Añadir el formulario del libro mayor al JPanel 'info'
+                info.add(libroMayorForm);
             }
-
-            System.out.println(model.getColumnCount());
-            System.out.println(model);
-            System.out.println(model.getValueAt(0, 2).toString());
-            float saldoFinal = debeTotal - haberTotal;
-
-            lista_nombre_cuenta.add(cuenta);
-
-            if (saldoFinal > 0) {
-                libroM.totalDebe.setText("$" + saldoFinal);
-                libroM.totalDebe.setVisible(true);
-                libroM.totalHaber.setVisible(false);
-                lista_valor_cuenta_debe.add(saldoFinal);
-                lista_valor_cuenta_haber.add(0.00f);
-            } else {
-                libroM.totalHaber.setText("$" + saldoFinal);
-                libroM.totalHaber.setVisible(true);
-                libroM.totalDebe.setVisible(false);
-                lista_valor_cuenta_debe.add(0.00f);
-                lista_valor_cuenta_haber.add(saldoFinal * -1);
-            }
-
-//            float debe = 0;
-//            float haber = 0;
-//                for(int i = 0; i<model.getRowCount(); i++){
-//                    if(!"".equals(model.getValueAt(i,2).toString())){
-//                        System.out.println(model.getValueAt(i,2).toString());
-//                        String numeroDebe = model.getValueAt(i,2).toString();
-//                        debe = debe + Float.parseFloat(numeroDebe);
-//                    }
-//                    if(!"".equals(model.getValueAt(i,3).toString())){
-//                        String numeroHaber = model.getValueAt(i, 3).toString();
-//                        haber = haber + Float.parseFloat(numeroHaber);
-//                    }
-//                }
-//            if (debe>haber) {
-//                float total = debe-haber;
-//                libroM.totalDebe.setText("$"+total);
-//                libroM.totalDebe.setVisible(true);
-//                libroM.totalHaber.setVisible(false);
-//
-//            }else{
-//                float total = haber-debe;
-//                libroM.totalHaber.setText("$"+total);
-//                libroM.totalHaber.setVisible(true);
-//                libroM.totalDebe.setVisible(false);
-//            }
-            libroM.setPreferredSize(new Dimension(773, 311)); // Establecer un tamaño fijo
-            info.add(libroM);
-
         }
 
-
+        // Actualizar el panel para que muestre los cambios
         info.revalidate();
         info.repaint();
-
-
-        JButton myButton = new JButton("Generar Balance");
-        myButton.setBackground(Color.GREEN);
-
-// Define an ActionListener for the button
-        myButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Add the actions you want to perform when the button is clicked
-                // For example, displaying a message:
-                info.removeAll();
-                jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-                //Balance bc = new   Balance();
-                bc.setSize(info.getSize()); // Establecer el tamaño igual al tamaño del contenedor
-                info.setLayout(new BorderLayout()); // Usar un BorderLayout
-                info.add(bc, BorderLayout.CENTER); // Agregar el componente en el centro
-                info.revalidate();
-                info.repaint();
-
-                for (Map.Entry<Integer, List<List<Object>>> entry : cuentasAgrupadas.entrySet()) {
-                    String[] columnNames = {"Descripcion", "Debe", "Haber"};
-
-                    // Crear un modelo de datos no editable
-                    DefaultTableModel model = new DefaultTableModel(null, columnNames) {
-                        @Override
-                        public boolean isCellEditable(int row, int column) {
-                            // Desactiva la edición de todas las celdas
-                            return false;
-                        }
-                    };
-
-                    Integer codigo = entry.getKey(); // Obtener el código
-                    int bandera = 0;
-                    List<List<Object>> datosPorCodigo = entry.getValue(); // Obtener los datos por código
-
-                    //Balance balanceJ = new Balance();
-
-                    float debeTotal = 0;
-                    float haberTotal = 0;
-
-                    for (List<Object> datos : datosPorCodigo) {
-
-                        // Obtener la descripción
-                        String descripcion = (String) datos.get(3); // Suponiendo que la descripción está en la posición 1
-
-                        // Obtener el código de la cuenta
-                        String codigoCuenta = datos.get(2).toString();
-
-                        // Evaluar el primer dígito del código para determinar si es activo o pasivo
-                        char primerDigito = codigoCuenta.charAt(0);
-
-                        String debeStr = (String) datos.get(5);
-                        String haberStr = (String) datos.get(6);
-
-                        if (primerDigito == '1') {
-                            // Es una cuenta de activo
-                            if (!debeStr.isEmpty()) {
-                                debeTotal += Float.parseFloat(debeStr); // Convierte la cadena en un número y suma
-                            }
-                            if (!haberStr.isEmpty()) {
-                                haberTotal += Float.parseFloat(haberStr); // Convierte la cadena en un número y suma
-                            }
-                        } else if (primerDigito == '2') {
-                            // Es una cuenta de pasivo
-                            if (!haberStr.isEmpty()) {
-                                haberTotal += Float.parseFloat(haberStr); // Convierte la cadena en un número y suma
-                            }
-                            if (!debeStr.isEmpty()) {
-                                debeTotal += Float.parseFloat(debeStr); // Convierte la cadena en un número y suma
-                            }
-                        }
-                        float saldoFinal = debeTotal - haberTotal;
-
-                        Object[] fila;
-                        if (saldoFinal > 0) {
-                            fila = new Object[]{descripcion, "", saldoFinal};
-                        } else {
-                            fila = new Object[]{descripcion, saldoFinal, ""};
-                        }
-                        model.addRow(fila);
-
-                        //bc.getModel(tabla_model);
-                        //bc.getModel(model);
-                    }
-
-                    bc.setPreferredSize(new Dimension(773, 311)); // Establecer un tamaño fijo
-                    info.add(bc);
-                }
-            }
-        });
-
-        myButton.setPreferredSize(new Dimension(100, 30)); // Adjust the size as needed
-
-        // Create a BoxLayout for the info panel to align components vertically
-        BoxLayout boxLayout = new BoxLayout(info, BoxLayout.Y_AXIS);
-        info.setLayout(boxLayout);
-
-        // Add vertical glue to push existing components to the top
-        info.add(Box.createVerticalGlue());
-
-        // Add the button to the info panel
-        info.add(myButton);
-        info.add(Box.createVerticalGlue()); // Pushes the button to the top
-        info.revalidate();
-        info.repaint();
-
-
-        //LISTAR LOS DATOS QUE OCUPO
-
-        //CREAR UN BOTON PARA MANDARLO A PANEL
-
-        double totalDebe = 0.0;
-        double totalHaber = 0.0;
-
-        DefaultTableModel modelo = new DefaultTableModel(null, new String[]{"Cuenta", "Debe", "Haber"});
-        for (int i = 0; i < lista_nombre_cuenta.size(); i++) {
-            modelo.addRow(new Object[]{lista_nombre_cuenta.get(i), lista_valor_cuenta_debe.get(i), lista_valor_cuenta_haber.get(i)});
-
-            totalDebe += (double) lista_valor_cuenta_debe.get(i);
-            totalHaber += (double) lista_valor_cuenta_haber.get(i);
-        }
-        bc.totaldebe.setText(String.valueOf(totalDebe));
-        bc.totalhaber.setText(String.valueOf(totalHaber));
-
-        bc.getModel(modelo);
     }
 //GEN-LAST:event_jButton3ActionPerformed
 
