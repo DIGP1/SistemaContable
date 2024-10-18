@@ -1,3 +1,4 @@
+form\LibroMayor$1.class
 form\CatalogoCuentas$6.class
 form\CatalogoCuentas$13.class
 form\EmpresasR$4.class
@@ -28,6 +29,7 @@ form\EmpresasPanel$3.class
 logic\models\Empresa.class
 form\CatalogoCuentas$12.class
 logic\excel$1.class
+form\BalanceGeneral.class
 form\SegLibroDiario$4.class
 form\EmpresasPanel$2.class
 form\EmpresasPanel$5.class
