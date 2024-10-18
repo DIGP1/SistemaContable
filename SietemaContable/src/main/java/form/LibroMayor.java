@@ -52,7 +52,7 @@ public class LibroMayor extends javax.swing.JPanel {
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
 
-        setBackground(new java.awt.Color(245, 245, 220));
+        setBackground(new java.awt.Color(241, 241, 240));
 
         jTableLibroMayor.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

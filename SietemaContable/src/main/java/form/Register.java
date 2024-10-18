@@ -43,10 +43,10 @@ public class Register extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(800, 500));
 
-        jPanel2.setBackground(new java.awt.Color(18, 56, 84));
+        jPanel2.setBackground(new java.awt.Color(9, 29, 54));
         jPanel2.setPreferredSize(new java.awt.Dimension(400, 500));
 
-        jPanel4.setBackground(new java.awt.Color(0, 102, 102));
+        jPanel4.setBackground(new java.awt.Color(9, 29, 54));
 
         jLabel7.setFont(new java.awt.Font("Bookman Old Style", 1, 48)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
@@ -100,7 +100,7 @@ public class Register extends javax.swing.JFrame {
                     .addContainerGap(89, Short.MAX_VALUE)))
         );
 
-        jPanel3.setBackground(new java.awt.Color(18, 78, 110));
+        jPanel3.setBackground(new java.awt.Color(58, 78, 122));
         jPanel3.setPreferredSize(new java.awt.Dimension(400, 500));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N

@@ -181,7 +181,7 @@ public class libroDiario extends javax.swing.JPanel {
         txtbuscarCuenta = new javax.swing.JTextField();
         fecha = new com.toedter.calendar.JDateChooser();
 
-        setBackground(new java.awt.Color(245, 245, 220));
+        setBackground(new java.awt.Color(241, 241, 240));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         tabla1.setModel(new javax.swing.table.DefaultTableModel(
@@ -202,11 +202,10 @@ public class libroDiario extends javax.swing.JPanel {
 
         add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 100, 184, 90));
 
-        jLabel1.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 204, 255));
+        jLabel1.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 36)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Libro Diario");
-        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 10, 168, -1));
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 10, 168, -1));
 
         jLabel2.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -234,8 +233,9 @@ public class libroDiario extends javax.swing.JPanel {
         add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 330, -1, -1));
         add(hber, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 330, 184, -1));
 
-        guardar.setBackground(new java.awt.Color(0, 153, 51));
+        guardar.setBackground(new java.awt.Color(0, 102, 102));
         guardar.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        guardar.setForeground(new java.awt.Color(255, 255, 255));
         guardar.setText("Registrar");
         guardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -244,8 +244,9 @@ public class libroDiario extends javax.swing.JPanel {
         });
         add(guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 400, 144, 43));
 
-        jButton2.setBackground(new java.awt.Color(0, 153, 102));
+        jButton2.setBackground(new java.awt.Color(0, 102, 102));
         jButton2.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Crear Cuenta");
         add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 80, -1, -1));
 
@@ -273,8 +274,9 @@ public class libroDiario extends javax.swing.JPanel {
         lblHaber.setText("$0.00");
         add(lblHaber, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 560, -1, -1));
 
-        btnGuardarEnLibroMayor.setBackground(new java.awt.Color(0, 153, 102));
+        btnGuardarEnLibroMayor.setBackground(new java.awt.Color(0, 102, 102));
         btnGuardarEnLibroMayor.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        btnGuardarEnLibroMayor.setForeground(new java.awt.Color(255, 255, 255));
         btnGuardarEnLibroMayor.setText("Guardar Transacción");
         btnGuardarEnLibroMayor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

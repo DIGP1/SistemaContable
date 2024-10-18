@@ -150,7 +150,7 @@ public class SegLibroDiario extends javax.swing.JPanel {
         ));
         jScrollPane2.setViewportView(jTable2);
 
-        setBackground(new java.awt.Color(245, 245, 220));
+        setBackground(new java.awt.Color(241, 241, 240));
         setMaximumSize(new java.awt.Dimension(911, 310));
         setPreferredSize(new java.awt.Dimension(911, 310));
 
@@ -198,6 +198,9 @@ public class SegLibroDiario extends javax.swing.JPanel {
 
         jLabel3.setText("Buscar");
 
+        ex.setBackground(new java.awt.Color(0, 102, 102));
+        ex.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        ex.setForeground(new java.awt.Color(255, 255, 255));
         ex.setText("Descargar PDF");
         ex.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -228,7 +231,7 @@ public class SegLibroDiario extends javax.swing.JPanel {
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
