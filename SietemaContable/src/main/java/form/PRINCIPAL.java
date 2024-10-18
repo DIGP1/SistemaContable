@@ -370,7 +370,7 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-       info.removeAll();
+        info.removeAll();
         jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         jScrollPane1.getVerticalScrollBar().setUnitIncrement(20);
 
@@ -386,24 +386,22 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
         // Recorremos las cuentas y las organizamos en el diccionario
         for (List<Object> row : cuentas) {
             System.err.println("Cuentas" + row);
-            String nombreCuenta = (String) row.get(3); // Se asume que la cuenta está en la posición 3
+            var nombreCuenta = String.valueOf(row.get(2)) + " - " + (String) row.get(3); // Se asume que la cuenta está en la posición 3
             diccionario.computeIfAbsent(nombreCuenta, k -> new ArrayList<>()).add(row);
         }
 
         // Recorrer las entradas del diccionario y mostrar los datos en el formulario
         for (Map.Entry<String, List<List<Object>>> entrada : diccionario.entrySet()) {
-            String cuenta = entrada.getKey();
+            String cuenta =  entrada.getKey();
             List<List<Object>> valores = entrada.getValue();
 
             if (!valores.isEmpty()) {
                  // Creamos una instancia del formulario LibroMayor
                 LibroMayor libroMayorForm = new LibroMayor();
                 // Llenar la tabla con los valores (fecha, descripcion, debe, haber)
-                DefaultTableModel model = new DefaultTableModel(new String[]{"Fecha", "Descripción", "Debe", "Haber","Saldo"}, 0);
+                DefaultTableModel model = new DefaultTableModel(new String[]{"Fecha", "Concepto", "Debe", "Haber","Saldo"}, 0);
 
-                double totalDebe = 0.0;
-                double totalHaber = 0.0;
-                double saldoAnterior = 0.0;
+                double saldoTotal = 0.0;
                 for (List<Object> row : valores) {
                
                     String fecha = (String) row.get(1); // Se asume que la fecha está en la posición 1
@@ -425,21 +423,16 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
                     } catch (NumberFormatException e) {
                         System.out.println("Error al convertir debe/haber a número: " + e.getMessage());
                     }
-                    saldoAnterior += debe - haber;
-                    if (saldoAnterior<-1) {
-                        saldoAnterior = saldoAnterior * -1;
-                    }
+                    saldoTotal += debe - haber;
                     
-                    if (haber != 0) {
-                        totalDebe += debe - haber; // Resta haber de debe
-                    } else {
-                        totalDebe += debe; // Solo suma debe si haber es cero
-                    }
-
-                    totalHaber += haber; // Suma haber a totalHaber
-
                     // Añadir la fila al modelo de la tabla
-                    model.addRow(new Object[]{fecha, descripcion, "$" + debe, "$" + haber,"$" + saldoAnterior});
+                    model.addRow(new Object[]{
+                        fecha, 
+                        descripcion, 
+                        debe != 0.0 ? "$" + debe : "", // Si 'debe' es diferente de 0.0, lo muestra, de lo contrario, deja el campo vacío
+                        haber != 0.0 ? "$" + haber : "", // Si 'haber' es diferente de 0.0, lo muestra, de lo contrario, deja el campo vacío
+                        "$" + saldoTotal// El saldo siempre se muestra
+                    });
                 }
 
                 // Asignar el modelo a la tabla del formulario
@@ -447,19 +440,11 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
 
                 // Configurar los JLabel del formulario
                 libroMayorForm.nombreCuenta.setText(cuenta);
-                if (totalDebe>totalHaber) {
-                    libroMayorForm.totalDebe.setText("$" + totalDebe);
-                    libroMayorForm.totalHaber.setText("");   
-                } else {
-                    libroMayorForm.totalDebe.setText("");
-                    libroMayorForm.totalHaber.setText("$" + totalHaber);
-                }
-
+                libroMayorForm.total.setText(String.valueOf(saldoTotal));
                 // Añadir el formulario del libro mayor al JPanel 'info'
                 info.add(libroMayorForm);
             }
         }
-
         // Actualizar el panel para que muestre los cambios
         info.revalidate();
         info.repaint();

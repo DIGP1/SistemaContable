@@ -4,10 +4,14 @@
  */
 package form;
 
+import java.awt.Component;
 import java.awt.FlowLayout;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 /**
  *
@@ -24,13 +28,38 @@ public class LibroMayor extends javax.swing.JPanel {
     public void getModel(DefaultTableModel model){
         jTableLibroMayor.setModel(model);
         
-    }
-    public void getOcultarDebe(boolean flag){
-        totalDebe.setVisible(flag);
+        // Ajustar el ancho automáticamente de la primera columna
+        ajustarAnchoColumna1();
+
+        // Desactivar edición en todas las celdas
+        jTableLibroMayor.setDefaultEditor(Object.class, null);
+        DefaultTableCellRenderer rendererEncabezado = (DefaultTableCellRenderer) jTableLibroMayor.getTableHeader().getDefaultRenderer();
+
+        // Alinear el texto de los encabezados a la izquierda
+        rendererEncabezado.setHorizontalAlignment(SwingConstants.LEFT);
+        
+        if (jTableLibroMayor.getColumnModel().getColumnCount() > 0) {
+            jTableLibroMayor.getColumnModel().getColumn(0).setPreferredWidth(12);   // Ajuste de la columna "Fecha"
+        }
+        // Asegurarse de que se actualicen los cambios visualmente
+        jTableLibroMayor.revalidate();
+        jTableLibroMayor.repaint();
         
     }
+    public void ajustarAnchoColumna1() {
+        int column = 1; // La columna 1 es el índice 0
+        int width = 0;
+        for (int row = 0; row < jTableLibroMayor.getRowCount(); row++) {
+            TableCellRenderer renderer = jTableLibroMayor.getCellRenderer(row, column);
+            Component comp = jTableLibroMayor.prepareRenderer(renderer, row, column);
+            width = Math.max(comp.getPreferredSize().width, width); // Obtener el tamaño más ancho
+        }
+        // Ajustar el ancho de la columna basado en el contenido
+        jTableLibroMayor.getColumnModel().getColumn(column).setPreferredWidth(width);
+    }
+
     public void getOcultarHaber(boolean flag){
-        totalHaber.setVisible(flag);
+        total.setVisible(flag);
     }
 
     /**
@@ -47,8 +76,7 @@ public class LibroMayor extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         nombreCuenta = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        totalDebe = new javax.swing.JLabel();
-        totalHaber = new javax.swing.JLabel();
+        total = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
 
@@ -59,9 +87,17 @@ public class LibroMayor extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Fecha", "Decripcion", "Debe", "Haber"
+                "Fecha", "Decripcion", "Debe", "Haber", "Saldo"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(jTableLibroMayor);
         if (jTableLibroMayor.getColumnModel().getColumnCount() > 0) {
             jTableLibroMayor.getColumnModel().getColumn(0).setPreferredWidth(7);
@@ -72,11 +108,9 @@ public class LibroMayor extends javax.swing.JPanel {
 
         nombreCuenta.setText("Efectivo");
 
-        jLabel2.setText("Total:");
+        jLabel2.setText("Saldo en la cuenta:");
 
-        totalDebe.setText("$0.00");
-
-        totalHaber.setText("$0.00");
+        total.setText("$0.00");
 
         jSeparator2.setForeground(new java.awt.Color(0, 0, 0));
 
@@ -94,9 +128,7 @@ public class LibroMayor extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(totalDebe, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(227, 227, 227)
-                        .addComponent(totalHaber)
+                        .addComponent(total)
                         .addGap(96, 96, 96))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(jLabel1)
@@ -119,9 +151,8 @@ public class LibroMayor extends javax.swing.JPanel {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(totalHaber, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(totalDebe, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(total, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -136,7 +167,6 @@ public class LibroMayor extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator2;
     public javax.swing.JTable jTableLibroMayor;
     public javax.swing.JLabel nombreCuenta;
-    public javax.swing.JLabel totalDebe;
-    public javax.swing.JLabel totalHaber;
+    public javax.swing.JLabel total;
     // End of variables declaration//GEN-END:variables
 }
