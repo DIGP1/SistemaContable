@@ -64,14 +64,14 @@ public class EmpresasR extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "Nombre comercial", "NIT", "Dirección"
+                "ID", "Nombre comercial", "Propietario", "NIT", "Dirección"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -88,6 +88,14 @@ public class EmpresasR extends javax.swing.JPanel {
             }
         });
         jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setMinWidth(55);
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(55);
+            jTable1.getColumnModel().getColumn(0).setMaxWidth(55);
+            jTable1.getColumnModel().getColumn(3).setMinWidth(125);
+            jTable1.getColumnModel().getColumn(3).setPreferredWidth(125);
+            jTable1.getColumnModel().getColumn(3).setMaxWidth(125);
+        }
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         jLabel1.setText("EMPRESAS REGISTRADAS");
@@ -219,6 +227,8 @@ public class EmpresasR extends javax.swing.JPanel {
     // Obtener los valores de la tabla
     empresaId = (int) jTable1.getValueAt(row, 0);
     nombreEmpresa = (String) jTable1.getValueAt(row, 1);
+    JOptionPane.showMessageDialog(this, "Empresa seleccionada: " + nombreEmpresa);
+    JOptionPane.showMessageDialog(this, "ID seleccionada: " + empresaId);
 
     // Detección de doble clic
     if (evt.getClickCount() == 2) {
@@ -238,7 +248,7 @@ public class EmpresasR extends javax.swing.JPanel {
         jPanelContainer.removeAll();
         jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         
-        EmpresasPanel er = new EmpresasPanel(empresaId, true);
+        EmpresasPanel er = new EmpresasPanel(empresaId, true, idUser);
         er.setSize(jPanelContainer.getSize()); // Establecer el tamaño igual al tamaño del contenedor
         jPanelContainer.setLayout(new BorderLayout()); // Usar un BorderLayout
         jPanelContainer.add(er, BorderLayout.CENTER); // Agregar el componente en el centro
@@ -281,7 +291,7 @@ public class EmpresasR extends javax.swing.JPanel {
         loadCompanies();
     }//GEN-LAST:event_jButtonEliminarEmpresaActionPerformed
     
-    void loadCompanies() {
+    public void loadCompanies() {
         List<Empresa> empresas = SelectData.getCompanies(idUser);
         
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
@@ -291,6 +301,7 @@ public class EmpresasR extends javax.swing.JPanel {
             model.addRow(new Object[] {
                 empresa.getId(),
                 empresa.getNombreComercial(),
+                empresa.getPropietario(),
                 empresa.getNit(),
                 empresa.getDireccion()
             });

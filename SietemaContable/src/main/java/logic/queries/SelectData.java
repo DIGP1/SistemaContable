@@ -68,21 +68,21 @@ public class SelectData {
     }
 
     public static boolean ValidateNIT(String nit, int id) {
-        String myQuery = "SELECT nit FROM tbl_empresas WHERE nit = ? AND id != ?";
+        String myQuery = "SELECT nit FROM tbl_empresas WHERE nit = ? AND id == ?";
 
         try (Connection conn = dbConnection.connect(); PreparedStatement pstmt = conn.prepareStatement(myQuery)) {
             pstmt.setString(1, nit);
             pstmt.setInt(2, id);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
-                    return true; // NIT exists and belongs to a different company
+                    return false;
                 }
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            return true; // Return true to indicate an error occurred
+            System.out.println("Error: " + e.getMessage());
+            return true;
         }
-        return false; // NIT does not exist or belongs to the same company
+        return true;
     }
 
     public static List<Empresa> getCompanies(int idUser) {
@@ -95,7 +95,8 @@ public class SelectData {
                     id_distrito,
                     id_usuario,
                     direccion,
-                    distrito
+                    distrito,
+                    propietario
                 FROM
                     tbl_empresas
                 INNER JOIN
@@ -106,7 +107,7 @@ public class SelectData {
         List<Empresa> empresas = new ArrayList<>();
 
         try (Connection conn = dbConnection.connect(); PreparedStatement pstmt = conn.prepareStatement(myQuery)) {
-            pstmt.setInt(1,idUser);
+            pstmt.setInt(1, idUser);
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
@@ -117,7 +118,8 @@ public class SelectData {
                         rs.getInt("id_giro_comercial"),
                         rs.getString("direccion") + ", " + rs.getString("distrito"),
                         rs.getInt("id_distrito"),
-                        rs.getInt("id_usuario")
+                        rs.getInt("id_usuario"),
+                        rs.getString("propietario")
                 ));
             }
         } catch (SQLException e) {
@@ -143,7 +145,8 @@ public class SelectData {
                        tg.giro_comercial AS giro_comercial,
                        td2.departamento AS departamento,
                        tm.municipio AS municipio,
-                       td.distrito AS distrito
+                       td.distrito AS distrito,
+                       tbl_empresas.propietario
                 FROM tbl_empresas
                          INNER JOIN tbl_giros_comerciales tg ON tbl_empresas.id_giro_comercial = tg.id
                          INNER JOIN tbl_distritos td ON tbl_empresas.id_distrito = td.id
@@ -173,7 +176,8 @@ public class SelectData {
                             rs.getInt("id_usuario"),
                             departmento,
                             municipio,
-                            distrito
+                            distrito,
+                            rs.getString("propietario")
                     ));
                 }
             }

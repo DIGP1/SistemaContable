@@ -16,7 +16,7 @@ public class UpdateData {
         boolean status;
 
         String myQuery = "UPDATE tbl_empresas SET nombre_comercial = ?, nit = ?, id_giro_comercial = ?," +
-                "id_distrito = ?, id_usuario = ?, direccion = ? WHERE id = ?";
+                "id_distrito = ?, id_usuario = ?, direccion = ?, propietario = ? WHERE id = ?";
 
         try (Connection conn = dbConnection.connect(); PreparedStatement pstmt = conn.prepareStatement(myQuery)) {
             pstmt.setString(1, empresa.getNombreComercial());
@@ -25,7 +25,8 @@ public class UpdateData {
             pstmt.setInt(4, empresa.getDistritoId());
             pstmt.setInt(5, empresa.getIdUsuario());
             pstmt.setString(6, empresa.getDireccion());
-            pstmt.setInt(7, id);
+            pstmt.setString(7, empresa.getPropietario());
+            pstmt.setInt(8, id);
 
             pstmt.executeUpdate();
             if (pstmt.getUpdateCount() == 0) {

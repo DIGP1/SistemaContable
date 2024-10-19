@@ -14,8 +14,9 @@ public class Empresa {
     Municipio municipio;
     Districts distrito;
     int usuarioId;
+    String propietario;
 
-    public Empresa(int id, String nombreComercial, String nit, int giroComercial, String direccion, int distritoId, int usuarioId) {
+    public Empresa(int id, String nombreComercial, String nit, int giroComercial, String direccion, int distritoId, int usuarioId, String propietario) {
         this.id = id;
         this.nombreComercial = nombreComercial;
         this.nit = nit;
@@ -23,10 +24,11 @@ public class Empresa {
         this.direccion = direccion;
         this.distritoId = distritoId;
         this.usuarioId = usuarioId;
+        this.propietario = propietario;
     }
 
     public Empresa(int id, String nombreComercial, String nit, GiroComercial giroComercial, String direccion, int idDistrito, 
-                   int idUsuario, Department departmento, Municipio municipio, Districts distrito) {
+                   int idUsuario, Department departmento, Municipio municipio, Districts distrito, String propietario) {
         this.id = id;
         this.nombreComercial = nombreComercial;
         this.nit = nit;
@@ -37,6 +39,7 @@ public class Empresa {
         this.departmento = departmento;
         this.municipio = municipio;
         this.distrito = distrito;
+        this.propietario = propietario;
     }
 
     public int getId() {
@@ -149,5 +152,13 @@ public class Empresa {
 
     public void setGiroComercialObj(GiroComercial giroComercialObj) {
         this.giroComercialObj = giroComercialObj;
+    }
+
+    public String getPropietario() {
+        return propietario;
+    }
+
+    public void setPropietario(String propietario) {
+        this.propietario = propietario;
     }
 }

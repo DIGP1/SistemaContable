@@ -43,7 +43,8 @@ public class EmpresasPanel extends javax.swing.JPanel {
         loadGiros();
     }
 
-    public EmpresasPanel(int empresaId, boolean update) {
+    public EmpresasPanel(int empresaId, boolean update, int userID) {
+        this.idUser = userID;
         initComponents();
         this.update = update;
         this.empresaId = empresaId;
@@ -52,15 +53,18 @@ public class EmpresasPanel extends javax.swing.JPanel {
     }
 
     void loadDataToEdit(int empresaId) {
+        JOptionPane.showMessageDialog(this, "ID de la empresa: " + empresaId);
         jLabel1.setText("ACTUALIZAR DATOS DE LA EMPRESA");
         List<Empresa> listaEmpresa = SelectData.getCompanieById(empresaId);
 
         if (!listaEmpresa.isEmpty()) {
+            this.idUser = listaEmpresa.get(0).getIdUsuario();
             Empresa empresa = listaEmpresa.get(0);
 
             txtGetNombreComercial.setText(empresa.getNombreComercial());
             txtGetNit.setText(empresa.getNit());
             txtGetDireccion.setText(empresa.getDireccion());
+            jTextFieldPropietario.setText(empresa.getPropietario());
 
             loadDepartments();
             loadGiros();
@@ -130,39 +134,53 @@ public class EmpresasPanel extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         txtGetDireccion = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jTextFieldPropietario = new javax.swing.JTextField();
 
-        setBackground(new java.awt.Color(18, 56, 84));
+        setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(951, 547));
 
-        jPanel1.setBackground(new java.awt.Color(18, 56, 84));
+        jPanel1.setBackground(new java.awt.Color(241, 241, 240));
+        jPanel1.setLayout(null);
 
-        jLabel3.setBackground(new java.awt.Color(18, 56, 84));
-        jLabel3.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel3.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("NIT");
+        jPanel1.add(jLabel3);
+        jLabel3.setBounds(720, 140, 24, 21);
 
-        jLabel4.setBackground(new java.awt.Color(18, 56, 84));
-        jLabel4.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel4.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Giro Comercial");
+        jPanel1.add(jLabel4);
+        jLabel4.setBounds(620, 250, 104, 21);
 
-        jLabel5.setBackground(new java.awt.Color(18, 56, 84));
-        jLabel5.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel5.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Departamento");
+        jPanel1.add(jLabel5);
+        jLabel5.setBounds(10, 420, 98, 21);
 
-        jLabel6.setBackground(new java.awt.Color(18, 56, 84));
-        jLabel6.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel6.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("Municipio");
+        jPanel1.add(jLabel6);
+        jLabel6.setBounds(440, 410, 69, 21);
 
-        jComboBoxGiros.setBackground(new java.awt.Color(153, 102, 0));
-        jComboBoxGiros.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jComboBoxGiros.setForeground(new java.awt.Color(255, 255, 255));
+        jComboBoxGiros.setBackground(new java.awt.Color(255, 255, 255));
+        jComboBoxGiros.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
+        jComboBoxGiros.setForeground(new java.awt.Color(0, 0, 0));
         jComboBoxGiros.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxGiros.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(9, 29, 54)));
+        jPanel1.add(jComboBoxGiros);
+        jComboBoxGiros.setBounds(770, 240, 230, 36);
 
-        jButton1.setBackground(new java.awt.Color(0, 102, 0));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jButton1.setBackground(new java.awt.Color(0, 102, 102));
+        jButton1.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Aceptar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -170,14 +188,19 @@ public class EmpresasPanel extends javax.swing.JPanel {
                 jButton1ActionPerformed(evt);
             }
         });
+        jPanel1.add(jButton1);
+        jButton1.setBounds(740, 540, 113, 39);
 
         jLabel1.setBackground(new java.awt.Color(18, 56, 84));
-        jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setFont(new java.awt.Font("Arial Narrow", 1, 30)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel1.setText("AGREGAR NUEVA EMPRESA");
+        jPanel1.add(jLabel1);
+        jLabel1.setBounds(580, 20, 420, 31);
 
-        jButton2.setBackground(new java.awt.Color(153, 0, 0));
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jButton2.setBackground(new java.awt.Color(204, 0, 0));
+        jButton2.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Cancelar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -185,31 +208,284 @@ public class EmpresasPanel extends javax.swing.JPanel {
                 jButton2ActionPerformed(evt);
             }
         });
+        jPanel1.add(jButton2);
+        jButton2.setBounds(890, 540, 113, 39);
 
-        txtGetNombreComercial.setBackground(new java.awt.Color(153, 102, 0));
-        txtGetNombreComercial.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        txtGetNombreComercial.setForeground(new java.awt.Color(255, 255, 255));
+        txtGetNombreComercial.setBackground(new java.awt.Color(255, 255, 255));
+        txtGetNombreComercial.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
+        txtGetNombreComercial.setForeground(new java.awt.Color(0, 0, 0));
         txtGetNombreComercial.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtGetNombreComercial.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(9, 29, 54)));
         txtGetNombreComercial.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtGetNombreComercialActionPerformed(evt);
             }
         });
+        jPanel1.add(txtGetNombreComercial);
+        txtGetNombreComercial.setBounds(200, 130, 460, 37);
 
-        jComboBoxDepartamentos.setBackground(new java.awt.Color(153, 102, 0));
-        jComboBoxDepartamentos.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jComboBoxDepartamentos.setForeground(new java.awt.Color(255, 255, 255));
+        jComboBoxDepartamentos.setBackground(new java.awt.Color(255, 255, 255));
+        jComboBoxDepartamentos.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
+        jComboBoxDepartamentos.setForeground(new java.awt.Color(0, 0, 0));
         jComboBoxDepartamentos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxDepartamentos.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(9, 29, 54)));
         jComboBoxDepartamentos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxDepartamentosActionPerformed(evt);
             }
         });
+        jPanel1.add(jComboBoxDepartamentos);
+        jComboBoxDepartamentos.setBounds(200, 410, 190, 36);
 
-        txtGetNit.setBackground(new java.awt.Color(153, 102, 0));
-        txtGetNit.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        txtGetNit.setForeground(new java.awt.Color(255, 255, 255));
+        txtGetNit.setBackground(new java.awt.Color(255, 255, 255));
+        txtGetNit.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
+        txtGetNit.setForeground(new java.awt.Color(0, 0, 0));
         txtGetNit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtGetNit.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(9, 29, 54)));
+        txtGetNit.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtGetNitKeyTyped(evt);
+            }
+        });
+        jPanel1.add(txtGetNit);
+        txtGetNit.setBounds(770, 130, 230, 37);
+
+        jComboBoxDistrito.setBackground(new java.awt.Color(255, 255, 255));
+        jComboBoxDistrito.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
+        jComboBoxDistrito.setForeground(new java.awt.Color(0, 0, 0));
+        jComboBoxDistrito.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxDistrito.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(9, 29, 54)));
+        jPanel1.add(jComboBoxDistrito);
+        jComboBoxDistrito.setBounds(820, 400, 180, 40);
+
+        jComboBoxMunicipio.setBackground(new java.awt.Color(255, 255, 255));
+        jComboBoxMunicipio.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
+        jComboBoxMunicipio.setForeground(new java.awt.Color(0, 0, 0));
+        jComboBoxMunicipio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxMunicipio.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(9, 29, 54)));
+        jComboBoxMunicipio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxMunicipioActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jComboBoxMunicipio);
+        jComboBoxMunicipio.setBounds(540, 400, 180, 39);
+
+        jLabel7.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel7.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel7.setText("Distrito");
+        jPanel1.add(jLabel7);
+        jLabel7.setBounds(750, 410, 52, 21);
+
+        jLabel2.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel2.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel2.setText("Nombre Comercial");
+        jPanel1.add(jLabel2);
+        jLabel2.setBounds(10, 140, 129, 21);
+
+        jLabel8.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel8.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel8.setText("Dirección");
+        jPanel1.add(jLabel8);
+        jLabel8.setBounds(10, 330, 67, 21);
+
+        txtGetDireccion.setBackground(new java.awt.Color(255, 255, 255));
+        txtGetDireccion.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
+        txtGetDireccion.setForeground(new java.awt.Color(0, 0, 0));
+        txtGetDireccion.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtGetDireccion.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(9, 29, 54)));
+        txtGetDireccion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtGetDireccionActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txtGetDireccion);
+        txtGetDireccion.setBounds(200, 330, 800, 37);
+
+        jLabel9.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel9.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel9.setText("Propietario");
+        jLabel9.setToolTipText("");
+        jPanel1.add(jLabel9);
+        jLabel9.setBounds(10, 250, 78, 21);
+
+        jTextFieldPropietario.setBackground(new java.awt.Color(255, 255, 255));
+        jTextFieldPropietario.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
+        jTextFieldPropietario.setForeground(new java.awt.Color(0, 0, 0));
+        jTextFieldPropietario.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextFieldPropietario.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(9, 29, 54)));
+        jPanel1.add(jTextFieldPropietario);
+        jTextFieldPropietario.setBounds(200, 240, 390, 38);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1038, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 688, Short.MAX_VALUE)
+        );
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        reloadPanel();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void txtGetNombreComercialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtGetNombreComercialActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtGetNombreComercialActionPerformed
+
+    private void jComboBoxMunicipioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxMunicipioActionPerformed
+        setjComboBoxGetDistrict(evt);
+    }//GEN-LAST:event_jComboBoxMunicipioActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String nombreComercial = this.txtGetNombreComercial.getText().trim();
+        String nit = this.txtGetNit.getText().trim();
+        String giro = Objects.requireNonNull(jComboBoxGiros.getSelectedItem()).toString();
+        String departamento = Objects.requireNonNull(jComboBoxDepartamentos.getSelectedItem()).toString();
+        String municipio = Objects.requireNonNull(jComboBoxMunicipio.getSelectedItem()).toString();
+        String distrito = Objects.requireNonNull(jComboBoxDistrito.getSelectedItem()).toString();
+        String propietario = jTextFieldPropietario.getText().trim();
+
+        if (nombreComercial.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingrese el nombre de la empresa", "Error", JOptionPane.ERROR_MESSAGE);
+            txtGetNombreComercial.setText("");
+            txtGetNombreComercial.requestFocus();
+            return;
+        }
+
+        if (nit.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingrese el NIT de la empresa", "Error", JOptionPane.ERROR_MESSAGE);
+            txtGetNit.setText("");
+            txtGetNit.requestFocus();
+            return;
+        }
+
+        if (!nit.matches("\\d{4}-\\d{6}-\\d{3}-\\d{1}")) {
+            JOptionPane.showMessageDialog(null, "El formato del NIT es incorrecto. Debe seguir este formato: 1234-567890-123-4", "Error", JOptionPane.ERROR_MESSAGE);
+            txtGetNit.setText("");
+            txtGetNit.requestFocus();
+            return;
+        }
+        
+        if(jTextFieldPropietario.getText().trim().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Ingrese el propietario de la empresa", "Error", JOptionPane.ERROR_MESSAGE);
+            jTextFieldPropietario.setText("");
+            jTextFieldPropietario.requestFocus();
+            return;
+        }
+        
+        // No permitor numeros ni simbolos en el jTextFieldPropietario
+        if(!jTextFieldPropietario.getText().matches("^[a-zA-ZñÑáéíóúÁÉÍÓÚ\\s]+$")){
+            JOptionPane.showMessageDialog(this, "El propietario no puede contener números ni simbolos", "Error", JOptionPane.ERROR_MESSAGE);
+            jTextFieldPropietario.setText("");
+            jTextFieldPropietario.requestFocus();
+            return;
+        }
+
+        if (giro.isEmpty() || giro.equals("Seleccionar giro comercial")) {
+            JOptionPane.showMessageDialog(this, "Ingrese el giro comercial de la empresa", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (departamento.isEmpty() || departamento.equals("Seleccionar departamento")) {
+            JOptionPane.showMessageDialog(this, "Ingrese el departamento donde se ubica la empresa", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (municipio.isEmpty() || municipio.equals("Seleccionar municipio")) {
+            JOptionPane.showMessageDialog(this, "Ingrese el municipio donde se ubica la empresa", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (distrito.isEmpty() || distrito.equals("Seleccionar distrito")) {
+            JOptionPane.showMessageDialog(this, "Ingrese el distrito donde se ubica la empresa", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        int companyId = SelectData.getLastCompanyId();
+
+        if(update)
+            companyId = this.empresaId;
+        
+        int userId = this.idUser;
+        
+        System.out.println("Update?" + update);
+        System.out.println("Nit" + nit);
+        System.out.println("Company ID" + companyId);
+
+        if(update){
+            if (SelectData.ValidateNIT(nit, companyId)) {
+                JOptionPane.showMessageDialog(this, "El NIT ingresado ya existe", "Error", JOptionPane.ERROR_MESSAGE);
+                txtGetNit.setText("");
+                txtGetNit.requestFocus();
+                return;
+            }
+        }else{
+            if (SelectData.ValidateNIT(nit)) {
+                JOptionPane.showMessageDialog(this, "El NIT ingresado ya existe", "Error", JOptionPane.ERROR_MESSAGE);
+                txtGetNit.setText("");
+                txtGetNit.requestFocus();
+                return;
+            }
+        }
+
+        Empresa empresa = new Empresa(companyId, 
+                nombreComercial, 
+                nit, 
+                Integer.parseInt(giro.split(" - ")[0]), 
+                txtGetDireccion.getText(), 
+                Integer.parseInt(distrito.split(" - ")[0]), 
+                userId,
+                propietario);
+
+        if (update){
+            if (UpdateData.updateCompanyInformation(empresa, empresaId)) {
+                JOptionPane.showMessageDialog(this, 
+                        "Empresa actualizada exitosamente", 
+                        "Éxito", 
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+                reloadPanel();
+            } else {
+                JOptionPane.showMessageDialog(this, 
+                        "Error al actualizar la empresa", 
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE
+                );
+            }
+        }else{
+            if (InsertData.saveCompanyInformation(empresa)) {
+                JOptionPane.showMessageDialog(this, 
+                        "Empresa agregada exitosamente", 
+                        "Éxito", 
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+                reloadPanel();
+            } else {
+                JOptionPane.showMessageDialog(this, 
+                        "Error al guardar la empresa", 
+                        "Error", 
+                        JOptionPane.ERROR_MESSAGE
+                );
+            }
+        }
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void txtGetDireccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtGetDireccionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtGetDireccionActionPerformed
+
+    private void txtGetNitKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtGetNitKeyTyped
         txtGetNit.addKeyListener(new KeyAdapter() {
 
             final int MaxLength = 17;
@@ -254,276 +530,7 @@ public class EmpresasPanel extends javax.swing.JPanel {
                 }
             }
         });
-
-        jComboBoxDistrito.setBackground(new java.awt.Color(153, 102, 0));
-        jComboBoxDistrito.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jComboBoxDistrito.setForeground(new java.awt.Color(255, 255, 255));
-        jComboBoxDistrito.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jComboBoxMunicipio.setBackground(new java.awt.Color(153, 102, 0));
-        jComboBoxMunicipio.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jComboBoxMunicipio.setForeground(new java.awt.Color(255, 255, 255));
-        jComboBoxMunicipio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBoxMunicipio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBoxMunicipioActionPerformed(evt);
-            }
-        });
-
-        jLabel7.setBackground(new java.awt.Color(18, 56, 84));
-        jLabel7.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Distrito");
-
-        jLabel2.setBackground(new java.awt.Color(18, 56, 84));
-        jLabel2.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Nombre Comercial");
-
-        jLabel8.setBackground(new java.awt.Color(18, 56, 84));
-        jLabel8.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setText("Dirección");
-
-        txtGetDireccion.setBackground(new java.awt.Color(153, 102, 0));
-        txtGetDireccion.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        txtGetDireccion.setForeground(new java.awt.Color(255, 255, 255));
-        txtGetDireccion.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtGetDireccion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtGetDireccionActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 957, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(561, 561, 561)
-                            .addComponent(jLabel1))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel2)
-                            .addGap(21, 21, 21)
-                            .addComponent(txtGetNombreComercial, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(30, 30, 30)
-                            .addComponent(jLabel3)
-                            .addGap(24, 24, 24)
-                            .addComponent(txtGetNit, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(1, 1, 1)
-                            .addComponent(jLabel4)
-                            .addGap(55, 55, 55)
-                            .addComponent(jComboBoxGiros, javax.swing.GroupLayout.PREFERRED_SIZE, 740, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(1, 1, 1)
-                            .addComponent(jLabel8)
-                            .addGap(104, 104, 104)
-                            .addComponent(txtGetDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 740, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(1, 1, 1)
-                            .addComponent(jLabel5)
-                            .addGap(61, 61, 61)
-                            .addComponent(jComboBoxDepartamentos, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(10, 10, 10)
-                            .addComponent(jLabel6)
-                            .addGap(14, 14, 14)
-                            .addComponent(jComboBoxMunicipio, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(10, 10, 10)
-                            .addComponent(jLabel7)
-                            .addGap(13, 13, 13)
-                            .addComponent(jComboBoxDistrito, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(671, 671, 671)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(37, 37, 37)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGap(0, 12, Short.MAX_VALUE)))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 550, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jLabel1)
-                    .addGap(19, 19, 19)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(4, 4, 4)
-                            .addComponent(jLabel2))
-                        .addComponent(txtGetNombreComercial, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(10, 10, 10)
-                            .addComponent(jLabel3))
-                        .addComponent(txtGetNit, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(33, 33, 33)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(10, 10, 10)
-                            .addComponent(jLabel4))
-                        .addComponent(jComboBoxGiros, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(64, 64, 64)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel8)
-                        .addComponent(txtGetDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(53, 53, 53)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jComboBoxDepartamentos, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jComboBoxMunicipio, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jComboBoxDistrito, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(10, 10, 10)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel5)
-                                .addComponent(jLabel6)
-                                .addComponent(jLabel7))))
-                    .addGap(100, 100, 100)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(0, 31, Short.MAX_VALUE)))
-        );
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-    }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        reloadPanel();
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void txtGetNombreComercialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtGetNombreComercialActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtGetNombreComercialActionPerformed
-
-    private void jComboBoxMunicipioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxMunicipioActionPerformed
-        setjComboBoxGetDistrict(evt);
-    }//GEN-LAST:event_jComboBoxMunicipioActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        String nombreComercial = this.txtGetNombreComercial.getText();
-        String nit = this.txtGetNit.getText();
-        String giro = Objects.requireNonNull(jComboBoxGiros.getSelectedItem()).toString();
-        String departamento = Objects.requireNonNull(jComboBoxDepartamentos.getSelectedItem()).toString();
-        String municipio = Objects.requireNonNull(jComboBoxMunicipio.getSelectedItem()).toString();
-        String distrito = Objects.requireNonNull(jComboBoxDistrito.getSelectedItem()).toString();
-
-        if (nombreComercial.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Ingrese el nombre de la empresa", "Error", JOptionPane.ERROR_MESSAGE);
-            txtGetNombreComercial.setText("");
-            txtGetNombreComercial.requestFocus();
-            return;
-        }
-
-        if (nit.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Ingrese el NIT de la empresa", "Error", JOptionPane.ERROR_MESSAGE);
-            txtGetNit.setText("");
-            txtGetNit.requestFocus();
-            return;
-        }
-
-        if (!nit.matches("\\d{4}-\\d{6}-\\d{3}-\\d{1}")) {
-            JOptionPane.showMessageDialog(null, "El formato del NIT es incorrecto. Debe seguir este formato: 1234-567890-123-4", "Error", JOptionPane.ERROR_MESSAGE);
-            txtGetNit.setText("");
-            txtGetNit.requestFocus();
-            return;
-        }
-
-        if (giro.isEmpty() || giro.equals("Seleccionar giro comercial")) {
-            JOptionPane.showMessageDialog(this, "Ingrese el giro comercial de la empresa", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        if (departamento.isEmpty() || departamento.equals("Seleccionar departamento")) {
-            JOptionPane.showMessageDialog(this, "Ingrese el departamento donde se ubica la empresa", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        if (municipio.isEmpty() || municipio.equals("Seleccionar municipio")) {
-            JOptionPane.showMessageDialog(this, "Ingrese el municipio donde se ubica la empresa", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        if (distrito.isEmpty() || distrito.equals("Seleccionar distrito")) {
-            JOptionPane.showMessageDialog(this, "Ingrese el distrito donde se ubica la empresa", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        int companyId = SelectData.getLastCompanyId();
-        int userId = SelectData.getUserID(user);
-
-        if(!update){
-            if (SelectData.ValidateNIT(nit)) {
-                JOptionPane.showMessageDialog(this, "El NIT ingresado ya existe", "Error", JOptionPane.ERROR_MESSAGE);
-                txtGetNit.setText("");
-                txtGetNit.requestFocus();
-                return;
-            }
-        }else{
-            if (SelectData.ValidateNIT(nit, companyId)) {
-                JOptionPane.showMessageDialog(this, "El NIT ingresado ya existe", "Error", JOptionPane.ERROR_MESSAGE);
-                txtGetNit.setText("");
-                txtGetNit.requestFocus();
-                return;
-            }
-        }
-
-        Empresa empresa = new Empresa(companyId, nombreComercial, nit, Integer.parseInt(giro.split(" - ")[0]), txtGetDireccion.getText(), Integer.parseInt(distrito.split(" - ")[0]), userId);
-
-        if (update){
-            if (UpdateData.updateCompanyInformation(empresa, empresaId)) {
-                JOptionPane.showMessageDialog(this, 
-                        "Empresa actualizada exitosamente", 
-                        "Éxito", 
-                        JOptionPane.INFORMATION_MESSAGE
-                );
-                reloadPanel();
-            } else {
-                JOptionPane.showMessageDialog(this, 
-                        "Error al actualizar la empresa", 
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE
-                );
-            }
-        }else{
-            if (InsertData.saveCompanyInformation(empresa)) {
-                JOptionPane.showMessageDialog(this, 
-                        "Empresa agregada exitosamente", 
-                        "Éxito", 
-                        JOptionPane.INFORMATION_MESSAGE
-                );
-                reloadPanel();
-            } else {
-                JOptionPane.showMessageDialog(this, 
-                        "Error al guardar la empresa", 
-                        "Error", 
-                        JOptionPane.ERROR_MESSAGE
-                );
-            }
-        }
-
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void txtGetDireccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtGetDireccionActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtGetDireccionActionPerformed
+    }//GEN-LAST:event_txtGetNitKeyTyped
 
     private void jComboBoxDepartamentosActionPerformed(java.awt.event.ActionEvent evt) {
         if (jComboBoxDepartamentos.getSelectedIndex() <= 0) {
@@ -575,6 +582,7 @@ public class EmpresasPanel extends javax.swing.JPanel {
         jPanel1.removeAll();
         EmpresasR er = new EmpresasR(user, empresaSelected, idUser );
         er.setSize(jPanel1.getSize()); // Establecer el tamaño igual al tamaño del contenedor
+        er.loadCompanies();
         jPanel1.setLayout(new BorderLayout()); // Usar un BorderLayout
         jPanel1.add(er, BorderLayout.CENTER); // Agregar el componente en el centro
         jPanel1.revalidate();
@@ -596,7 +604,9 @@ public class EmpresasPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextField jTextFieldPropietario;
     private javax.swing.JTextField txtGetDireccion;
     private javax.swing.JTextField txtGetNit;
     private javax.swing.JTextField txtGetNombreComercial;

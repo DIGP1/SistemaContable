@@ -49,6 +49,7 @@ form\CatalogoCuentas$7.class
 form\EmpresasPanel$3.class
 logic\models\Empresa.class
 form\CatalogoCuentas$12.class
+form\EmpresasPanel$8.class
 logic\passwordmanagement\PasswordEncryption.class
 form\login.class
 form\libroDiario$3.class

@@ -22,8 +22,9 @@ public class InsertData {
                 "id_giro_comercial, " +
                 "id_distrito, " +
                 "id_usuario, " +
-                "direccion) " +
-                "VALUES (?, ?, ?, ?, ?, ?)";
+                "direccion, " +
+                "propietario ) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = dbConnection.connect(); PreparedStatement pstmt = conn.prepareStatement(myQuery)) {
             pstmt.setString(1, empresa.getNombreComercial());
@@ -32,6 +33,7 @@ public class InsertData {
             pstmt.setInt(4, empresa.getDistritoId());
             pstmt.setInt(5, empresa.getIdUsuario());
             pstmt.setString(6, empresa.getDireccion());
+            pstmt.setString(7, empresa.getPropietario());
 
             pstmt.executeUpdate();
             if (pstmt.getUpdateCount() == 0) {
