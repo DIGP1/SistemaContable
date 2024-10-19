@@ -227,8 +227,6 @@ public class EmpresasR extends javax.swing.JPanel {
     // Obtener los valores de la tabla
     empresaId = (int) jTable1.getValueAt(row, 0);
     nombreEmpresa = (String) jTable1.getValueAt(row, 1);
-    JOptionPane.showMessageDialog(this, "Empresa seleccionada: " + nombreEmpresa);
-    JOptionPane.showMessageDialog(this, "ID seleccionada: " + empresaId);
 
     // Detección de doble clic
     if (evt.getClickCount() == 2) {
