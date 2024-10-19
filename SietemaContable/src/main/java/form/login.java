@@ -107,7 +107,7 @@ public class login extends javax.swing.JFrame {
             }
         });
 
-        jCheckBox1.setBackground(new java.awt.Color(94, 131, 186));
+        jCheckBox1.setBackground(new java.awt.Color(58, 78, 122));
         jCheckBox1.setForeground(new java.awt.Color(255, 255, 255));
         jCheckBox1.setText("Ver contraseña");
         jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
