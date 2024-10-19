@@ -53,7 +53,7 @@ public class EmpresasPanel extends javax.swing.JPanel {
     }
 
     void loadDataToEdit(int empresaId) {
-        jLabel1.setText("ACTUALIZAR DATOS DE LA EMPRESA");
+        jLabel1.setText("ACTUALIZAR EMPRESA");
         List<Empresa> listaEmpresa = SelectData.getCompanieById(empresaId);
 
         if (!listaEmpresa.isEmpty()) {
@@ -140,43 +140,32 @@ public class EmpresasPanel extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(951, 547));
 
         jPanel1.setBackground(new java.awt.Color(241, 241, 240));
-        jPanel1.setLayout(null);
 
         jLabel3.setBackground(new java.awt.Color(255, 255, 255));
         jLabel3.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("NIT");
-        jPanel1.add(jLabel3);
-        jLabel3.setBounds(720, 140, 24, 21);
 
         jLabel4.setBackground(new java.awt.Color(255, 255, 255));
         jLabel4.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Giro Comercial");
-        jPanel1.add(jLabel4);
-        jLabel4.setBounds(620, 250, 104, 21);
 
         jLabel5.setBackground(new java.awt.Color(255, 255, 255));
         jLabel5.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Departamento");
-        jPanel1.add(jLabel5);
-        jLabel5.setBounds(10, 420, 98, 21);
 
         jLabel6.setBackground(new java.awt.Color(255, 255, 255));
         jLabel6.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("Municipio");
-        jPanel1.add(jLabel6);
-        jLabel6.setBounds(440, 410, 69, 21);
 
         jComboBoxGiros.setBackground(new java.awt.Color(255, 255, 255));
         jComboBoxGiros.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
         jComboBoxGiros.setForeground(new java.awt.Color(0, 0, 0));
         jComboBoxGiros.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBoxGiros.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(9, 29, 54)));
-        jPanel1.add(jComboBoxGiros);
-        jComboBoxGiros.setBounds(770, 240, 230, 36);
 
         jButton1.setBackground(new java.awt.Color(0, 102, 102));
         jButton1.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
@@ -187,16 +176,12 @@ public class EmpresasPanel extends javax.swing.JPanel {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1);
-        jButton1.setBounds(740, 540, 113, 39);
 
         jLabel1.setBackground(new java.awt.Color(18, 56, 84));
         jLabel1.setFont(new java.awt.Font("Arial Narrow", 1, 30)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel1.setText("AGREGAR NUEVA EMPRESA");
-        jPanel1.add(jLabel1);
-        jLabel1.setBounds(580, 20, 420, 31);
+        jLabel1.setText("AGREGAR EMPRESA");
 
         jButton2.setBackground(new java.awt.Color(204, 0, 0));
         jButton2.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
@@ -207,8 +192,6 @@ public class EmpresasPanel extends javax.swing.JPanel {
                 jButton2ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton2);
-        jButton2.setBounds(890, 540, 113, 39);
 
         txtGetNombreComercial.setBackground(new java.awt.Color(255, 255, 255));
         txtGetNombreComercial.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
@@ -220,8 +203,6 @@ public class EmpresasPanel extends javax.swing.JPanel {
                 txtGetNombreComercialActionPerformed(evt);
             }
         });
-        jPanel1.add(txtGetNombreComercial);
-        txtGetNombreComercial.setBounds(200, 130, 460, 37);
 
         jComboBoxDepartamentos.setBackground(new java.awt.Color(255, 255, 255));
         jComboBoxDepartamentos.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
@@ -233,8 +214,6 @@ public class EmpresasPanel extends javax.swing.JPanel {
                 jComboBoxDepartamentosActionPerformed(evt);
             }
         });
-        jPanel1.add(jComboBoxDepartamentos);
-        jComboBoxDepartamentos.setBounds(200, 410, 190, 36);
 
         txtGetNit.setBackground(new java.awt.Color(255, 255, 255));
         txtGetNit.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
@@ -246,16 +225,12 @@ public class EmpresasPanel extends javax.swing.JPanel {
                 txtGetNitKeyTyped(evt);
             }
         });
-        jPanel1.add(txtGetNit);
-        txtGetNit.setBounds(770, 130, 230, 37);
 
         jComboBoxDistrito.setBackground(new java.awt.Color(255, 255, 255));
         jComboBoxDistrito.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
         jComboBoxDistrito.setForeground(new java.awt.Color(0, 0, 0));
         jComboBoxDistrito.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBoxDistrito.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(9, 29, 54)));
-        jPanel1.add(jComboBoxDistrito);
-        jComboBoxDistrito.setBounds(820, 400, 180, 40);
 
         jComboBoxMunicipio.setBackground(new java.awt.Color(255, 255, 255));
         jComboBoxMunicipio.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
@@ -267,29 +242,21 @@ public class EmpresasPanel extends javax.swing.JPanel {
                 jComboBoxMunicipioActionPerformed(evt);
             }
         });
-        jPanel1.add(jComboBoxMunicipio);
-        jComboBoxMunicipio.setBounds(540, 400, 180, 39);
 
         jLabel7.setBackground(new java.awt.Color(255, 255, 255));
         jLabel7.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setText("Distrito");
-        jPanel1.add(jLabel7);
-        jLabel7.setBounds(750, 410, 52, 21);
 
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
         jLabel2.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Nombre Comercial");
-        jPanel1.add(jLabel2);
-        jLabel2.setBounds(10, 140, 129, 21);
 
         jLabel8.setBackground(new java.awt.Color(255, 255, 255));
         jLabel8.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(0, 0, 0));
         jLabel8.setText("Dirección");
-        jPanel1.add(jLabel8);
-        jLabel8.setBounds(10, 330, 67, 21);
 
         txtGetDireccion.setBackground(new java.awt.Color(255, 255, 255));
         txtGetDireccion.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
@@ -301,34 +268,129 @@ public class EmpresasPanel extends javax.swing.JPanel {
                 txtGetDireccionActionPerformed(evt);
             }
         });
-        jPanel1.add(txtGetDireccion);
-        txtGetDireccion.setBounds(200, 330, 800, 37);
 
         jLabel9.setBackground(new java.awt.Color(255, 255, 255));
         jLabel9.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(0, 0, 0));
         jLabel9.setText("Propietario");
         jLabel9.setToolTipText("");
-        jPanel1.add(jLabel9);
-        jLabel9.setBounds(10, 250, 78, 21);
 
         jTextFieldPropietario.setBackground(new java.awt.Color(255, 255, 255));
         jTextFieldPropietario.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
         jTextFieldPropietario.setForeground(new java.awt.Color(0, 0, 0));
         jTextFieldPropietario.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextFieldPropietario.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(9, 29, 54)));
-        jPanel1.add(jTextFieldPropietario);
-        jTextFieldPropietario.setBounds(200, 240, 390, 38);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jLabel9)
+                        .addGap(112, 112, 112)
+                        .addComponent(jTextFieldPropietario, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(jLabel4)
+                        .addGap(46, 46, 46)
+                        .addComponent(jComboBoxGiros, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jLabel8)
+                        .addGap(123, 123, 123)
+                        .addComponent(txtGetDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jLabel5)
+                        .addGap(92, 92, 92)
+                        .addComponent(jComboBoxDepartamentos, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(50, 50, 50)
+                        .addComponent(jLabel6)
+                        .addGap(31, 31, 31)
+                        .addComponent(jComboBoxMunicipio, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(jLabel7)
+                        .addGap(18, 18, 18)
+                        .addComponent(jComboBoxDistrito, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(740, 740, 740)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(37, 37, 37)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(61, 61, 61)
+                                .addComponent(txtGetNombreComercial, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(60, 60, 60)
+                                .addComponent(jLabel3)
+                                .addGap(26, 26, 26)
+                                .addComponent(txtGetNit, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(35, 35, 35))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(79, 79, 79)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtGetNombreComercial, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtGetNit, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3))))
+                .addGap(73, 73, 73)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextFieldPropietario, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBoxGiros, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel4))))
+                .addGap(52, 52, 52)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8)
+                    .addComponent(txtGetDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(33, 33, 33)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(jLabel5))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jComboBoxDepartamentos, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jLabel6))
+                    .addComponent(jComboBoxMunicipio, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jLabel7))
+                    .addComponent(jComboBoxDistrito, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(94, 94, 94)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1038, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 688, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
