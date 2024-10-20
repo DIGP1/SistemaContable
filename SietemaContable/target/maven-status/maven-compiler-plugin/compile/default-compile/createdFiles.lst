@@ -22,6 +22,7 @@ form\PRINCIPAL$4.class
 logic\models\GiroComercial.class
 form\validarAdmin.class
 logic\InicioSesion.class
+form\ManageUsers$1.class
 form\EmpresasPanel$1.class
 form\CatalogoCuentas.class
 form\Registro_cuenta.class
@@ -69,11 +70,13 @@ com\mycompany\sietemacontable\Prueba.class
 form\EmpresasPanel$5.class
 com\mycompany\sietemacontable\SietemaContable.class
 form\Empresas$1.class
+form\PRINCIPAL$10.class
 form\LibroMayor.class
 form\CatalogoCuentas$2.class
 form\Register$1.class
 form\verificarAdmin$2.class
 logic\queries\UpdateData.class
+logic\models\Usuarios.class
 form\EmpresasR$3.class
 form\login$4.class
 form\PRINCIPAL$5.class
@@ -92,6 +95,7 @@ form\login$3.class
 form\Register$3.class
 form\Empresas$3.class
 form\PRINCIPAL$2.class
+form\ManageUsers.class
 form\validarAdmin$2.class
 form\EmpresasPanel.class
 form\EmpresasR$6.class

@@ -186,4 +186,53 @@ public class SelectData {
         }
         return empresas;
     }
+
+    public static boolean userIsAdmin(int userId) {
+        String myQuery = "SELECT id FROM tbl_usuarios WHERE id = ? AND rol_id = 1";
+
+        try (Connection conn = dbConnection.connect(); PreparedStatement pstmt = conn.prepareStatement(myQuery)) {
+            pstmt.setInt(1, userId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return true;
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return false;
+    }
+    
+    public static List<Usuarios> getAllUsers(){
+        String myQuery = """
+                    SELECT tbl_usuarios.id,
+                           tbl_usuarios.username,
+                           tbl_usuarios.nombrecompleto,
+                           tbl_usuarios.password,
+                           tbl_roles.rol
+                    FROM tbl_usuarios
+                    INNER JOIN tbl_roles
+                    ON tbl_usuarios.rol_id = tbl_roles.id;
+                """;
+        List<Usuarios> usuarios = new ArrayList<>();
+        
+        try (Connection conn = dbConnection.connect(); PreparedStatement pstmt = conn.prepareStatement(myQuery)) {
+            ResultSet rs = pstmt.executeQuery();
+            
+            while (rs.next()) {                
+                usuarios.add(new Usuarios(
+                        rs.getInt("id"),
+                        rs.getString("nombrecompleto"),
+                        rs.getString("username"),
+                        rs.getString("password"),
+                        rs.getString("rol")
+                ));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error retrieving users", e);
+        }
+        
+        return usuarios;
+    }
 }

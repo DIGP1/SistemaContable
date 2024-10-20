@@ -6,25 +6,18 @@ package form;
 
 import logic.CatalogoDeCuentasDatos;
 import logic.DatabaseConnection;
-import logic.queries.LoadStaticData;
 import logic.queries.SelectData;
 import logic.EmpresaSelected;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * @author angel
@@ -38,13 +31,14 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
     java.io.File transaccionFile = new File("src/main/java/resources/transaccion.png");
     java.io.File catalogoFile = new File("src/main/java/resources/catalogo.png");
     java.io.File trabajoEnEquipoFile = new File("src/main/java/resources/trabajo-en-equipo (1).png");
+    java.io.File usersFile = new File("src/main/java/resources/users.png");
     
 
     public PRINCIPAL(int userId) {
         this.idUser = userId;
         initComponents();
         habilitarBotones(false);
-
+        checkUserRolID();
     }
     
     public PRINCIPAL() {
@@ -93,6 +87,7 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
         jLabel1 = new javax.swing.JLabel();
         user = new javax.swing.JLabel();
         jButton8 = new javax.swing.JButton();
+        jButtonManageUsers = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -179,6 +174,17 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
             }
         });
 
+        jButtonManageUsers.setBackground(new java.awt.Color(58, 78, 122));
+        jButtonManageUsers.setFont(new java.awt.Font("Arial Narrow", 1, 20)); // NOI18N
+        jButtonManageUsers.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonManageUsers.setIcon(new javax.swing.ImageIcon(usersFile.getAbsolutePath()));
+        jButtonManageUsers.setText("Gestión de usuarios");
+        jButtonManageUsers.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonManageUsersActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -196,11 +202,11 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jButtonManageUsers, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE)
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jButton4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE)))))
+                            .addComponent(jButton4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE))))
                 .addContainerGap(7, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -212,11 +218,13 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(57, 57, 57)
                 .addComponent(jButton8)
-                .addGap(123, 123, 123)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonManageUsers)
+                .addGap(90, 90, 90)
                 .addComponent(jButton2)
                 .addGap(45, 45, 45)
                 .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 181, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 173, Short.MAX_VALUE)
                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -504,8 +512,24 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
         info.repaint();
     }//GEN-LAST:event_jButton8ActionPerformed
 
+    private void jButtonManageUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonManageUsersActionPerformed
+        // TODO add your handling code here:
+        info.removeAll();
+        jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        ManageUsers mu = new ManageUsers();
+        mu.setSize(info.getSize()); // Establecer el tamaño igual al tamaño del contenedor
+        info.setLayout(new BorderLayout()); // Usar un BorderLayout
+        info.add(mu, BorderLayout.CENTER); // Agregar el componente en el centro
+        info.revalidate();
+        info.repaint();
+    }//GEN-LAST:event_jButtonManageUsersActionPerformed
+
     public void pressButton(){
         jButton2.doClick();
+    }
+    
+    void checkUserRolID(){
+        jButtonManageUsers.setVisible(SelectData.userIsAdmin(idUser));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -517,6 +541,7 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButtonManageUsers;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel2;
