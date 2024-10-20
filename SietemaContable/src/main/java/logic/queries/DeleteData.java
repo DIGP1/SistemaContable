@@ -25,4 +25,21 @@ public class DeleteData {
 
         return true;
     }
+    
+    public static boolean deleteUser(int userId){
+        String myQuery = "DELETE FROM tbl_usuarios WHERE id = ?";
+
+        try (Connection conn = dbConnection.connect(); PreparedStatement pstmt = conn.prepareStatement(myQuery)) {
+            pstmt.setInt(1, userId);
+
+            pstmt.executeUpdate();
+            if (pstmt.getUpdateCount() == 0) {
+                return false;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return true;
+    }
 }

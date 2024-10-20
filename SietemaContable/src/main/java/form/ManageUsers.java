@@ -6,16 +6,24 @@ package form;
 
 import logic.models.Empresa;
 import logic.models.Usuarios;
+import logic.passwordmanagement.PasswordEncryption;
+import logic.queries.DeleteData;
 import logic.queries.SelectData;
+import logic.queries.UpdateData;
 
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 /**
- *
  * @author alexu
  */
 public class ManageUsers extends javax.swing.JPanel {
+    int userId;
+    String username;
 
     /**
      * Creates new form ManageUsers
@@ -38,30 +46,24 @@ public class ManageUsers extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jButtonEditUser = new javax.swing.JButton();
+        jButtonDeleteUser = new javax.swing.JButton();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         jLabel1.setText("Gestión de usuarios");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "ID", "Nombre", "Usuario", "Rol"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{{null, null, null, null}, {null, null, null, null}, {null, null, null, null}}, new String[]{"ID", "Nombre", "Usuario", "Rol"}) {
+            boolean[] canEdit = new boolean[]{false, false, false, false};
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+                return canEdit[columnIndex];
+            }
+        });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(jTable1);
@@ -69,58 +71,78 @@ public class ManageUsers extends javax.swing.JPanel {
             jTable1.getColumnModel().getColumn(3).setPreferredWidth(80);
         }
 
-        jButton1.setBackground(new java.awt.Color(51, 102, 255));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton1.setText("Editar");
-        jButton1.setEnabled(false);
-        jButton1.setFocusPainted(false);
+        jButtonEditUser.setBackground(new java.awt.Color(51, 102, 255));
+        jButtonEditUser.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButtonEditUser.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonEditUser.setText("Editar");
+        jButtonEditUser.setEnabled(false);
+        jButtonEditUser.setFocusPainted(false);
+        jButtonEditUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEditUserActionPerformed(evt);
+            }
+        });
 
-        jButton2.setBackground(new java.awt.Color(204, 0, 0));
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton2.setText("Eliminar");
-        jButton2.setEnabled(false);
-        jButton2.setFocusPainted(false);
+        jButtonDeleteUser.setBackground(new java.awt.Color(204, 0, 0));
+        jButtonDeleteUser.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButtonDeleteUser.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonDeleteUser.setText("Eliminar");
+        jButtonDeleteUser.setEnabled(false);
+        jButtonDeleteUser.setFocusPainted(false);
+        jButtonDeleteUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDeleteUserActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1021, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(70, 70, 70)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 458, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(108, Short.MAX_VALUE))
-        );
+        jPanel1Layout.setHorizontalGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel1Layout.createSequentialGroup().addContainerGap().addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false).addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1021, javax.swing.GroupLayout.PREFERRED_SIZE).addGroup(jPanel1Layout.createSequentialGroup().addComponent(jLabel1).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(jButtonEditUser, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jButtonDeleteUser, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))).addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+        jPanel1Layout.setVerticalGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel1Layout.createSequentialGroup().addContainerGap().addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(jLabel1).addComponent(jButtonEditUser, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(jButtonDeleteUser, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)).addGap(70, 70, 70).addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 458, javax.swing.GroupLayout.PREFERRED_SIZE).addContainerGap(108, Short.MAX_VALUE)));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
+        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+        jButtonEditUser.setEnabled(true);
+        jButtonDeleteUser.setEnabled(true);
+
+        // Obtener la fila seleccionada
+        int row = jTable1.getSelectedRow();
+
+        // Obtener los valores de la tabla
+        userId = (int) jTable1.getValueAt(row, 0);
+        username = (String) jTable1.getValueAt(row, 2);
+
+        System.out.println("ID: " + userId);
+        System.out.println("Usuario: " + username);
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButtonEditUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditUserActionPerformed
+        // TODO add your handling code here:
+        mostrarDialogoConPanel((JFrame) SwingUtilities.getWindowAncestor(this), username);
+    }//GEN-LAST:event_jButtonEditUserActionPerformed
+
+    private void jButtonDeleteUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteUserActionPerformed
+        // TODO add your handling code here:
+        int dialogResult = JOptionPane.showConfirmDialog(null, "¿Está seguro de eliminar este usuario?", "Advertencia", JOptionPane.YES_NO_OPTION);
+        if (dialogResult != JOptionPane.YES_OPTION) {
+            JOptionPane.showMessageDialog(null, "Operación cancelada", "Información", JOptionPane.INFORMATION_MESSAGE);
+            loadUsers();
+        } else {
+            if (!DeleteData.deleteUser(userId)) {
+                JOptionPane.showMessageDialog(null, "Error al eliminar el usuario", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            JOptionPane.showMessageDialog(null, "Usuario eliminado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            loadUsers();
+        }
+    }//GEN-LAST:event_jButtonDeleteUserActionPerformed
 
     public void loadUsers() {
         List<Usuarios> usuarios = SelectData.getAllUsers();
@@ -129,21 +151,112 @@ public class ManageUsers extends javax.swing.JPanel {
         model.setRowCount(0);
 
         usuarios.forEach((usuario) -> {
-            model.addRow(new Object[] {
-                usuario.getId(),
-                usuario.getNombreCompleto(),
-                usuario.getUsuario(),
-                usuario.getRol()
-            });
+            model.addRow(new Object[]{usuario.getId(), usuario.getNombreCompleto(), usuario.getUsuario(), usuario.getRol()});
         });
 
         jTable1.setModel(model);
     }
 
+    public void mostrarDialogoConPanel(JFrame parentFrame, String username) {
+        JPanel panel = new JPanel();
+        panel.setBounds(0, 0, 500, 500);
+        panel.setLayout(new GridLayout(4, 2));
+
+        panel.add(new JLabel("Actualizar nombre:"));
+        JTextField txtName = new JTextField();
+        panel.add(txtName);
+  
+        panel.add(new JLabel("Actualizar nombre de usuario:"));
+        JTextField txtUsername = new JTextField();
+        panel.add(txtUsername);
+
+        panel.add(new JLabel("Nueva contraseña:"));
+        JPasswordField txtNewPassword = new JPasswordField();
+        panel.add(txtNewPassword);
+
+        panel.add(new JLabel("Repita su contraseña:"));
+        JPasswordField txtVerifyPassword = new JPasswordField();
+        panel.add(txtVerifyPassword);
+
+        JButton btnActualizar = new JButton("Actualizar");
+        JButton btnCancelar = new JButton("Cancelar");
+
+        btnActualizar.addActionListener(e -> {
+            String name = txtName.getText().trim();
+            String newUsername = txtUsername.getText().trim();
+
+            char[] pass1 = txtNewPassword.getPassword();
+            String password = new String(pass1);
+            char[] pass2 = txtVerifyPassword.getPassword();
+            String verifyPassword = new String(pass2);
+
+            if (!name.isEmpty()) {
+                if (name.equals(username)) {
+                    JOptionPane.showMessageDialog(parentFrame, "El nombre no puede ser igual al actual", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                if (!name.matches("^[a-zA-ZñÑáéíóúÁÉÍÓÚ\\s]+$")) {
+                    JOptionPane.showMessageDialog(parentFrame, "El nombre solo puede contener letras", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                if (!UpdateData.updateUserfullname(name, userId)) {
+                    JOptionPane.showMessageDialog(parentFrame, "Error al actualizar el nombre", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                JOptionPane.showMessageDialog(parentFrame, "Nombre actualizado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            }
+            
+            if(!newUsername.isEmpty()){
+                if(newUsername.equals(username)){
+                    JOptionPane.showMessageDialog(parentFrame, "El nombre de usuario no puede ser igual al actual", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                
+                if(!UpdateData.updateUsername(newUsername, userId)){
+                    JOptionPane.showMessageDialog(parentFrame, "Error al actualizar el nombre de usuario", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                
+                JOptionPane.showMessageDialog(parentFrame, "Nombre de usuario actualizado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            }
+
+            if (!password.isEmpty()) {
+                if (password.length() < 5) {
+                    JOptionPane.showMessageDialog(parentFrame, "La contraseña debe tener al menos 5 caracteres", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                if (!password.equals(verifyPassword)) {
+                    JOptionPane.showMessageDialog(parentFrame, "Las contraseñas no coinciden", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                
+                String cipheredPassword = PasswordEncryption.encrypt(password);
+
+                if (!UpdateData.updateUserPassword(cipheredPassword, userId)) {
+                    JOptionPane.showMessageDialog(parentFrame, "Error al actualizar la contraseña", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                JOptionPane.showMessageDialog(parentFrame, "Contraseña actualizada correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            }
+            loadUsers();
+        });
+
+        btnCancelar.addActionListener(e -> {
+            JOptionPane.showMessageDialog(parentFrame, "Operación cancelada", "Información", JOptionPane.INFORMATION_MESSAGE);
+        });
+
+        Object[] options = {btnActualizar, btnCancelar};
+        JOptionPane.showOptionDialog(parentFrame, panel, "Actualizar Usuario", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButtonDeleteUser;
+    private javax.swing.JButton jButtonEditUser;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
