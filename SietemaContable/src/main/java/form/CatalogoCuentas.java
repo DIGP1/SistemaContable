@@ -354,56 +354,63 @@ public class CatalogoCuentas extends javax.swing.JPanel {
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         // TODO add your handling code here:
-       try {
         
-        excel importE = new excel();
-        
-        
-        List<Object[]> datosExcel = importE.importarExcel(jTable1);
-        
-        if (datosExcel == null || datosExcel.isEmpty()) {
-           JOptionPane.showMessageDialog(this, "No se encontraron datos en el archivo Excel.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        DatabaseConnection dbConnection = new DatabaseConnection();
-        Connection conn = dbConnection.connect();
-        
-        if (conn != null) {
-            String sql = "INSERT INTO tbl_catalogo_de_cuentas (codigo, cuenta, saldo, empresa_id) VALUES (?, ?, NULL, ?)";
-            
-            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                for (Object[] fila : datosExcel) {
+                try {
+              
+                 if (jTable1.getRowCount() > 0) {
                     
-                 
-                    if (fila.length >= 2) {
-                        String codigo = fila[0].toString();  
-                        String cuenta = fila[1].toString();  
+                     int confirm = JOptionPane.showConfirmDialog(this, "La tabla ya contiene datos. ¿Desea agregar más cuentas?", "Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+
+                     if (confirm != JOptionPane.YES_OPTION) {
                         
-                       
-                        pstmt.setString(1, codigo);             
-                        pstmt.setString(2, cuenta);            
-                        pstmt.setInt(3, this.empresa_id);       
+                         return;
+                     }
+                 }
+    
+             
+                excel importE = new excel();
+                List<Object[]> datosExcel = importE.importarExcel(jTable1);
 
-                        pstmt.addBatch();  
-                    } else {
-                       
-                        System.out.println("ERROR");
-                    }
+                if (datosExcel == null || datosExcel.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "No se encontraron datos en el archivo Excel.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                    return;
                 }
-                
-               
-                pstmt.executeBatch();
-               JOptionPane.showMessageDialog(this, "Datos importados y guardados en la base de datos correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 
-            } catch (SQLException ex) {
+                DatabaseConnection dbConnection = new DatabaseConnection();
+                Connection conn = dbConnection.connect();
+
+                if (conn != null) {
+                    String sql = "INSERT INTO tbl_catalogo_de_cuentas (codigo, cuenta, saldo, empresa_id) VALUES (?, ?, NULL, ?)";
+
+                    try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                        for (Object[] fila : datosExcel) {
+                            if (fila.length >= 2) {
+                                String codigo = fila[0].toString();  
+                                String cuenta = fila[1].toString();  
+
+                                pstmt.setString(1, codigo);             
+                                pstmt.setString(2, cuenta);            
+                                pstmt.setInt(3, this.empresa_id);       
+
+                                pstmt.addBatch();  
+                            } else {
+                                System.out.println("ERROR");
+                            }
+                        }
+
+                        pstmt.executeBatch();
+                        JOptionPane.showMessageDialog(this, "Datos importados y guardados en la base de datos correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+                } else {
+                    System.out.println("Error al conectar a la base de datos.");
+                }
+            } catch (IOException ex) {
                 ex.printStackTrace();
             }
-        } else {
-            System.out.println("Error al conectar a la base de datos.");
-        }
-    } catch (IOException ex) {
-        ex.printStackTrace();
-    }
+
 
     }//GEN-LAST:event_jButton10ActionPerformed
 
