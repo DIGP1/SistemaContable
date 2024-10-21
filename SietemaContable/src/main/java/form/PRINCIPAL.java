@@ -27,6 +27,7 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
     private int empresa_id = 0;
     private String nombreEmpresa;
     private int idUser = 0;
+    private boolean mensajeMostrado = false;
     
     java.io.File transaccionFile = new File("src/main/java/resources/transaccion.png");
     java.io.File catalogoFile = new File("src/main/java/resources/catalogo.png");
@@ -506,6 +507,11 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+       if (!mensajeMostrado) {
+        JOptionPane.showMessageDialog(this, "Para administrar una empresa, haga doble clic en ella.", 
+                                      "Información", JOptionPane.INFORMATION_MESSAGE);
+        mensajeMostrado = true; 
+    }
         info.removeAll();
         jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         EmpresasR er = new EmpresasR(user.getText(), this, idUser);
@@ -514,6 +520,7 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
         info.add(er, BorderLayout.CENTER); // Agregar el componente en el centro
         info.revalidate();
         info.repaint();
+        
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButtonManageUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonManageUsersActionPerformed

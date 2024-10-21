@@ -16,6 +16,7 @@ logic\passwordmanagement\PasswordVerify.class
 form\Balance.class
 logic\queries\DeleteData.class
 form\EmpresasR.class
+form\Razones$3.class
 logic\EmpresaSelected.class
 logic\RegistrosContables.class
 form\EmpresasR$1.class
@@ -62,6 +63,7 @@ logic\DatabaseConnection.class
 form\BalanceGeneral.class
 form\SegLibroDiario$4.class
 form\EmpresasPanel$2.class
+form\Razones.class
 form\libroDiario$6.class
 form\PRINCIPAL.class
 logic\RegistrarUsuarios.class
@@ -77,6 +79,7 @@ form\CatalogoCuentas$2.class
 form\Register$1.class
 form\verificarAdmin$2.class
 logic\queries\UpdateData.class
+form\Razones$1.class
 logic\models\Usuarios.class
 form\EmpresasR$3.class
 form\login$4.class
@@ -92,6 +95,7 @@ form\SegLibroDiario$2.class
 form\CatalogoCuentas$8.class
 form\login$1.class
 logic\CellRenderer.class
+form\Razones$2.class
 form\login$3.class
 form\ManageUsers$2.class
 form\Register$3.class
