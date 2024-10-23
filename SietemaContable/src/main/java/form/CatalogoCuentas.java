@@ -385,7 +385,13 @@ public class CatalogoCuentas extends javax.swing.JPanel {
                     try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                         for (Object[] fila : datosExcel) {
                             if (fila.length >= 2) {
-                                String codigo = fila[0].toString();  
+                                
+                                String codigo;
+                                if (fila[0] instanceof Number) {
+                                    codigo = String.valueOf((int) ((Number) fila[0]).doubleValue()); // Convierte a int si es un número
+                                } else {
+                                    codigo = fila[0].toString(); // O simplemente a String
+                                } 
                                 String cuenta = fila[1].toString();  
 
                                 pstmt.setString(1, codigo);             

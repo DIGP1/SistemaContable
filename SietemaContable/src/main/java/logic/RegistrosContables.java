@@ -16,6 +16,10 @@ public class RegistrosContables {
         this.haber = haber;
         this.descripcion = descripcion;
     }
+    
+    public RegistrosContables(){
+    
+    }
 
     public String getFecha() {
         return fecha;

@@ -1,6 +1,8 @@
 package form;
 
+import java.awt.event.KeyEvent;
 import java.util.List;
+import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 
 import logic.CatalogoDeCuentasDatos;
@@ -77,6 +79,11 @@ public class login extends javax.swing.JFrame {
 
         password.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         password.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        password.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passwordActionPerformed(evt);
+            }
+        });
         password.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 passwordKeyReleased(evt);
@@ -267,6 +274,10 @@ public class login extends javax.swing.JFrame {
             password.setEchoChar('*');
         }
     }//GEN-LAST:event_jCheckBox1ActionPerformed
+
+    private void passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_passwordActionPerformed
 
     void makeLogin() {
         char[] pass1 = password.getPassword();

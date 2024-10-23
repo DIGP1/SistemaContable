@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import logic.RegistrosContables;
+import logic.models.BalanceGeneralClass;
 
 /**
  * @author angel
@@ -395,14 +397,19 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
         List<List<Object>> cuentas = catalogo.libroDiario(empresa_id);
 
         Map<String, List<List<Object>>> diccionario = new HashMap<>();
+        
+        BalanceGeneralClass balance = new BalanceGeneralClass();
 
         // Recorremos las cuentas y las organizamos en el diccionario
         for (List<Object> row : cuentas) {
             System.err.println("Cuentas" + row);
             var nombreCuenta = String.valueOf(row.get(2)) + " - " + (String) row.get(3); // Se asume que la cuenta está en la posición 3
             diccionario.computeIfAbsent(nombreCuenta, k -> new ArrayList<>()).add(row);
+            
+            balance.agregarValor(clasificarCuenta(String.valueOf(row.get(2))), row);
         }
-
+        
+        System.out.println(balance.obtenerTotales());
         // Recorrer las entradas del diccionario y mostrar los datos en el formulario
         for (Map.Entry<String, List<List<Object>>> entrada : diccionario.entrySet()) {
             String cuenta =  entrada.getKey();
@@ -453,7 +460,7 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
 
                 // Configurar los JLabel del formulario
                 libroMayorForm.nombreCuenta.setText(cuenta);
-                libroMayorForm.total.setText(String.valueOf(saldoTotal));
+                libroMayorForm.total.setText("$"+String.valueOf(saldoTotal));
                 // Añadir el formulario del libro mayor al JPanel 'info'
                 info.add(libroMayorForm);
             }
@@ -461,6 +468,26 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
         // Actualizar el panel para que muestre los cambios
         info.revalidate();
         info.repaint();
+    }
+    private static String clasificarCuenta(String valor) {
+        // Aseguramos que el número de cuenta tenga 8 dígitos
+        valor = String.format("%-8s", valor).replace(' ', '0');
+
+        int numero = Integer.parseInt(valor);
+
+        if (numero >= 11000000 && numero <= 11999999) {
+            return "Activo Circulante";
+        } else if (numero >= 12000000 && numero <= 12999999) {
+            return "Activo No Circulante";
+        } else if (numero >= 21000000 && numero <= 21999999) {
+            return "Pasivo Circulante";
+        } else if (numero >= 22000000 && numero <= 22999999) {
+            return "Pasivo No Circulante";
+        } else if (numero >= 31000000 && numero <= 31999999) {
+            return "Patrimonio";
+        } else {
+            return valor;
+        }
     }
 //GEN-LAST:event_jButton3ActionPerformed
 
