@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.swing.table.DefaultTableModel;
 import logic.models.BalanceGeneralClass;
 import logic.CatalogoDeCuentasDatos;
 
@@ -35,31 +36,64 @@ public class BalanceGeneral extends javax.swing.JPanel {
         
         BalanceGeneralClass balance = new BalanceGeneralClass();
         
+        DefaultTableModel activoModel = new DefaultTableModel(new String[]{"", "", "Activos", "",""}, 0);
+        DefaultTableModel pasivoModel = new DefaultTableModel(new String[]{"", "", "Pasivos", "",""}, 0);
+
         for (List<Object> row : cuentas) {
             //System.err.println("Cuentas" + row);
             var nombreCuenta = String.valueOf(row.get(2)) + " - " + (String) row.get(3); // Se asume que la cuenta está en la posición 3
             diccionario.computeIfAbsent(nombreCuenta, k -> new ArrayList<>()).add(row);
-            balance.agregarValor(String.valueOf(row.get(3)), row);
+            balance.agregarValor(clasificarCuenta(String.valueOf(row.get(2))), row);
         }
         
-        balance.obtenerTotales();
+        System.out.println(balance.obtenerBalance());
+        for (Object cuentaObj : balance.obtenerBalance()) {
+            List<Object> cuentaInfo = (List<Object>) cuentaObj;
+            
+            String tipoCuenta = (String) cuentaInfo.get(0); // El tipo de cuenta es el primer elemento
+            System.out.println("Tipo de cuenta: " + tipoCuenta);
+            
+            Object registros = cuentaInfo.get(1); // El segundo elemento son los registros o un mensaje
+
+            if (registros instanceof String) {
+                System.out.println(registros); // Si es un mensaje, lo imprimimos
+            } else if (registros instanceof List) {
+                List<Map<String, Object>> registrosList = (List<Map<String, Object>>) registros;
+                
+                activoModel.addRow(new Object[]{tipoCuenta,"","","",balance.obtenerTotales().get("Activo Circulante")});
+                
+                for (Map<String, Object> registro : registrosList) {
+                    // Accedemos a cada registro
+                    System.out.println("Cuenta: " + registro.get("Cuenta"));
+                    System.out.println("Código: " + registro.get("Codigo"));
+                    System.out.println("Debe: " + registro.get("Debe"));
+                    System.out.println("Haber: " + registro.get("Haber"));
+                    System.out.println("----------");
+                    activoModel.addRow(new Object[]{registro.get("Cuenta"),registro.get("Debe"),registro.get("Haber"),"",""});
+                }
+            }
+        }
+        jTableActivos.setModel(activoModel);
+        //System.err.println(balance.obtenerTotales());
     }
-    private static String clasificarCuenta(int num) {
-        
-        int numero = num;
+    private static String clasificarCuenta(String valor) {
+        // Aseguramos que el número de cuenta tenga 8 dígitos
+        valor = String.format("%-8s", valor).replace(' ', '0');
+
+        int numero = Integer.parseInt(valor);
 
         if (numero >= 11000000 && numero <= 11999999) {
-            return "Activo Corriente";
+            return "Activo Circulante";
         } else if (numero >= 12000000 && numero <= 12999999) {
-            return "Activo No Corriente";
+            return "Activo No Circulante";
         } else if (numero >= 21000000 && numero <= 21999999) {
-            return "Pasivo Corriente";
+            return "Pasivo Circulante";
         } else if (numero >= 22000000 && numero <= 22999999) {
-            return "Pasivo No Corriente";
+            return "Pasivo No Circulante";
         } else if (numero >= 31000000 && numero <= 31999999) {
             return "Patrimonio";
         } else {
-            return "";
+            return valor;
         }
     }
     /**
@@ -72,14 +106,13 @@ public class BalanceGeneral extends javax.swing.JPanel {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTableActivos = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        jTablePasivosPa = new javax.swing.JTable();
 
         setAutoscrolls(true);
-        setPreferredSize(new java.awt.Dimension(911, 390));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTableActivos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -98,9 +131,9 @@ public class BalanceGeneral extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jTableActivos);
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        jTablePasivosPa.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -119,7 +152,7 @@ public class BalanceGeneral extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(jTablePasivosPa);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -127,19 +160,19 @@ public class BalanceGeneral extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 712, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 589, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 599, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(28, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 502, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2))
-                .addContainerGap())
+                .addGap(51, 51, 51)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap(60, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -147,7 +180,7 @@ public class BalanceGeneral extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTableActivos;
+    private javax.swing.JTable jTablePasivosPa;
     // End of variables declaration//GEN-END:variables
 }

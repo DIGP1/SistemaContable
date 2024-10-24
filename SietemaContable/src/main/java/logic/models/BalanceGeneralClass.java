@@ -89,33 +89,82 @@ public class BalanceGeneralClass {
     }
 
     // Método para ver los totales de todas las cuentas, incluyendo sus nombres
-    public String obtenerTotales() {
-        StringBuilder sb = new StringBuilder();
+    public Map<String, Double> obtenerTotales() {
+        Map<String, Double> mapaTotales = new HashMap<>();
+
         for (String tipoCuenta : cuentas.keySet()) {
-            sb.append(tipoCuenta).append(":\n");
             double totalDebe = 0;
             double totalHaber = 0;
+
+            // Iterar sobre los registros contables asociados a cada tipo de cuenta
             for (RegistrosContables registro : cuentas.get(tipoCuenta)) {
-                sb.append("  Cuenta: ").append(registro.getCuenta()).append("\n")
-                  .append("    Debe: ").append(registro.getDebe()).append("\n")
-                  .append("    Haber: ").append(registro.getHaber()).append("\n");
-                    // Validación para registro.getDebe()
-                    double debeValor = (registro.getDebe() != null && !registro.getDebe().isEmpty()) 
-                                       ? Double.parseDouble(registro.getDebe()) 
+                double debeValor = (registro.getDebe() != null && !registro.getDebe().isEmpty()) 
+                                   ? Double.parseDouble(registro.getDebe()) 
+                                   : 0;
+
+                double haberValor = (registro.getHaber() != null && !registro.getHaber().isEmpty()) 
+                                    ? Double.parseDouble(registro.getHaber()) 
+                                    : 0;
+
+                totalDebe += debeValor;
+                totalHaber += haberValor;
+            }
+
+            // Calcular el total (Debe - Haber) y agregarlo al mapa
+            mapaTotales.put(tipoCuenta, totalDebe - totalHaber);
+        }
+
+        return mapaTotales;
+    }
+
+    public List<Object> obtenerBalance() {
+        List<Object> balanceGeneral = new ArrayList<>(); // Lista principal para almacenar el balance general
+
+        for (String tipoCuenta : cuentas.keySet()) {
+            List<Object> cuentaInfo = new ArrayList<>(); // Crear una lista para cada tipo de cuenta
+            cuentaInfo.add(tipoCuenta); // Agregar el tipo de cuenta como primer elemento
+
+            List<Map<String, Object>> registrosList = new ArrayList<>(); // Lista para los registros contables de esta cuenta
+
+            List<RegistrosContables> listaRegistros = cuentas.get(tipoCuenta);
+
+            if (listaRegistros.isEmpty()) {
+                cuentaInfo.add("No hay registros en esta categoría.");
+            } else {
+                for (RegistrosContables registro : listaRegistros) {
+                    // Crear un mapa para almacenar los atributos del registro
+                    Map<String, Object> registroMap = new HashMap<>();
+                    
+                    double debeValor = (registro.getDebe() != null && !registro.getDebe().isEmpty())
+                                       ? Double.parseDouble(registro.getDebe())
                                        : 0;
 
-                    // Validación para registro.getHaber()
-                    double haberValor = (registro.getHaber() != null && !registro.getHaber().isEmpty()) 
-                                        ? Double.parseDouble(registro.getHaber()) 
+                    double haberValor = (registro.getHaber() != null && !registro.getHaber().isEmpty())
+                                        ? Double.parseDouble(registro.getHaber())
                                         : 0;
-
-                    // Sumar los valores validados
-                    totalDebe += debeValor;
-                    totalHaber += haberValor;
-
+                    registroMap.put("Codigo", registro.getCodigo());
+                    registroMap.put("Cuenta", registro.getCuenta());
+                    
+                    if (debeValor < haberValor) {
+                        registroMap.put("Debe", "");
+                        registroMap.put("Haber", debeValor - haberValor);
+                    } else {
+                        registroMap.put("Debe", debeValor - haberValor);
+                        registroMap.put("Haber", "");
+                    }
+                    
+                    // Añadir el mapa del registro a la lista de registros
+                    registrosList.add(registroMap);
+                }
             }
-            sb.append("  Total (Debe - Haber): ").append(totalDebe - totalHaber).append("\n\n");
+
+            cuentaInfo.add(registrosList); // Añadir los registros a la información de la cuenta
+            balanceGeneral.add(cuentaInfo); // Añadir la información de la cuenta a la lista principal
         }
-        return sb.toString();
+
+        return balanceGeneral; // Devolver la lista estructurada
     }
+
+
+
 }
