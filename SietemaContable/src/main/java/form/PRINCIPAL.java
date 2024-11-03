@@ -38,6 +38,7 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
     java.io.File libroMayor = new File("src/main/java/resources/libro-de-contabilidad.png");
     java.io.File usersFile = new File("src/main/java/resources/users.png");
     java.io.File ratioFinanciero = new File("src/main/java/resources/ratio-financiero.png");
+    java.io.File balance = new File("src/main/java/resources/balance.png");
     
 
     public PRINCIPAL(int userId) {
@@ -75,6 +76,8 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
         jButton2.setEnabled(opcion);
         jButton3.setEnabled(opcion);
         jButton4.setEnabled(opcion);
+        jButton7.setEnabled(opcion);
+        jButton9.setEnabled(opcion);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -198,7 +201,7 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
         jButton7.setBackground(new java.awt.Color(58, 78, 122));
         jButton7.setFont(new java.awt.Font("Arial Narrow", 1, 20)); // NOI18N
         jButton7.setForeground(new java.awt.Color(255, 255, 255));
-        jButton7.setIcon(new javax.swing.ImageIcon(libroMayor.getAbsolutePath()));
+        jButton7.setIcon(new javax.swing.ImageIcon(balance.getAbsolutePath()));
         jButton7.setText("Balance general");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

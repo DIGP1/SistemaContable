@@ -262,7 +262,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new javax.swing.ImageIcon(libroMayor.getAbsolutePath())" type="code"/>
+              <Connection code="new javax.swing.ImageIcon(balance.getAbsolutePath())" type="code"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Balance general"/>
           </Properties>
