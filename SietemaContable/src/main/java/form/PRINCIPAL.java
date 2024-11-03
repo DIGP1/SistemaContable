@@ -37,6 +37,7 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
     java.io.File libroDiario = new File("src/main/java/resources/directorio.png");
     java.io.File libroMayor = new File("src/main/java/resources/libro-de-contabilidad.png");
     java.io.File usersFile = new File("src/main/java/resources/users.png");
+    java.io.File ratioFinanciero = new File("src/main/java/resources/ratio-financiero.png");
     
 
     public PRINCIPAL(int userId) {
@@ -94,6 +95,7 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
         jButton8 = new javax.swing.JButton();
         jButtonManageUsers = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -103,7 +105,7 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
         info = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(1367, 739));
+        setMinimumSize(new java.awt.Dimension(1367, 800));
         setResizable(false);
         getContentPane().setLayout(null);
 
@@ -204,6 +206,17 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
             }
         });
 
+        jButton9.setBackground(new java.awt.Color(58, 78, 122));
+        jButton9.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
+        jButton9.setForeground(new java.awt.Color(255, 255, 255));
+        jButton9.setIcon(new javax.swing.ImageIcon(ratioFinanciero.getAbsolutePath()));
+        jButton9.setText("Ratio de endeudamiento");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -226,7 +239,10 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
                             .addComponent(jButton4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE)
-                            .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE))))
+                            .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE)))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(7, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -250,11 +266,13 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(122, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(115, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel3);
-        jPanel3.setBounds(0, 0, 310, 700);
+        jPanel3.setBounds(0, 0, 310, 790);
 
         jPanel4.setBackground(new java.awt.Color(58, 78, 122));
         jPanel4.setForeground(new java.awt.Color(102, 102, 102));
@@ -326,7 +344,7 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
         );
 
         getContentPane().add(jPanel2);
-        jPanel2.setBounds(310, 0, 1124, 103);
+        jPanel2.setBounds(310, 0, 1132, 103);
 
         jScrollPane1.setBackground(new java.awt.Color(0, 0, 0));
         jScrollPane1.setBorder(null);
@@ -349,7 +367,7 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
         jScrollPane1.setViewportView(info);
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(310, 100, 1040, 600);
+        jScrollPane1.setBounds(310, 100, 1030, 690);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -590,6 +608,18 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
         info.repaint();
     }//GEN-LAST:event_jButton7ActionPerformed
 
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        // TODO add your handling code here:
+        info.removeAll();
+        jScrollPane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        
+        Razones razones = new Razones();
+        info.setLayout(new BorderLayout()); // Usar un BorderLayout
+        info.add(razones, BorderLayout.CENTER); // Agregar el componente en el centro
+        info.revalidate();
+        info.repaint();
+    }//GEN-LAST:event_jButton9ActionPerformed
+
     public void pressButton(){
         jButton2.doClick();
     }
@@ -608,6 +638,7 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JButton jButtonManageUsers;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

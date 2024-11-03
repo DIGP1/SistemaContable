@@ -1,5 +1,6 @@
 form\LibroMayor$1.class
 form\CatalogoCuentas$6.class
+form\login$5.class
 form\CatalogoCuentas$13.class
 form\EmpresasR$4.class
 logic\models\Department.class
@@ -34,6 +35,7 @@ form\libroDiario$7.class
 form\EmpresasPanel$4.class
 logic\valoresBusqueda.class
 form\verificarAdmin.class
+form\PRINCIPAL$11.class
 form\CatalogoCuentas$10.class
 form\Empresas$2.class
 form\Registro_cuenta$3.class
@@ -43,6 +45,7 @@ logic\models\Giros.class
 form\EmpresasPanel$7.class
 logic\cargarLibroDiario.class
 form\EmpresasR$2.class
+form\PRINCIPAL$12.class
 form\PRINCIPAL$6.class
 logic\CatalogoDeCuentasDatos.class
 form\CatalogoCuentas$1.class
@@ -62,10 +65,12 @@ logic\excel$1.class
 logic\DatabaseConnection.class
 form\BalanceGeneral.class
 form\SegLibroDiario$4.class
+form\BalanceGeneral$2.class
 form\EmpresasPanel$2.class
 form\Razones.class
 form\libroDiario$6.class
 form\PRINCIPAL.class
+logic\models\BalanceGeneralClass.class
 logic\RegistrarUsuarios.class
 form\Registro_cuenta$1.class
 form\validarAdmin$1.class
@@ -77,6 +82,7 @@ form\PRINCIPAL$10.class
 form\LibroMayor.class
 form\CatalogoCuentas$2.class
 form\Register$1.class
+form\BalanceGeneral$1.class
 form\verificarAdmin$2.class
 logic\queries\UpdateData.class
 form\Razones$1.class
