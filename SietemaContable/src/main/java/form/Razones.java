@@ -503,10 +503,8 @@ public class Razones extends javax.swing.JPanel {
         return "0%";
     }
     
-    String formatDecimal(double unformatedValue){
-        DecimalFormat decimalFormat = new DecimalFormat("#.##");
-        
-        return decimalFormat.format(unformatedValue);
+    String formatDecimal(double unformatedValue){        
+        return new DecimalFormat("#.##").format(unformatedValue);
     }
 
     void allowOnlyNumbersAndDecimals(JTextField item) {
