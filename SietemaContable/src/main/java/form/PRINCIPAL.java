@@ -31,14 +31,14 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
     private int idUser = 0;
     private boolean mensajeMostrado = false;
     
-    java.io.File transaccionFile = new File("src/main/java/resources/transaccion.png");
-    java.io.File catalogoFile = new File("src/main/java/resources/catalogo.png");
+    java.io.File transa = new File("src/main/java/resources/transaccion.png");
+    java.io.File cata = new File("src/main/java/resources/catalogo.png");
     java.io.File trabajoEnEquipoFile = new File("src/main/java/resources/trabajo-en-equipo (1).png");
-    java.io.File libroDiario = new File("src/main/java/resources/directorio.png");
+    java.io.File libroDiario = new File("src/main/java/resources/diario.png");
     java.io.File libroMayor = new File("src/main/java/resources/libro-de-contabilidad.png");
     java.io.File usersFile = new File("src/main/java/resources/users.png");
-    java.io.File ratioFinanciero = new File("src/main/java/resources/ratio-financiero.png");
-    java.io.File balance = new File("src/main/java/resources/balance.png");
+    java.io.File ratio = new File("src/main/java/resources/ratio.png");
+    java.io.File balance = new File("src/main/java/resources/hoja-de-balance.png");
     
 
     public PRINCIPAL(int userId) {
@@ -115,9 +115,9 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
         jPanel3.setBackground(new java.awt.Color(9, 29, 54));
 
         jButton1.setBackground(new java.awt.Color(58, 78, 122));
-        jButton1.setFont(new java.awt.Font("Arial Narrow", 1, 20)); // NOI18N
+        jButton1.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setIcon(new javax.swing.ImageIcon(transaccionFile.getAbsolutePath()));
+        jButton1.setIcon(new javax.swing.ImageIcon(transa.getAbsolutePath()));
         jButton1.setText("Registrar transacción");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -126,9 +126,9 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
         });
 
         jButton2.setBackground(new java.awt.Color(58, 78, 122));
-        jButton2.setFont(new java.awt.Font("Arial Narrow", 1, 20)); // NOI18N
+        jButton2.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setIcon(new javax.swing.ImageIcon(catalogoFile.getAbsolutePath()));
+        jButton2.setIcon(new javax.swing.ImageIcon(cata.getAbsolutePath()));
         jButton2.setText("Catalogo de cuentas");
         jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -142,7 +142,7 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
         });
 
         jButton3.setBackground(new java.awt.Color(58, 78, 122));
-        jButton3.setFont(new java.awt.Font("Arial Narrow", 1, 20)); // NOI18N
+        jButton3.setFont(new java.awt.Font("Arial Narrow", 1, 16)); // NOI18N
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setIcon(new javax.swing.ImageIcon(libroMayor.getAbsolutePath()));
         jButton3.setText("Libro mayor");
@@ -153,7 +153,7 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
         });
 
         jButton4.setBackground(new java.awt.Color(58, 78, 122));
-        jButton4.setFont(new java.awt.Font("Arial Narrow", 1, 20)); // NOI18N
+        jButton4.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
         jButton4.setForeground(new java.awt.Color(255, 255, 255));
         jButton4.setIcon(new javax.swing.ImageIcon(libroDiario.getAbsolutePath()));
         jButton4.setText("Libro diario");
@@ -176,7 +176,7 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
         user.setForeground(new java.awt.Color(255, 255, 255));
 
         jButton8.setBackground(new java.awt.Color(58, 78, 122));
-        jButton8.setFont(new java.awt.Font("Arial Narrow", 1, 20)); // NOI18N
+        jButton8.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
         jButton8.setForeground(new java.awt.Color(255, 255, 255));
         jButton8.setIcon(new javax.swing.ImageIcon(trabajoEnEquipoFile.getAbsolutePath()));
         jButton8.setText("Mis Empresas");
@@ -188,7 +188,7 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
         });
 
         jButtonManageUsers.setBackground(new java.awt.Color(58, 78, 122));
-        jButtonManageUsers.setFont(new java.awt.Font("Arial Narrow", 1, 20)); // NOI18N
+        jButtonManageUsers.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
         jButtonManageUsers.setForeground(new java.awt.Color(255, 255, 255));
         jButtonManageUsers.setIcon(new javax.swing.ImageIcon(usersFile.getAbsolutePath()));
         jButtonManageUsers.setText("Gestión de usuarios");
@@ -212,7 +212,7 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
         jButton9.setBackground(new java.awt.Color(58, 78, 122));
         jButton9.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
         jButton9.setForeground(new java.awt.Color(255, 255, 255));
-        jButton9.setIcon(new javax.swing.ImageIcon(ratioFinanciero.getAbsolutePath()));
+        jButton9.setIcon(new javax.swing.ImageIcon(ratio.getAbsolutePath()));
         jButton9.setText("Ratio de endeudamiento");
         jButton9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -227,26 +227,31 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(user, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jButtonManageUsers, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE)
-                            .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE)))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(user, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(7, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonManageUsers, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(31, 31, 31))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(25, 25, 25))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -259,19 +264,19 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
                 .addComponent(jButton8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButtonManageUsers)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 174, Short.MAX_VALUE)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(100, 100, 100)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton3)
+                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(47, 47, 47)
+                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(115, Short.MAX_VALUE))
+                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(92, 92, 92))
         );
 
         getContentPane().add(jPanel3);
@@ -347,7 +352,7 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
         );
 
         getContentPane().add(jPanel2);
-        jPanel2.setBounds(310, 0, 1132, 103);
+        jPanel2.setBounds(310, 0, 1124, 103);
 
         jScrollPane1.setBackground(new java.awt.Color(0, 0, 0));
         jScrollPane1.setBorder(null);
