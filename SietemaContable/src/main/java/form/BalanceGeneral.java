@@ -4,6 +4,7 @@
  */
 package form;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,7 +29,9 @@ public class BalanceGeneral extends javax.swing.JPanel {
         initComponents();
         this.empresa_id = id_empresa;
         this.nombreEmpresa = nombreEmpresa;
-        
+        double totalactivo = 0;
+        double totalpasivo = 0;
+        double patrimonio = 0;
         CatalogoDeCuentasDatos catalogo = new CatalogoDeCuentasDatos();
         List<List<Object>> cuentas = catalogo.libroDiario(empresa_id);
         
@@ -36,9 +39,11 @@ public class BalanceGeneral extends javax.swing.JPanel {
         
         BalanceGeneralClass balance = new BalanceGeneralClass();
         
-        DefaultTableModel activoModel = new DefaultTableModel(new String[]{"", "", "Activos", "",""}, 0);
-        DefaultTableModel pasivoModel = new DefaultTableModel(new String[]{"", "", "Pasivos", "",""}, 0);
-
+        LocalDate fechaActual = LocalDate.now();
+        System.out.println("Fecha actual: " + fechaActual);
+        
+        DefaultTableModel activoModel = new DefaultTableModel(new String[]{"Balance general", "", nombreEmpresa, "", String.valueOf(fechaActual)}, 0);
+        
         for (List<Object> row : cuentas) {
             //System.err.println("Cuentas" + row);
             var nombreCuenta = String.valueOf(row.get(2)) + " - " + (String) row.get(3); // Se asume que la cuenta está en la posición 3
@@ -59,8 +64,25 @@ public class BalanceGeneral extends javax.swing.JPanel {
                 System.out.println(registros); // Si es un mensaje, lo imprimimos
             } else if (registros instanceof List) {
                 List<Map<String, Object>> registrosList = (List<Map<String, Object>>) registros;
-                
-                activoModel.addRow(new Object[]{tipoCuenta,"","","",balance.obtenerTotales().get("Activo Circulante")});
+
+                if (tipoCuenta.contentEquals("Activo Circulante")) {
+                    totalactivo += balance.obtenerTotales().get("Activo Circulante");
+                    totalactivo += balance.obtenerTotales().get("Activo No Circulante");                    
+                    activoModel.addRow(new Object[]{"<html><b>Activo</b></html>","","","","<html><b>"+Math.abs(totalactivo)+"</b></html>"});   
+                    activoModel.addRow(new Object[]{"<html><b>&nbsp;&nbsp;"+tipoCuenta+"</b></html>","","",Math.abs(balance.obtenerTotales().get("Activo Circulante")),""});   
+                }else if (tipoCuenta.contentEquals("Pasivo Circulante")) {
+                    totalpasivo += balance.obtenerTotales().get("Pasivo Circulante");
+                    totalpasivo += balance.obtenerTotales().get("Pasivo No Circulante");
+                    activoModel.addRow(new Object[]{"<html><b>Pasivo</b></html>","","","","<html><b>"+Math.abs(totalpasivo)+"</b></html>"});   
+                    activoModel.addRow(new Object[]{"<html><b>&nbsp;&nbsp;"+tipoCuenta+"</b></html>","","",Math.abs(balance.obtenerTotales().get("Pasivo Circulante")),""});
+                }else if (tipoCuenta.contentEquals("Patrimonio")) {
+                    patrimonio += balance.obtenerTotales().get("Patrimonio");
+                    activoModel.addRow(new Object[]{"<html><b>"+tipoCuenta+"</b></html>","","","","<html><b>"+Math.abs(balance.obtenerTotales().get("Patrimonio"))+"</b></html>"});
+                }else if (tipoCuenta.contentEquals("Activo No Circulante")) {
+                    activoModel.addRow(new Object[]{"<html><b>&nbsp;&nbsp;"+tipoCuenta+"</b></html>","","",Math.abs(balance.obtenerTotales().get("Activo No Circulante")),""});
+                }else if (tipoCuenta.contentEquals("Pasivo No Circulante")) {
+                    activoModel.addRow(new Object[]{"<html><b>&nbsp;&nbsp;"+tipoCuenta+"</b></html>","","",Math.abs(balance.obtenerTotales().get("Pasivo No Circulante")),""});
+                }
                 
                 for (Map<String, Object> registro : registrosList) {
                     // Accedemos a cada registro
@@ -69,13 +91,27 @@ public class BalanceGeneral extends javax.swing.JPanel {
                     System.out.println("Debe: " + registro.get("Debe"));
                     System.out.println("Haber: " + registro.get("Haber"));
                     System.out.println("----------");
-                    activoModel.addRow(new Object[]{registro.get("Cuenta"),registro.get("Debe"),registro.get("Haber"),"",""});
+                    activoModel.addRow(new Object[]{"<html>&nbsp;&nbsp;&nbsp;&nbsp;"+registro.get("Cuenta")+"</b></html>",convertirPositivo(registro.get("Debe")),convertirPositivo(registro.get("Haber")),"",""});
                 }
+                if (tipoCuenta.contentEquals("Patrimonio")) {
+                    activoModel.addRow(new Object[]{"<html><b>Total pasivo + patrimonio</b></html>","","","","<html><b>"+Math.abs(totalpasivo + patrimonio)+"</b></html>"});
+                }
+                
             }
         }
         jTableActivos.setModel(activoModel);
         //System.err.println(balance.obtenerTotales());
     }
+    
+    private Object convertirPositivo(Object valor) {
+        if (valor == null || valor.equals("")) {
+            return ""; // Retornar vacío si no hay valor
+        }
+        // Si es numérico, convertir a Double y aplicar Math.abs()
+        return Math.abs(Double.parseDouble(valor.toString()));
+    }
+
+    
     private static String clasificarCuenta(String valor) {
         // Aseguramos que el número de cuenta tenga 8 dígitos
         valor = String.format("%-8s", valor).replace(' ', '0');
@@ -107,8 +143,6 @@ public class BalanceGeneral extends javax.swing.JPanel {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableActivos = new javax.swing.JTable();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTablePasivosPa = new javax.swing.JTable();
 
         setAutoscrolls(true);
 
@@ -133,54 +167,27 @@ public class BalanceGeneral extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(jTableActivos);
 
-        jTablePasivosPa.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "Pasivos", "", "", "", ""
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, true
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane2.setViewportView(jTablePasivosPa);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 589, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 599, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(28, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 955, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(51, 51, 51)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap(60, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 569, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTableActivos;
-    private javax.swing.JTable jTablePasivosPa;
     // End of variables declaration//GEN-END:variables
 }

@@ -485,9 +485,9 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
                     model.addRow(new Object[]{
                         fecha, 
                         descripcion, 
-                        debe != 0.0 ? "$" + debe : "", // Si 'debe' es diferente de 0.0, lo muestra, de lo contrario, deja el campo vacío
-                        haber != 0.0 ? "$" + haber : "", // Si 'haber' es diferente de 0.0, lo muestra, de lo contrario, deja el campo vacío
-                        "$" + saldoTotal// El saldo siempre se muestra
+                        debe != 0.0 ? "$" + Math.abs(debe) : "", // Si 'debe' es diferente de 0.0, lo muestra, de lo contrario, deja el campo vacío
+                        haber != 0.0 ? "$" + Math.abs(haber) : "", // Si 'haber' es diferente de 0.0, lo muestra, de lo contrario, deja el campo vacío
+                        "$" + Math.abs(saldoTotal)// El saldo siempre se muestra
                     });
                 }
 
@@ -496,7 +496,7 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
 
                 // Configurar los JLabel del formulario
                 libroMayorForm.nombreCuenta.setText(cuenta);
-                libroMayorForm.total.setText("$"+String.valueOf(saldoTotal));
+                libroMayorForm.total.setText("$"+String.valueOf(Math.abs(saldoTotal)));
                 // Añadir el formulario del libro mayor al JPanel 'info'
                 info.add(libroMayorForm);
             }
@@ -606,6 +606,7 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
         BalanceGeneral bl = new BalanceGeneral(empresa_id, nombreEmpresa);
         //bl.setSize(info.getSize()); // Establecer el tamaño igual al tamaño del contenedor
         info.setLayout(new BorderLayout()); // Usar un BorderLayout
+        bl.setSize(info.getSize());
         info.add(bl, BorderLayout.CENTER); // Agregar el componente en el centro
         info.revalidate();
         info.repaint();
