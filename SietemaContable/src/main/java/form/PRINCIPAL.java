@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import logic.RegistrosContables;
 import logic.models.BalanceGeneralClass;
+import logic.models.EstadoResultado;
 
 /**
  * @author angel
@@ -78,6 +79,7 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
         jButton4.setEnabled(opcion);
         jButton7.setEnabled(opcion);
         jButton9.setEnabled(opcion);
+        btnResultado.setEnabled(opcion);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -99,6 +101,7 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
         jButtonManageUsers = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
+        btnResultado = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -220,6 +223,17 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
             }
         });
 
+        btnResultado.setBackground(new java.awt.Color(58, 78, 122));
+        btnResultado.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
+        btnResultado.setForeground(new java.awt.Color(255, 255, 255));
+        btnResultado.setIcon(new javax.swing.ImageIcon(ratio.getAbsolutePath()));
+        btnResultado.setText("Estado de Resultado");
+        btnResultado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResultadoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -250,7 +264,8 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnResultado, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(25, 25, 25))))
         );
         jPanel3Layout.setVerticalGroup(
@@ -264,7 +279,7 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
                 .addComponent(jButton8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButtonManageUsers)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 174, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 165, Short.MAX_VALUE)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -276,7 +291,9 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
                 .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(92, 92, 92))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnResultado, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(37, 37, 37))
         );
 
         getContentPane().add(jPanel3);
@@ -629,6 +646,17 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
         info.repaint();
     }//GEN-LAST:event_jButton9ActionPerformed
 
+    private void btnResultadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResultadoActionPerformed
+        info.removeAll();
+        jScrollPane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        
+        estadoResultado estado = new estadoResultado(empresa_id);
+        info.setLayout(new BorderLayout()); // Usar un BorderLayout
+        info.add(estado, BorderLayout.CENTER); // Agregar el componente en el centro
+        info.revalidate();
+        info.repaint();
+    }//GEN-LAST:event_btnResultadoActionPerformed
+
     public void pressButton(){
         jButton2.doClick();
     }
@@ -638,6 +666,7 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnResultado;
     private javax.swing.JPanel info;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

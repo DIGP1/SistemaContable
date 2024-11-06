@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import logic.models.EstadoResultado;
 
 public class CatalogoDeCuentasDatos {
     private DatabaseConnection dbConnection = new DatabaseConnection();
@@ -637,4 +638,91 @@ public class CatalogoDeCuentasDatos {
             System.out.println("Error al guardar la transacción en la tabla CATALOGO_CUENTAS: " + e.getMessage());
         }
     }
+    
+    public EstadoResultado obtenerEstadoResultado(int empresa_id) {
+        String sql = "SELECT * FROM tbl_estado_resultado WHERE id_empresa = " + empresa_id;
+        EstadoResultado estado = new EstadoResultado();
+
+        try {
+            Connection conn = dbConnection.connect();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+
+            if (rs.next()) {
+                estado.setId(rs.getInt("id"));
+                estado.setUtilidad_bruta(rs.getDouble("utilidad_bruta"));
+                estado.setUtilidad_operativa(rs.getDouble("utilidad_operativa"));
+                estado.setUtilidad_antes_impuestos(rs.getDouble("utilidad_antes_impuestos"));
+                estado.setUtilidad_neta(rs.getDouble("utilidad_neta"));
+                estado.setEmpresa_id(rs.getInt("id_empresa"));
+                rs.close();
+                stmt.close();
+                return estado;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    public void insertarEstadoResultado(EstadoResultado estado) {
+        String sql = "INSERT INTO tbl_estado_resultado (utilidad_bruta, utilidad_operativa, utilidad_antes_impuestos, utilidad_neta, id_empresa) "
+                   + "VALUES (?, ?, ?, ?, ?)";
+
+        try {
+            Connection conn = dbConnection.connect();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+
+            // Asignar valores a los parámetros
+            pstmt.setDouble(1, estado.getUtilidad_bruta());
+            pstmt.setDouble(2, estado.getUtilidad_operativa());
+            pstmt.setDouble(3, estado.getUtilidad_antes_impuestos());
+            pstmt.setDouble(4, estado.getUtilidad_neta());
+            pstmt.setInt(5, estado.getEmpresa_id());
+
+            // Ejecutar la consulta de inserción
+            int rowsAffected = pstmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                JOptionPane.showMessageDialog(null, "Inserción realizada con éxito!!!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            }
+
+            pstmt.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al insertar los datos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }
+
+    public void modificarEstadoResultado(EstadoResultado estado) {
+        String sql = "UPDATE tbl_estado_resultado SET utilidad_bruta = ?, utilidad_operativa = ?, utilidad_antes_impuestos = ?, utilidad_neta = ? "
+                   + "WHERE id_empresa = ?";
+
+        try {
+            Connection conn = dbConnection.connect();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+
+            // Asignar valores a los parámetros
+            pstmt.setDouble(1, estado.getUtilidad_bruta());
+            pstmt.setDouble(2, estado.getUtilidad_operativa());
+            pstmt.setDouble(3, estado.getUtilidad_antes_impuestos());
+            pstmt.setDouble(4, estado.getUtilidad_neta());
+            pstmt.setInt(5, estado.getEmpresa_id());
+
+            // Ejecutar la consulta de actualización
+            int rowsAffected = pstmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                JOptionPane.showMessageDialog(null, "Modificación realizada con éxito!!!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            }
+
+            pstmt.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al modificar los datos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }
+
+
+
 }

@@ -29,6 +29,7 @@ logic\InicioSesion.class
 form\ManageUsers$1.class
 form\EmpresasPanel$1.class
 form\CatalogoCuentas.class
+form\estadoResultado.class
 form\Registro_cuenta.class
 logic\queries\LoadStaticData.class
 logic\exportarPDF.class
@@ -44,6 +45,7 @@ form\verificarAdmin$1.class
 form\libroDiario$4.class
 logic\models\Giros.class
 form\EmpresasPanel$7.class
+logic\models\EstadoResultado.class
 logic\cargarLibroDiario.class
 form\EmpresasR$2.class
 form\PRINCIPAL$12.class
@@ -57,6 +59,7 @@ form\CatalogoCuentas$7.class
 form\EmpresasPanel$3.class
 form\Razones$13.class
 logic\models\Empresa.class
+form\PRINCIPAL$13.class
 form\Razones$14.class
 form\CatalogoCuentas$12.class
 form\EmpresasPanel$8.class
@@ -70,7 +73,6 @@ logic\excel$1.class
 logic\DatabaseConnection.class
 form\BalanceGeneral.class
 form\SegLibroDiario$4.class
-form\BalanceGeneral$2.class
 form\EmpresasPanel$2.class
 form\Razones$7.class
 form\Razones.class
@@ -78,6 +80,7 @@ form\libroDiario$6.class
 form\PRINCIPAL.class
 logic\models\BalanceGeneralClass.class
 logic\RegistrarUsuarios.class
+logic\FiltroNumeros.class
 form\Registro_cuenta$1.class
 form\Razones$15.class
 form\validarAdmin$1.class
@@ -85,6 +88,7 @@ com\mycompany\sietemacontable\Prueba.class
 form\EmpresasPanel$5.class
 com\mycompany\sietemacontable\SietemaContable.class
 form\Empresas$1.class
+form\estadoResultado$1.class
 form\PRINCIPAL$10.class
 form\LibroMayor.class
 form\CatalogoCuentas$2.class
