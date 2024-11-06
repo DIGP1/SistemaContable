@@ -4,18 +4,14 @@
  */
 package form;
 
-import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.*;
+
 import javax.swing.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -822,6 +818,32 @@ public class Razones extends javax.swing.JPanel {
             tabla.addCell("Evalúa la proporción de deuda a largo plazo. Un valor moderado puede ser beneficioso para la estabilidad.");
 
             document.add(tabla);
+
+            // Crear una tabla con dos celdas para las firmas
+            PdfPTable tablaFirmas = new PdfPTable(3);
+            tablaFirmas.setWidthPercentage(100);
+            tablaFirmas.setSpacingBefore(150f);
+
+            // Celda para la firma del auditor interno
+            PdfPCell celdaFirmaAuditor = new PdfPCell(new Paragraph("Auditor Interno", FontFactory.getFont(FontFactory.TIMES_ROMAN, 12)));
+            celdaFirmaAuditor.setHorizontalAlignment(Element.ALIGN_LEFT);
+            celdaFirmaAuditor.setBorder(PdfPCell.NO_BORDER);
+            tablaFirmas.addCell(celdaFirmaAuditor);
+
+            // Celda para la firma del contador
+            PdfPCell celdaFirmaContador = new PdfPCell(new Paragraph("Contador", FontFactory.getFont(FontFactory.TIMES_ROMAN, 12)));
+            celdaFirmaContador.setHorizontalAlignment(Element.ALIGN_CENTER);
+            celdaFirmaContador.setBorder(PdfPCell.NO_BORDER);
+            tablaFirmas.addCell(celdaFirmaContador);
+
+            // Celda para la firma del director de recursos financieros
+            PdfPCell celdaFirmaDirectorInterno = new PdfPCell(new Paragraph("Director de Recursos Financieros", FontFactory.getFont(FontFactory.TIMES_ROMAN, 12)));
+            celdaFirmaDirectorInterno.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            celdaFirmaDirectorInterno.setBorder(PdfPCell.NO_BORDER);
+            tablaFirmas.addCell(celdaFirmaDirectorInterno);
+
+            // Agregar la tabla de firmas al documento
+            document.add(tablaFirmas);
 
             document.close();
 
