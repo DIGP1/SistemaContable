@@ -4,24 +4,47 @@
  */
 package logic;
 
+import java.io.File;
+import java.security.MessageDigest;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.net.URL;
-import java.io.File;
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author Diego
+ */
 public class DatabaseConnection {
     private Connection conn = null;
+    private String ruta = "";
 
     public Connection connect() {
+    boolean connected = false;
+    while (!connected) {
         try {
-            File dbFile = new File("src/main/java/resources/catalogo.db");
-            String jdbcUrl = "jdbc:sqlite:" + dbFile.getAbsolutePath();
+            // Obtener la ubicación del directorio del archivo ejecutable
+            String directory = System.getProperty("user.dir");
             
+            // Construir la ruta absoluta de la base de datos
+            String dbPath = directory + File.separator + "Data" + File.separator + "catalogo.db";
+            ruta = dbPath;
+            
+            
+            // Obtener la URL JDBC para la conexión
+            String jdbcUrl = "jdbc:sqlite:" + dbPath;
+            
+            // Establecer la conexión
             conn = DriverManager.getConnection(jdbcUrl);
-            System.out.println("Conexión a SQLite establecida.");
+            connected = true; // Si llega hasta aquí sin lanzar una excepción, la conexión fue exitosa
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            int option = JOptionPane.showConfirmDialog(null, ruta, ruta, JOptionPane.OK_CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
+            if (option == JOptionPane.CANCEL_OPTION) {
+                System.exit(0);
+            }
+            System.out.println("Error en Conexión: " + e.getMessage());
         }
-        return conn;
+    }
+    return conn;
     }
 }
