@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 /**
  * @author angel
@@ -17,9 +18,17 @@ public class Razones extends javax.swing.JPanel {
     /**
      * Creates new form Razones
      */
-    public Razones() {
+    
+    int empresa_id = 0;
+    String nombreEmpresa;
+    boolean makeFieldsEditable = false;
+    
+    public Razones(int empresa_id, String nombreEmpresa) {
+        this.empresa_id = empresa_id;
+        this.nombreEmpresa = nombreEmpresa;
         initComponents();
         myInitComponents();
+        loadItems();
     }
 
     /**
@@ -409,14 +418,51 @@ public class Razones extends javax.swing.JPanel {
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
         // TODO add your handling code here:
         if (jRadioButton1.isSelected()) {
+            this.makeFieldsEditable = false;
             jRadioButton2.setSelected(false);
+            
+            total_act.setEditable(makeFieldsEditable);
+            totalPas.setEditable(makeFieldsEditable);
+            jTextField2.setEditable(makeFieldsEditable);
+            jTextField1.setEditable(makeFieldsEditable);
+            jTextField3.setEditable(makeFieldsEditable);
+            jTextField4.setEditable(makeFieldsEditable);
+            jTextField5.setEditable(makeFieldsEditable);
+            jTextField6.setEditable(makeFieldsEditable);
+            jTextField7.setEditable(makeFieldsEditable);
+            jTextField8.setEditable(makeFieldsEditable);
+
+            mostrarCalculoDeRazones();
         }
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
         // TODO add your handling code here:
         if (jRadioButton2.isSelected()) {
+            this.makeFieldsEditable = true;
             jRadioButton1.setSelected(false);
+
+            total_act.setEditable(makeFieldsEditable);
+            totalPas.setEditable(makeFieldsEditable);
+            jTextField2.setEditable(makeFieldsEditable);
+            jTextField1.setEditable(makeFieldsEditable);
+            jTextField3.setEditable(makeFieldsEditable);
+            jTextField4.setEditable(makeFieldsEditable);
+            jTextField5.setEditable(makeFieldsEditable);
+            jTextField6.setEditable(makeFieldsEditable);
+            jTextField7.setEditable(makeFieldsEditable);
+            jTextField8.setEditable(makeFieldsEditable);
+            
+            total_act.setText("");
+            totalPas.setText("");
+            jTextField2.setText("");
+            jTextField1.setText("");
+            jTextField3.setText("");
+            jTextField4.setText("");
+            jTextField5.setText("");
+            jTextField6.setText("");
+            jTextField7.setText("");
+            jTextField8.setText("");
         }
     }//GEN-LAST:event_jRadioButton2ActionPerformed
 
@@ -515,7 +561,52 @@ public class Razones extends javax.swing.JPanel {
             }
         });
     }
+    
+    void mostrarCalculoDeRazones(){        
+        ArrayList<Double> totalesList = new BalanceGeneral(this.empresa_id, this.nombreEmpresa).getTotalesList();
 
+        // Razon de deuda:
+        total_act.setText(formatDecimal(totalesList.get(5))); // Activo total
+        totalPas.setText(formatDecimal(totalesList.get(6))); // Pasivo total
+        
+        double patrimonioNeto = totalesList.get(5) - totalesList.get(6);
+        
+        // Concentracion de deuda:
+        jTextField2.setText(formatDecimal(totalesList.get(6))); // Pasivo total
+        jTextField1.setText(formatDecimal(patrimonioNeto)); // Patrimonio neto
+        
+        // Endeudamiento total:
+        jTextField3.setText(formatDecimal(totalesList.get(6))); // Pasivo total
+        jTextField4.setText(formatDecimal(patrimonioNeto +  totalesList.get(6))); // Patrimonio neto + total de pasivos
+        
+        // Endeudamiento a corto plazo:
+        jTextField6.setText(formatDecimal(totalesList.get(2))); // Pasivo a corto plazo, o corriente
+        jTextField5.setText(formatDecimal(totalesList.get(6))); // Total de pasivos
+        
+        // Endeudamiento a largo plazo:
+        jTextField7.setText(formatDecimal(totalesList.get(3))); // Pasivo a largo plazo, o no corriente
+        jTextField8.setText(formatDecimal(totalesList.get(6))); // Total de pasivos
+    }
+
+    void loadItems(){
+        this.makeFieldsEditable = false;
+        jRadioButton2.setSelected(false);
+
+        total_act.setEditable(makeFieldsEditable);
+        totalPas.setEditable(makeFieldsEditable);
+        jTextField2.setEditable(makeFieldsEditable);
+        jTextField1.setEditable(makeFieldsEditable);
+        jTextField3.setEditable(makeFieldsEditable);
+        jTextField4.setEditable(makeFieldsEditable);
+        jTextField5.setEditable(makeFieldsEditable);
+        jTextField6.setEditable(makeFieldsEditable);
+        jTextField7.setEditable(makeFieldsEditable);
+        jTextField8.setEditable(makeFieldsEditable);
+
+        mostrarCalculoDeRazones();
+        
+        jButtonCalculateResults.doClick();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton2;

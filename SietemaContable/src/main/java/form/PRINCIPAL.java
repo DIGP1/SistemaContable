@@ -628,7 +628,7 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
         info.removeAll();
         jScrollPane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         
-        Razones razones = new Razones();
+        Razones razones = new Razones(this.empresa_id, this.nombreEmpresa);
         info.setLayout(new BorderLayout()); // Usar un BorderLayout
         info.add(razones, BorderLayout.CENTER); // Agregar el componente en el centro
         info.revalidate();
