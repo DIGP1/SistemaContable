@@ -35,12 +35,12 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
     java.io.File transa = new File("src/main/java/resources/transaccion.png");
     java.io.File cata = new File("src/main/java/resources/catalogo.png");
     java.io.File trabajoEnEquipoFile = new File("src/main/java/resources/trabajo-en-equipo (1).png");
-    java.io.File libroDiario = new File("src/main/java/resources/diario.png");
+    java.io.File libroDiario = new File("src/main/java/resources/directorio.png");
     java.io.File libroMayor = new File("src/main/java/resources/libro-de-contabilidad.png");
     java.io.File usersFile = new File("src/main/java/resources/users.png");
-    java.io.File ratio = new File("src/main/java/resources/ratio.png");
-    java.io.File balance = new File("src/main/java/resources/hoja-de-balance.png");
-    
+    java.io.File ratio = new File("src/main/java/resources/ratio-financiero.png");
+    java.io.File balance = new File("src/main/java/resources/balance.png");
+    java.io.File estadoDeResultados = new File("src/main/java/resources/estado-de-resultados.png");
 
     public PRINCIPAL(int userId) {
         this.idUser = userId;
@@ -111,7 +111,7 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
         info = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(1367, 800));
+        setMinimumSize(new java.awt.Dimension(1365, 815));
         setResizable(false);
         getContentPane().setLayout(null);
 
@@ -226,7 +226,7 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
         btnResultado.setBackground(new java.awt.Color(58, 78, 122));
         btnResultado.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
         btnResultado.setForeground(new java.awt.Color(255, 255, 255));
-        btnResultado.setIcon(new javax.swing.ImageIcon(ratio.getAbsolutePath()));
+        btnResultado.setIcon(new javax.swing.ImageIcon(estadoDeResultados.getAbsolutePath()));
         btnResultado.setText("Estado de Resultado");
         btnResultado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -266,27 +266,27 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton8)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonManageUsers)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton4)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton3)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton7)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnResultado)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton9)
-                .addContainerGap(298, Short.MAX_VALUE))
+                .addContainerGap(424, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel3);
-        jPanel3.setBounds(0, 0, 310, 790);
+        jPanel3.setBounds(0, 0, 310, 820);
 
         jPanel4.setBackground(new java.awt.Color(58, 78, 122));
         jPanel4.setForeground(new java.awt.Color(102, 102, 102));
@@ -375,13 +375,13 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
         );
         infoLayout.setVerticalGroup(
             infoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 694, Short.MAX_VALUE)
+            .addGap(0, 720, Short.MAX_VALUE)
         );
 
         jScrollPane1.setViewportView(info);
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(310, 100, 1030, 690);
+        jScrollPane1.setBounds(310, 100, 1060, 720);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
