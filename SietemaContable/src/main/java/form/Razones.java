@@ -4,11 +4,26 @@
  */
 package form;
 
+import com.itextpdf.text.BaseColor;
 import javax.swing.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.io.File;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 
 /**
  * @author angel
@@ -91,11 +106,9 @@ public class Razones extends javax.swing.JPanel {
         setBackground(new java.awt.Color(241, 241, 240));
 
         jLabel1.setFont(new java.awt.Font("Arial Narrow", 1, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("RAZONES DE ENDEUDAMIENTO");
 
         jRadioButtonValoresInternos.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
-        jRadioButtonValoresInternos.setForeground(new java.awt.Color(0, 0, 0));
         jRadioButtonValoresInternos.setText("Valores Internos");
         jRadioButtonValoresInternos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -104,7 +117,6 @@ public class Razones extends javax.swing.JPanel {
         });
 
         jRadioButtonValoresExternos.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
-        jRadioButtonValoresExternos.setForeground(new java.awt.Color(0, 0, 0));
         jRadioButtonValoresExternos.setText("Valores Externos");
         jRadioButtonValoresExternos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -113,7 +125,6 @@ public class Razones extends javax.swing.JPanel {
         });
 
         jLabel2.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Razon de deuda");
 
         totalPas.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -123,7 +134,6 @@ public class Razones extends javax.swing.JPanel {
         });
 
         jLabel3.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("=");
 
         total_act.addActionListener(new java.awt.event.ActionListener() {
@@ -138,15 +148,12 @@ public class Razones extends javax.swing.JPanel {
         });
 
         jLabel4.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("/");
 
         resultadoRazonDeuda.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
-        resultadoRazonDeuda.setForeground(new java.awt.Color(0, 0, 0));
         resultadoRazonDeuda.setText("0.0");
 
         jLabel5.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Concentracion de Deuda");
 
         jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -162,27 +169,21 @@ public class Razones extends javax.swing.JPanel {
         });
 
         jLabel6.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("/");
 
         jLabel7.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setText("=");
 
         resultadoConcentracionDeuda.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
-        resultadoConcentracionDeuda.setForeground(new java.awt.Color(0, 0, 0));
         resultadoConcentracionDeuda.setText("0.0");
 
         jLabel9.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(0, 0, 0));
         jLabel9.setText("Endeudamiento Total");
 
         jLabel10.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(0, 0, 0));
         jLabel10.setText("Endeudamiento a corto Plazo");
 
         jLabel11.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(0, 0, 0));
         jLabel11.setText("Endeudamiento a largo Plazo");
 
         jTextField3.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -198,15 +199,12 @@ public class Razones extends javax.swing.JPanel {
         });
 
         jLabel12.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(0, 0, 0));
         jLabel12.setText("/");
 
         jLabel13.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
-        jLabel13.setForeground(new java.awt.Color(0, 0, 0));
         jLabel13.setText("=");
 
         resultadoEndeudamientoTotal.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
-        resultadoEndeudamientoTotal.setForeground(new java.awt.Color(0, 0, 0));
         resultadoEndeudamientoTotal.setText("0.0");
 
         jTextField5.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -222,15 +220,12 @@ public class Razones extends javax.swing.JPanel {
         });
 
         jLabel15.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
-        jLabel15.setForeground(new java.awt.Color(0, 0, 0));
         jLabel15.setText("/");
 
         jLabel16.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
-        jLabel16.setForeground(new java.awt.Color(0, 0, 0));
         jLabel16.setText("=");
 
         resultadoEndeudamientoCortoPlazo.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
-        resultadoEndeudamientoCortoPlazo.setForeground(new java.awt.Color(0, 0, 0));
         resultadoEndeudamientoCortoPlazo.setText("0.0");
 
         jTextField7.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -246,11 +241,9 @@ public class Razones extends javax.swing.JPanel {
         });
 
         jLabel18.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
-        jLabel18.setForeground(new java.awt.Color(0, 0, 0));
         jLabel18.setText("/");
 
         resultadoEndeudamientoLargoPlazo.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
-        resultadoEndeudamientoLargoPlazo.setForeground(new java.awt.Color(0, 0, 0));
         resultadoEndeudamientoLargoPlazo.setText("0.0");
 
         jButtonCalculateResults.setBackground(new java.awt.Color(0, 102, 0));
@@ -267,69 +260,61 @@ public class Razones extends javax.swing.JPanel {
         jButton2.setFont(new java.awt.Font("Arial Narrow", 1, 14)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Generar Reporte");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel8.setFont(new java.awt.Font("Arial Narrow", 1, 14)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(0, 0, 0));
         jLabel8.setText("Valores provenientes del balance general");
 
         jLabel14.setFont(new java.awt.Font("Arial Narrow", 1, 14)); // NOI18N
-        jLabel14.setForeground(new java.awt.Color(0, 0, 0));
         jLabel14.setText("Calculo manual a partir de otros valores");
 
         jLabel17.setFont(new java.awt.Font("Arial Narrow", 1, 14)); // NOI18N
-        jLabel17.setForeground(new java.awt.Color(0, 0, 0));
         jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel17.setText("Pasivo total");
 
         jLabel20.setFont(new java.awt.Font("Arial Narrow", 1, 14)); // NOI18N
-        jLabel20.setForeground(new java.awt.Color(0, 0, 0));
         jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel20.setText("Activo total");
 
         jLabel21.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
-        jLabel21.setForeground(new java.awt.Color(0, 0, 0));
         jLabel21.setText("=");
 
         jLabel22.setFont(new java.awt.Font("Arial Narrow", 1, 14)); // NOI18N
-        jLabel22.setForeground(new java.awt.Color(0, 0, 0));
         jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel22.setText("Total pasivos");
 
         jLabel23.setFont(new java.awt.Font("Arial Narrow", 1, 14)); // NOI18N
-        jLabel23.setForeground(new java.awt.Color(0, 0, 0));
         jLabel23.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel23.setText("Pasivo corriente");
 
         jLabel24.setFont(new java.awt.Font("Arial Narrow", 1, 14)); // NOI18N
-        jLabel24.setForeground(new java.awt.Color(0, 0, 0));
         jLabel24.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel24.setText("Patrimonio");
         jLabel24.setToolTipText("");
 
         jLabel25.setFont(new java.awt.Font("Arial Narrow", 1, 14)); // NOI18N
-        jLabel25.setForeground(new java.awt.Color(0, 0, 0));
         jLabel25.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel25.setText("Pasivo total");
 
         jLabel26.setFont(new java.awt.Font("Arial Narrow", 1, 14)); // NOI18N
-        jLabel26.setForeground(new java.awt.Color(0, 0, 0));
         jLabel26.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel26.setText("Pasivo circulante");
         jLabel26.setToolTipText("");
 
         jLabel27.setFont(new java.awt.Font("Arial Narrow", 1, 14)); // NOI18N
-        jLabel27.setForeground(new java.awt.Color(0, 0, 0));
         jLabel27.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel27.setText("Patrimonio");
 
         jLabel28.setFont(new java.awt.Font("Arial Narrow", 1, 14)); // NOI18N
-        jLabel28.setForeground(new java.awt.Color(0, 0, 0));
         jLabel28.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel28.setText("Pasivo no circulante");
         jLabel28.setToolTipText("");
 
         jLabel29.setFont(new java.awt.Font("Arial Narrow", 1, 14)); // NOI18N
-        jLabel29.setForeground(new java.awt.Color(0, 0, 0));
         jLabel29.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel29.setText("Patrimonio");
 
@@ -673,6 +658,10 @@ public class Razones extends javax.swing.JPanel {
         // TODO add your handling code here:
         showResults();
     }//GEN-LAST:event_jButtonCalculateResultsActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+       generarReporte();
+    }//GEN-LAST:event_jButton2ActionPerformed
     
     void showResults(){
         resultadoRazonDeuda.setText(calcularRazon(totalPas, total_act));
@@ -748,6 +737,9 @@ public class Razones extends javax.swing.JPanel {
         jTextField7.setText(formatDecimal(totalesList.get(3))); // Pasivo a largo plazo, o no corriente
         jTextField8.setText(formatDecimal(totalesList.get(4))); // Patrimonio
     }
+    
+    
+    
 
     void loadItems(){
         this.makeFieldsEditable = false;
@@ -757,6 +749,91 @@ public class Razones extends javax.swing.JPanel {
         
         jButtonCalculateResults.doClick();
     }
+    
+   private void generarReporte() {
+    JFileChooser fileChooser = new JFileChooser();
+    fileChooser.setDialogTitle("Guardar reporte como...");
+    fileChooser.setSelectedFile(new File("Razon_De_Endeudamiento.pdf"));
+
+    int userSelection = fileChooser.showSaveDialog(this);
+
+    if (userSelection == JFileChooser.APPROVE_OPTION) {
+        File archivoSeleccionado = fileChooser.getSelectedFile();
+        try {
+            Document document = new Document();
+            PdfWriter.getInstance(document, new FileOutputStream(archivoSeleccionado));
+            document.open();
+            
+            
+            Paragraph nombreEmpresaParrafo = new Paragraph(nombreEmpresa, new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD));
+            nombreEmpresaParrafo.setAlignment(Element.ALIGN_LEFT);
+            nombreEmpresaParrafo.setSpacingBefore(10f);
+            nombreEmpresaParrafo.setSpacingAfter(10f);
+            document.add(nombreEmpresaParrafo);
+            
+          
+            Paragraph titulo = new Paragraph("Reporte de Razones de Endeudamiento", new Font(Font.FontFamily.HELVETICA, 16, Font.BOLD, BaseColor.BLUE));
+            titulo.setAlignment(Element.ALIGN_CENTER);
+            titulo.setSpacingBefore(20f);
+            titulo.setSpacingAfter(20f);
+            document.add(titulo);
+
+           
+            PdfPTable tabla = new PdfPTable(3);
+            tabla.setWidthPercentage(100);
+            tabla.setHorizontalAlignment(Element.ALIGN_CENTER);
+            tabla.setWidths(new float[] { 2, 2, 3 }); 
+
+            // Cabeceras de la tabla
+            PdfPCell celdaTitulo1 = new PdfPCell(new Paragraph("Razón", new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.WHITE)));
+            celdaTitulo1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            celdaTitulo1.setBackgroundColor(BaseColor.GRAY);
+            tabla.addCell(celdaTitulo1);
+
+            PdfPCell celdaTitulo2 = new PdfPCell(new Paragraph("Resultado", new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.WHITE)));
+            celdaTitulo2.setHorizontalAlignment(Element.ALIGN_CENTER);
+            celdaTitulo2.setBackgroundColor(BaseColor.GRAY);
+            tabla.addCell(celdaTitulo2);
+            
+            PdfPCell celdaTitulo3 = new PdfPCell(new Paragraph("Interpretación", new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.WHITE)));
+            celdaTitulo3.setHorizontalAlignment(Element.ALIGN_CENTER);
+            celdaTitulo3.setBackgroundColor(BaseColor.GRAY);
+            tabla.addCell(celdaTitulo3);
+
+    
+            tabla.addCell("Razón de deuda");
+            tabla.addCell(resultadoRazonDeuda.getText());
+            tabla.addCell("Indica el nivel de deuda sobre el capital. Un valor alto puede significar mayor riesgo financiero.");
+
+            tabla.addCell("Concentración de deuda");
+            tabla.addCell(resultadoConcentracionDeuda.getText());
+            tabla.addCell("Evalúa la dependencia de pocos acreedores. Alta concentración puede suponer riesgo de dependencia.");
+
+            tabla.addCell("Endeudamiento total");
+            tabla.addCell(resultadoEndeudamientoTotal.getText());
+            tabla.addCell("Refleja la proporción de deuda en comparación con los activos. Valores altos pueden implicar un riesgo elevado.");
+
+            tabla.addCell("Endeudamiento a corto plazo");
+            tabla.addCell(resultadoEndeudamientoCortoPlazo.getText());
+            tabla.addCell("Mide la deuda que debe pagarse en el corto plazo. Un valor elevado puede reducir la liquidez.");
+
+            tabla.addCell("Endeudamiento a largo plazo");
+            tabla.addCell(resultadoEndeudamientoLargoPlazo.getText());
+            tabla.addCell("Evalúa la proporción de deuda a largo plazo. Un valor moderado puede ser beneficioso para la estabilidad.");
+
+            document.add(tabla);
+
+            document.close();
+
+            JOptionPane.showMessageDialog(this, "Reporte generado exitosamente : " );
+
+        } catch (DocumentException | IOException e) {
+            JOptionPane.showMessageDialog(this, "Error al generar el reporte: " + e.getMessage());
+        }
+    }
+}
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton2;

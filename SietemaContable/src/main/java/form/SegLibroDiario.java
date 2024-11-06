@@ -94,7 +94,7 @@ public class SegLibroDiario extends javax.swing.JPanel {
             // Si la descripción cambia o es la primera vez, incrementa el contador y crea una nueva transacción
             if (!descripcionActual.equals(descripcionAnterior)) {
                 contador++;
-                model.addRow(new Object[]{registros.getFecha(), "                                   Transaccion " + contador, "", "", ""});
+                model.addRow(new Object[]{registros.getFecha(), "                                   Partida " + contador, "", "", ""});
             }
 
             // Agregar los registros según "debe" o "haber"
@@ -201,7 +201,7 @@ public class SegLibroDiario extends javax.swing.JPanel {
         ex.setBackground(new java.awt.Color(0, 102, 102));
         ex.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         ex.setForeground(new java.awt.Color(255, 255, 255));
-        ex.setText("Descargar PDF");
+        ex.setText("Exportar PDF");
         ex.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 exActionPerformed(evt);
@@ -231,7 +231,7 @@ public class SegLibroDiario extends javax.swing.JPanel {
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addContainerGap(53, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

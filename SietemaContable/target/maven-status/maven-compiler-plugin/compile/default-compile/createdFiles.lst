@@ -72,7 +72,9 @@ form\Registro_cuenta$2.class
 logic\excel$1.class
 logic\DatabaseConnection.class
 form\BalanceGeneral.class
+logic\exportBalance.class
 form\SegLibroDiario$4.class
+form\BalanceGeneral$2.class
 form\EmpresasPanel$2.class
 form\Razones$7.class
 form\Razones.class
@@ -122,6 +124,7 @@ form\Empresas$3.class
 form\PRINCIPAL$2.class
 form\ManageUsers.class
 form\validarAdmin$2.class
+form\Razones$16.class
 form\EmpresasPanel.class
 form\EmpresasR$6.class
 form\Razones$10.class
