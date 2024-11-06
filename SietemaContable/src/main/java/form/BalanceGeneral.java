@@ -213,13 +213,14 @@ public class BalanceGeneral extends javax.swing.JPanel {
 
     public ArrayList<Double> getTotalesList(){
         ArrayList<Double> totales = new ArrayList<>();
-        totales.add(Math.abs(this.activoCorriente)); //0
-        totales.add(Math.abs(this.activoNoCorriente)); //1
-        totales.add(Math.abs(this.pasivoCorriente)); //2
-        totales.add(Math.abs(this.pasivoNoCorriente)); //3
-        totales.add(Math.abs(this.patrimonio)); //4
-        totales.add(Math.abs(this.totalActivo)); //5
-        totales.add(Math.abs(this.totalPasivo)); //6
+        totales.add(Math.abs(this.activoCorriente)); //0 -> Activo circulante
+        totales.add(Math.abs(this.activoNoCorriente)); //1 -> Activo no circulante
+        totales.add(Math.abs(this.pasivoCorriente)); //2 -> Pasivo circulante
+        totales.add(Math.abs(this.pasivoNoCorriente)); //3 -> Pasivo no circulante
+        totales.add(Math.abs(this.patrimonio)); //4 -> Patrimonio
+        totales.add(Math.abs(this.totalActivo)); //5 -> Activo totals
+        totales.add(Math.abs(this.totalPasivo)); //6 -> Pasivo total
+        // Todas usando su valor absoluto para evitar retornar negativos y no tener problemas
         
         return totales;
     }
