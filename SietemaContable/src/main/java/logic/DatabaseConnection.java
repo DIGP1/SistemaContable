@@ -2,47 +2,59 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package logic;
 
+package logic;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.io.File;
 import java.io.InputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
-import javax.swing.JOptionPane;
 
 public class DatabaseConnection {
     private Connection conn = null;
 
     public Connection connect() {
         try {
-            // Cargar el archivo de la base de datos desde el JAR (ubicado en resources)
-            InputStream dbStream = getClass().getResourceAsStream("/catalogo.db");
+            // Obtener la ruta del directorio de Documentos del usuario
+            String userHome = System.getProperty("user.home");
+            File documentsDirectory = new File(userHome, "Documents");
 
-            if (dbStream == null) {
-                JOptionPane.showMessageDialog(null, "Base de datos no encontrada en recursos.", 
-                                              "Error de Conexión", JOptionPane.ERROR_MESSAGE);
-                throw new IOException("Base de datos no encontrada en recursos.");
+            // Crear la subcarpeta "Data" dentro de Documentos si no existe
+            File directory = new File(documentsDirectory, "Sistema Contable");
+            if (!directory.exists()) {
+                directory.mkdirs(); // Crear la subcarpeta
+                System.out.println("Subcarpeta 'Data' creada en Documentos.");
             }
 
-            // Crear un archivo temporal para la base de datos
-            File tempDbFile = File.createTempFile("catalogo", ".db");
-            tempDbFile.deleteOnExit(); // Eliminar el archivo temporal al salir
+            // Ruta para la base de datos en la subcarpeta "Data"
+            File dbFile = new File(directory, "catalogo.db");
 
-            // Copiar el archivo de la base de datos desde los recursos al archivo temporal
-            Files.copy(dbStream, tempDbFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            // Si el archivo no existe, copiarlo desde el JAR
+            if (!dbFile.exists()) {
+                try (InputStream is = getClass().getResourceAsStream("/catalogo.db");
+                     FileOutputStream fos = new FileOutputStream(dbFile)) {
+                    byte[] buffer = new byte[1024];
+                    int length;
+                    while ((length = is.read(buffer)) != -1) {
+                        fos.write(buffer, 0, length);
+                    }
+                } catch (IOException e) {
+                    System.out.println("Error al copiar la base de datos: " + e.getMessage());
+                }
+            }
 
-            // Conectar a la base de datos usando el archivo temporal
-            String jdbcUrl = "jdbc:sqlite:" + tempDbFile.getAbsolutePath();
+            // Conectar a la base de datos en la nueva ubicación
+            String jdbcUrl = "jdbc:sqlite:" + dbFile.getAbsolutePath();
             conn = DriverManager.getConnection(jdbcUrl);
             System.out.println("Conexión a SQLite establecida.");
 
-        } catch (SQLException | IOException e) {
-            System.out.println("Error en la conexión a la base de datos: " + e.getMessage());
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
         return conn;
     }
 }
+
+

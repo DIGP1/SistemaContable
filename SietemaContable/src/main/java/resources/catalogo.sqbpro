@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="C:/Users/diego/OneDrive/Documentos/NetBeansProjects/SistemaContable/SietemaContable/src/main/java/resources/catalogo.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="0"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="1273"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,19:mainCATALOGO_DE_CUENTAS"/><default_encoding codec=""/><browse_table_settings/></tab_browse><tab_sql><sql name="SQL 1">CREATE TABLE &quot;TRANSACCIONES_LIBRO_DIARIO&quot; (
-	&quot;id&quot;	INTEGER,
-	&quot;nCuenta&quot;	INTEGER,
-	&quot;DescripcionTransaccion&quot;	TEXT,
-	FOREIGN KEY(&quot;nCuenta&quot;) REFERENCES &quot;LIBRO_DIARIO&quot;(&quot;id&quot;),
-	PRIMARY KEY(&quot;id&quot; AUTOINCREMENT)
-);</sql><current_tab id="0"/></tab_sql></sqlb_project>
