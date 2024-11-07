@@ -111,7 +111,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new javax.swing.ImageIcon(transa.getAbsolutePath())" type="code"/>
+              <Connection code="new javax.swing.ImageIcon(transa)" type="code"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Registrar transacci&#xf3;n"/>
           </Properties>
@@ -131,7 +131,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new javax.swing.ImageIcon(cata.getAbsolutePath())" type="code"/>
+              <Connection code="new javax.swing.ImageIcon(cata)" type="code"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Catalogo de cuentas"/>
           </Properties>
@@ -152,7 +152,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new javax.swing.ImageIcon(libroMayor.getAbsolutePath())" type="code"/>
+              <Connection code="new javax.swing.ImageIcon(libroMayor)" type="code"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Libro mayor"/>
           </Properties>
@@ -172,7 +172,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new javax.swing.ImageIcon(libroDiario.getAbsolutePath())" type="code"/>
+              <Connection code="new javax.swing.ImageIcon(libroDiario)" type="code"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Libro diario"/>
           </Properties>
@@ -214,7 +214,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new javax.swing.ImageIcon(trabajoEnEquipoFile.getAbsolutePath())" type="code"/>
+              <Connection code="new javax.swing.ImageIcon(trabajoEnEquipoFile)" type="code"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Mis Empresas"/>
             <Property name="focusPainted" type="boolean" value="false"/>
@@ -235,7 +235,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new javax.swing.ImageIcon(usersFile.getAbsolutePath())" type="code"/>
+              <Connection code="new javax.swing.ImageIcon(usersFile)" type="code"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Gesti&#xf3;n de usuarios"/>
           </Properties>
@@ -255,7 +255,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new javax.swing.ImageIcon(balance.getAbsolutePath())" type="code"/>
+              <Connection code="new javax.swing.ImageIcon(balance)" type="code"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Balance general"/>
           </Properties>
@@ -275,7 +275,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new javax.swing.ImageIcon(ratio.getAbsolutePath())" type="code"/>
+              <Connection code="new javax.swing.ImageIcon(ratio)" type="code"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Ratio de endeudamiento"/>
           </Properties>
@@ -295,7 +295,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new javax.swing.ImageIcon(estadoDeResultados.getAbsolutePath())" type="code"/>
+              <Connection code="new javax.swing.ImageIcon(estadoDeResultados)" type="code"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Estado de Resultado"/>
           </Properties>
@@ -435,7 +435,7 @@
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="310" y="100" width="1060" height="720"/>
+          <AbsoluteConstraints x="310" y="100" width="1040" height="690"/>
         </Constraint>
       </Constraints>
 

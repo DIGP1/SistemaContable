@@ -90,8 +90,8 @@ public class BalanceGeneral extends javax.swing.JPanel {
                     //-----------------------------------------------------------------------------
                     totalactivo += balance.obtenerTotales().get("Activo Circulante");
                     totalactivo += balance.obtenerTotales().get("Activo No Circulante");
-                    activoModel.addRow(new Object[]{"<html><b>Activo</b></html>", "", "", "", "<html><b>" + Math.abs(totalactivo) + "</b></html>"});
-                    activoModel.addRow(new Object[]{"<html><b>&nbsp;&nbsp;" + tipoCuenta + "</b></html>", "", "", Math.abs(balance.obtenerTotales().get("Activo Circulante")), ""});
+                    activoModel.addRow(new Object[]{"<html><b>Activo</b></html>", "", "", "", "<html><b>" + convertirPositivo(totalactivo) + "</b></html>"});
+                    activoModel.addRow(new Object[]{"<html><b>&nbsp;&nbsp;" + tipoCuenta + "</b></html>", "", "", convertirPositivo(balance.obtenerTotales().get("Activo Circulante")), ""});
                     this.totalActivo = totalactivo;
                 } else if (tipoCuenta.contentEquals("Pasivo Circulante")) {
                     //-----------------------------------------------------------------------------
@@ -100,19 +100,19 @@ public class BalanceGeneral extends javax.swing.JPanel {
                     //-----------------------------------------------------------------------------
                     totalpasivo += balance.obtenerTotales().get("Pasivo Circulante");
                     totalpasivo += balance.obtenerTotales().get("Pasivo No Circulante");
-                    activoModel.addRow(new Object[]{"<html><b>Pasivo</b></html>", "", "", "", "<html><b>" + Math.abs(totalpasivo) + "</b></html>"});
-                    activoModel.addRow(new Object[]{"<html><b>&nbsp;&nbsp;" + tipoCuenta + "</b></html>", "", "", Math.abs(balance.obtenerTotales().get("Pasivo Circulante")), ""});
+                    activoModel.addRow(new Object[]{"<html><b>Pasivo</b></html>", "", "", "", "<html><b>" + convertirPositivo(totalpasivo) + "</b></html>"});
+                    activoModel.addRow(new Object[]{"<html><b>&nbsp;&nbsp;" + tipoCuenta + "</b></html>", "", "", convertirPositivo(balance.obtenerTotales().get("Pasivo Circulante")), ""});
                     this.totalPasivo = totalpasivo;
                 } else if (tipoCuenta.contentEquals("Patrimonio")) {
                     //-----------------------------------------------------------------------------
                     this.patrimonio = balance.obtenerTotales().get("Patrimonio");
                     //-----------------------------------------------------------------------------
                     patrimonio += balance.obtenerTotales().get("Patrimonio");
-                    activoModel.addRow(new Object[]{"<html><b>" + tipoCuenta + "</b></html>", "", "", "", "<html><b>" + Math.abs(balance.obtenerTotales().get("Patrimonio")) + "</b></html>"});
+                    activoModel.addRow(new Object[]{"<html><b>" + tipoCuenta + "</b></html>", "", "", "", "<html><b>" + convertirPositivo(balance.obtenerTotales().get("Patrimonio")) + "</b></html>"});
                 } else if (tipoCuenta.contentEquals("Activo No Circulante")) {
-                    activoModel.addRow(new Object[]{"<html><b>&nbsp;&nbsp;" + tipoCuenta + "</b></html>", "", "", Math.abs(balance.obtenerTotales().get("Activo No Circulante")), ""});
+                    activoModel.addRow(new Object[]{"<html><b>&nbsp;&nbsp;" + tipoCuenta + "</b></html>", "", "", convertirPositivo(balance.obtenerTotales().get("Activo No Circulante")), ""});
                 } else if (tipoCuenta.contentEquals("Pasivo No Circulante")) {
-                    activoModel.addRow(new Object[]{"<html><b>&nbsp;&nbsp;" + tipoCuenta + "</b></html>", "", "", Math.abs(balance.obtenerTotales().get("Pasivo No Circulante")), ""});
+                    activoModel.addRow(new Object[]{"<html><b>&nbsp;&nbsp;" + tipoCuenta + "</b></html>", "", "", convertirPositivo(balance.obtenerTotales().get("Pasivo No Circulante")), ""});
                 }
 
                 for (Map<String, Object> registro : registrosList) {
@@ -125,7 +125,7 @@ public class BalanceGeneral extends javax.swing.JPanel {
                     activoModel.addRow(new Object[]{"<html>&nbsp;&nbsp;&nbsp;&nbsp;" + registro.get("Cuenta") + "</b></html>", convertirPositivo(registro.get("Debe")), convertirPositivo(registro.get("Haber")), "", ""});
                 }
                 if (tipoCuenta.contentEquals("Patrimonio")) {
-                    activoModel.addRow(new Object[]{"<html><b>Total pasivo + patrimonio</b></html>", "", "", "", "<html><b>" + Math.abs(totalpasivo + patrimonio) + "</b></html>"});
+                    activoModel.addRow(new Object[]{"<html><b>Total pasivo + patrimonio</b></html>", "", "", "", "<html><b>" + convertirPositivo(totalpasivo + patrimonio) + "</b></html>"});
                 }
 
             }
@@ -138,11 +138,11 @@ public class BalanceGeneral extends javax.swing.JPanel {
         if (valor == null || valor.equals("")) {
             return ""; // Retornar vacío si no hay valor
         }
-        // Si es numérico, convertir a Double y aplicar Math.abs()
-        return Math.abs(Double.parseDouble(valor.toString()));
+        // Si es numérico, convertir a Double, aplicar Math.abs() y redondear a dos decimales
+        double valorDouble = Math.abs(Double.parseDouble(valor.toString())); // Asegurarse de que el valor sea positivo
+        valorDouble = Math.round(valorDouble * 100.0) / 100.0; // Redondear a dos decimales
+        return String.format("%.2f", valorDouble); // Retornar el valor redondeado como String con 2 decimales
     }
-
-
     private static String clasificarCuenta(String valor) {
         // Aseguramos que el número de cuenta tenga 8 dígitos
         valor = String.format("%-8s", valor).replace(' ', '0');
