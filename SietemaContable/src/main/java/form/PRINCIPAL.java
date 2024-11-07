@@ -11,6 +11,7 @@ import logic.EmpresaSelected;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -35,16 +36,27 @@ public class PRINCIPAL extends javax.swing.JFrame implements EmpresaSelected{
     private int idUser = 0;
     private boolean mensajeMostrado = false;
     
-// Cargar imágenes como recursos desde el JAR
-java.net.URL transa = getClass().getResource("/transaccion.png");
-java.net.URL cata = getClass().getResource("/catalogo.png");
-java.net.URL trabajoEnEquipoFile = getClass().getResource("/trabajo-en-equipo (1).png");
-java.net.URL libroDiario = getClass().getResource("/directorio.png");
-java.net.URL libroMayor = getClass().getResource("/libro-de-contabilidad.png");
-java.net.URL usersFile = getClass().getResource("/users.png");
-java.net.URL ratio = getClass().getResource("/ratio-financiero.png");
-java.net.URL balance = getClass().getResource("/balance.png");
-java.net.URL estadoDeResultados = getClass().getResource("/estado-de-resultados.png");
+    // Cargar y redimensionar las imágenes, asignándolas a variables
+    ImageIcon transa = new ImageIcon(
+        new ImageIcon(getClass().getResource("/transaccion.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
+    ImageIcon cata = new ImageIcon(
+        new ImageIcon(getClass().getResource("/catalogo.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
+    ImageIcon trabajoEnEquipoFile = new ImageIcon(
+        new ImageIcon(getClass().getResource("/trabajo-en-equipo (1).png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
+    ImageIcon libroDiario = new ImageIcon(
+        new ImageIcon(getClass().getResource("/directorio.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
+    ImageIcon libroMayor = new ImageIcon(
+        new ImageIcon(getClass().getResource("/libro-de-contabilidad.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
+    ImageIcon usersFile = new ImageIcon(
+        new ImageIcon(getClass().getResource("/users.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
+    ImageIcon ratio = new ImageIcon(
+        new ImageIcon(getClass().getResource("/ratio-financiero.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
+    ImageIcon balance = new ImageIcon(
+        new ImageIcon(getClass().getResource("/balance.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
+    ImageIcon estadoDeResultados = new ImageIcon(
+        new ImageIcon(getClass().getResource("/estado-de-resultados.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
+
+
 
     public PRINCIPAL(int userId) {
         this.idUser = userId;
@@ -124,7 +136,7 @@ java.net.URL estadoDeResultados = getClass().getResource("/estado-de-resultados.
         jButton1.setBackground(new java.awt.Color(58, 78, 122));
         jButton1.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setIcon(new javax.swing.ImageIcon(transa));
+        jButton1.setIcon(transa);
         jButton1.setText("Registrar transacción");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -135,7 +147,7 @@ java.net.URL estadoDeResultados = getClass().getResource("/estado-de-resultados.
         jButton2.setBackground(new java.awt.Color(58, 78, 122));
         jButton2.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setIcon(new javax.swing.ImageIcon(cata));
+        jButton2.setIcon(cata);
         jButton2.setText("Catalogo de cuentas");
         jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -151,7 +163,7 @@ java.net.URL estadoDeResultados = getClass().getResource("/estado-de-resultados.
         jButton3.setBackground(new java.awt.Color(58, 78, 122));
         jButton3.setFont(new java.awt.Font("Arial Narrow", 1, 16)); // NOI18N
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setIcon(new javax.swing.ImageIcon(libroMayor));
+        jButton3.setIcon(libroMayor);
         jButton3.setText("Libro mayor");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -162,7 +174,7 @@ java.net.URL estadoDeResultados = getClass().getResource("/estado-de-resultados.
         jButton4.setBackground(new java.awt.Color(58, 78, 122));
         jButton4.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
         jButton4.setForeground(new java.awt.Color(255, 255, 255));
-        jButton4.setIcon(new javax.swing.ImageIcon(libroDiario));
+        jButton4.setIcon(libroDiario);
         jButton4.setText("Libro diario");
         jButton4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -185,7 +197,7 @@ java.net.URL estadoDeResultados = getClass().getResource("/estado-de-resultados.
         jButton8.setBackground(new java.awt.Color(58, 78, 122));
         jButton8.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
         jButton8.setForeground(new java.awt.Color(255, 255, 255));
-        jButton8.setIcon(new javax.swing.ImageIcon(trabajoEnEquipoFile));
+        jButton8.setIcon(trabajoEnEquipoFile);
         jButton8.setText("Mis Empresas");
         jButton8.setFocusPainted(false);
         jButton8.addActionListener(new java.awt.event.ActionListener() {
@@ -197,7 +209,7 @@ java.net.URL estadoDeResultados = getClass().getResource("/estado-de-resultados.
         jButtonManageUsers.setBackground(new java.awt.Color(58, 78, 122));
         jButtonManageUsers.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
         jButtonManageUsers.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonManageUsers.setIcon(new javax.swing.ImageIcon(usersFile));
+        jButtonManageUsers.setIcon(usersFile);
         jButtonManageUsers.setText("Gestión de usuarios");
         jButtonManageUsers.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -208,7 +220,7 @@ java.net.URL estadoDeResultados = getClass().getResource("/estado-de-resultados.
         jButton7.setBackground(new java.awt.Color(58, 78, 122));
         jButton7.setFont(new java.awt.Font("Arial Narrow", 1, 20)); // NOI18N
         jButton7.setForeground(new java.awt.Color(255, 255, 255));
-        jButton7.setIcon(new javax.swing.ImageIcon(balance));
+        jButton7.setIcon(balance);
         jButton7.setText("Balance general");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -219,7 +231,7 @@ java.net.URL estadoDeResultados = getClass().getResource("/estado-de-resultados.
         jButton9.setBackground(new java.awt.Color(58, 78, 122));
         jButton9.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
         jButton9.setForeground(new java.awt.Color(255, 255, 255));
-        jButton9.setIcon(new javax.swing.ImageIcon(ratio));
+        jButton9.setIcon(ratio);
         jButton9.setText("Ratio de endeudamiento");
         jButton9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -230,7 +242,7 @@ java.net.URL estadoDeResultados = getClass().getResource("/estado-de-resultados.
         btnResultado.setBackground(new java.awt.Color(58, 78, 122));
         btnResultado.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
         btnResultado.setForeground(new java.awt.Color(255, 255, 255));
-        btnResultado.setIcon(new javax.swing.ImageIcon(estadoDeResultados));
+        btnResultado.setIcon(estadoDeResultados);
         btnResultado.setText("Estado de Resultado");
         btnResultado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

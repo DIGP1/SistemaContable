@@ -111,7 +111,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new javax.swing.ImageIcon(transa)" type="code"/>
+              <Connection code="transa" type="code"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Registrar transacci&#xf3;n"/>
           </Properties>
@@ -131,7 +131,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new javax.swing.ImageIcon(cata)" type="code"/>
+              <Connection code="cata" type="code"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Catalogo de cuentas"/>
           </Properties>
@@ -152,7 +152,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new javax.swing.ImageIcon(libroMayor)" type="code"/>
+              <Connection code="libroMayor" type="code"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Libro mayor"/>
           </Properties>
@@ -172,7 +172,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new javax.swing.ImageIcon(libroDiario)" type="code"/>
+              <Connection code="libroDiario" type="code"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Libro diario"/>
           </Properties>
@@ -214,7 +214,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new javax.swing.ImageIcon(trabajoEnEquipoFile)" type="code"/>
+              <Connection code="trabajoEnEquipoFile" type="code"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Mis Empresas"/>
             <Property name="focusPainted" type="boolean" value="false"/>
@@ -235,7 +235,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new javax.swing.ImageIcon(usersFile)" type="code"/>
+              <Connection code="usersFile" type="code"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Gesti&#xf3;n de usuarios"/>
           </Properties>
@@ -255,7 +255,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new javax.swing.ImageIcon(balance)" type="code"/>
+              <Connection code="balance" type="code"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Balance general"/>
           </Properties>
@@ -275,7 +275,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new javax.swing.ImageIcon(ratio)" type="code"/>
+              <Connection code="ratio" type="code"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Ratio de endeudamiento"/>
           </Properties>
@@ -295,7 +295,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new javax.swing.ImageIcon(estadoDeResultados)" type="code"/>
+              <Connection code="estadoDeResultados" type="code"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Estado de Resultado"/>
           </Properties>
